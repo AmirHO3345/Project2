@@ -1,0 +1,311 @@
+.htlfndr-footer {
+	position: relative;
+}
+
+.htlfndr-footer hr {
+	border-color: rgba(255, 255, 255, 0.15);
+	opacity: 0.2;
+}
+
+.htlfndr-footer .widget-wrapper {
+	background-color: #1a1c28;
+	padding-bottom: 0;
+}
+
+.htlfndr-footer .widget {
+	color: #fff;
+	font: 12px/24px 'Open Sans', sans-serif;
+	line-height: 24px;
+	margin-top: 1.3rem;
+}
+
+.htlfndr-footer .widget-wrapper .container .Fixed {
+	display: flex;
+	justify-content: center;
+}
+
+.htlfndr-footer aside {
+	width: 50%;
+	text-align: center;
+}
+
+.htlfndr-follow-plugin {
+	display: flex;
+	justify-content: center;
+}
+
+.htlfndr-footer .widget h1,
+.htlfndr-footer .widget h2,
+.htlfndr-footer .widget h4,
+.htlfndr-footer .widget h5,
+.htlfndr-footer .widget h6 {
+	color: #23def7;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.htlfndr-footer .widget h5 {
+	font-size: 14px;
+}
+
+.widget {
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	overflow: hidden;
+	word-wrap: break-word;
+	-ms-hyphens: auto;
+}
+
+.htlfndr-follow-plugin:after {
+	clear: both;
+	content: '';
+	display: table;
+}
+
+.htlfndr-follow-button {
+	cursor: pointer;
+	float: left;
+	overflow: visible;
+	position: relative;
+	text-align: center;
+	-webkit-perspective: 800px;
+	perspective: 800px;
+}
+
+.htlfndr-follow-button:before,
+.htlfndr-follow-button:after {
+	color: #fff;
+	display: block;
+	font-family: 'FontAwesome';
+	font-size: 14px;
+	height: 65%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-o-transition: all 0.3s ease 0s;
+	-webkit-transition: all 0.3s ease 0s;
+	width: 100%;
+}
+
+.htlfndr-follow-button:before {
+	background-color: #595959;
+	z-index: 2;
+}
+
+.htlfndr-follow-button:after {
+	opacity: 0;
+	transform: translateY(2.1rem) rotateX(-90deg);
+	-moz-transform: translateY(2.1rem) rotateX(-90deg);
+	-o-transform: translateY(2.1rem) rotateX(-90deg);
+	-webkit-transform: translateY(21px) rotateX(-90deg);
+	z-index: 1;
+}
+
+.htlfndr-follow-button.button-facebook:before,
+.htlfndr-follow-button.button-facebook:after {
+	content: '\f09a';
+}
+
+.htlfndr-follow-button.button-facebook:before {
+	background-color: #3b5998;
+}
+
+.htlfndr-follow-button.button-facebook:after {
+	background-color: #263961;
+}
+
+.htlfndr-follow-button.button-twitter:before,
+.htlfndr-follow-button.button-twitter:after {
+	content: '\f099';
+}
+
+.htlfndr-follow-button.button-twitter:before {
+	background-color: #55acee;
+}
+
+.htlfndr-follow-button.button-twitter:after {
+	background-color: #1689e0;
+}
+
+.htlfndr-follow-button.button-google-plus:before,
+.htlfndr-follow-button.button-google-plus:after {
+	content: '\f0d5';
+}
+
+.htlfndr-follow-button.button-google-plus:before {
+	background-color: #dd4b39;
+}
+
+.htlfndr-follow-button.button-google-plus:after {
+	background-color: #ac2d1e;
+}
+
+.htlfndr-follow-button.button-linkedin:before,
+.htlfndr-follow-button.button-linkedin:after {
+	content: '\f0e1';
+}
+
+.htlfndr-follow-button.button-linkedin:before {
+	background-color: #0077b5;
+}
+
+.htlfndr-follow-button.button-linkedin:after {
+	background-color: #004569;
+}
+
+.htlfndr-follow-button.button-pinterest:before,
+.htlfndr-follow-button.button-pinterest:after {
+	content: '\f0d2';
+}
+
+.htlfndr-follow-button.button-pinterest:before {
+	background-color: #cb2027;
+}
+
+.htlfndr-follow-button.button-pinterest:after {
+	background-color: #89161a;
+}
+
+.htlfndr-follow-button.button-youtube:before,
+.htlfndr-follow-button.button-youtube:after {
+	content: '\f167';
+}
+
+.htlfndr-follow-button.button-youtube:before {
+	background-color: #bb0000;
+}
+
+.htlfndr-follow-button.button-youtube:after {
+	background-color: #6e0000;
+}
+
+.htlfndr-footer .htlfndr-follow-button:hover:before,
+.htlfndr-footer .htlfndr-follow-button.hovered:before {
+	opacity: 0;
+	transform: translateY(-2.1rem) rotateX(90deg);
+	-moz-transform: translateY(-2.1rem) rotateX(90deg);
+	-o-transform: translateY(-2.1rem) rotateX(90deg);
+	-webkit-transform: translateY(-21px) rotateX(90deg);
+}
+
+.htlfndr-footer .htlfndr-follow-button:hover:after,
+.htlfndr-footer .htlfndr-follow-button.hovered:after {
+	opacity: 1;
+	transform: rotateX(0);
+	-moz-transform: rotateX(0);
+	-o-transform: rotateX(0);
+	-webkit-transform: rotateX(0);
+}
+
+.htlfndr-copyright {
+	background-color: #232637;
+}
+
+.htlfndr-copyright p {
+	color: #BCBDC0;
+	font: 10px/1.5 'Open Sans';
+	margin: 20px 0;
+	word-spacing: 5px;
+	word-wrap: break-word;
+	display: block;
+	text-align: center;
+}
+
+.htlfndr-follow-button:before,
+.htlfndr-follow-button:after {
+	line-height: 4.2rem;
+}
+
+/******************************** Media ***************************************/
+
+@media (min-width: 992px) {
+
+	.htlfndr-follow-button:before,
+		.htlfndr-follow-button:after {
+			line-height: 4.2rem;
+		}
+
+	.htlfndr-follow-button {
+			height: 4.2rem;
+			width: 4.2rem;
+		}
+
+	.htlfndr-follow-button:after {
+			line-height: 4.2rem;
+		}
+}
+
+@media (min-width: 991px) {
+
+	.htlfndr-follow-button {
+		height: 7rem;
+		width: 7rem;
+	}
+
+.htlfndr-follow-button:after {
+		line-height: 7rem;
+	}
+}
+
+@media (max-width: 991px) {
+
+	#Body_Footer {
+		font-size: 8px !important;
+	}
+
+	.htlfndr-follow-button {
+		height: 4.2rem;
+		width: 3rem;
+	}
+
+	.htlfndr-follow-button:before,
+	.htlfndr-follow-button:after {
+		line-height: 2.5rem;
+	}
+}
+
+@media (max-width: 500px) {
+	#Body_Footer {
+		font-size: 5px !important;
+	}
+
+	.htlfndr-review-footer-marks {
+		width: 100% !important;
+	}
+
+  .htlfndr-follow-button {
+    height: 3.2rem;
+    width: 3rem;
+  }
+
+  .htlfndr-follow-button:before,
+  .htlfndr-follow-button:after {
+    line-height: 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+
+	.htlfndr-follow-button {
+		height: 4.2rem;
+		width: 3rem;
+	}
+	.htlfndr-follow-button:before,
+	.htlfndr-follow-button:after {
+		line-height: 2.5rem;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	#Body_Footer {
+		font-size: 8px !important;
+	}
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 2.6/1), only screen and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 144dpi), only screen and (min-resolution: 1.3dppx) {
+	.htlfndr-footer .widget {
+		font-size: 16px;
+	}
+}

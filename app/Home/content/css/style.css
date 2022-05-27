@@ -1,0 +1,243 @@
+.margin_60_35 {padding-top:60px; padding-bottom:35px;}
+
+h1.main_title , h2.main_title{text-align:center; margin:0 0 30px  0; padding:0; font-size:42px; color:#ed5434; text-transform:uppercase;}
+
+h1.main_title em {
+  display:block ;
+  width:47px ;
+  height:4px ;
+  background-color:#c0c0c0 ;
+  margin:auto ;
+  -webkit-border-radius: 5px ;
+  -moz-border-radius: 5px ;
+  border-radius: 5px ;
+  margin-bottom:20px ;
+}
+
+p.lead.styled {text-align:center; font-size:18px; padding:0 10%; margin-bottom:45px;}
+
+.mosaic_container{
+	position:relative;
+}
+
+.add_bottom_30 {margin-bottom:30px;}
+
+.mosaic_container .caption_2{
+	position:absolute;
+	left:0;
+	bottom:0;
+	width:100%;
+	z-index:9;
+	display:block;
+	font-size:18px;
+	padding:10px 15px;
+	color:#fff;
+	line-height:1.2;
+}
+
+.container_styled_1{
+	background:#fafbfd;
+}
+
+.margin_60 {padding-top:60px; padding-bottom:60px;}
+
+.room_pic{
+	position:relative;
+}
+
+.tooltip_styled {
+	display: inline;
+	position: relative;
+	z-index: 9;
+}
+
+.tooltip-item::after {
+	content: '';
+	position: absolute;
+	width: 200px;
+	height: 20px;
+	bottom: 100%;
+	left: 50%;
+	pointer-events: none;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.tooltip_styled:hover .tooltip-item::after {
+	pointer-events: auto;
+}
+
+.tooltip-item {
+	cursor: pointer;
+	display: inline-block;
+}
+
+.tooltip-content::after {
+	content: '';
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: transparent;
+	border-top-color: #333;
+	border-width: 10px;
+	margin-left: -10px;
+}
+
+.tooltip-effect-4 .tooltip-content {
+	-webkit-transform-origin: 50% 100%;
+	transform-origin: 50% 100%;
+	-webkit-transform: scale3d(0.7,0.3,1);
+	transform: scale3d(0.7,0.3,1);
+	-webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
+	transition: opacity 0.2s, transform 0.2s;
+}
+
+.tooltip_styled:hover .tooltip-content {
+	pointer-events: auto;
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0) rotate3d(0,0,0,0);
+	transform: translate3d(0,0,0) rotate3d(0,0,0,0);
+}
+
+.tooltip-content {
+	position: absolute;
+	z-index: 999;
+	width: 150px;
+	left: 50%;
+	margin: 0 0 20px -75px;
+	bottom: 100%;
+	text-align: left;
+	line-height: 20px;
+	display: block;
+	padding: 15px;
+	text-align:center;
+	font-size:14px;
+	color: #fff;
+	box-shadow: -5px -5px 15px rgba(48,54,61,0.2);
+	background: #333;
+	opacity: 0;
+	cursor: default;
+	pointer-events: none;
+}
+
+a.btn_1_outline:hover, .btn_1_outline:hover{
+	background: #333;
+	border:2px solid #333;
+	color:#fff;
+	}
+
+	a.btn_1_outline, .btn_1_outline{
+		border: none;
+		font-family: inherit;
+		font-size: inherit;
+		color:#ed5434;
+		border:2px solid #ed5434;
+		cursor: pointer;
+		padding: 7px 15px;
+		display: inline-block;
+		outline: none;
+		font-size:13px;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		transition: all 0.3s;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		font-weight:500;
+	}
+
+  /* This is for popins font for firefox */
+  @font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	src: url(https://fonts.gstatic.com/s/poppins/v1/yQWaOD4iNU5NTY0apN-qj_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+  }
+
+  #Body_Container_Fix {background:#fff; font-size:14px; line-height:1.5; font-family:"Poppins", Arial, sans-serif; color:#555;-webkit-font-smoothing: antialiased; font-weight:300;}
+
+  h1, h2, h3, h4, h5, h6{-webkit-font-smoothing:antialiased; color:#222; font-weight:300;}
+
+  h1.main_title_in {border-bottom:1px solid #ededed; text-align:center; padding:15px 15px 30px 15px; margin:0;}
+
+  h1.main_title span, h2.main_title span {display:block; color:#999; font-size:24px; text-transform:none;}
+
+a {color: #111;text-decoration: none;-webkit-transition: all 0.2s ease;transition: all 0.2s ease; outline:none;}
+a:hover,a:focus {color:#ed5434;text-decoration: none; outline:none;}
+
+.room_pic span{
+	position:absolute;
+	top:50%;
+	right:-50px;
+	background-color:#ed5434;
+	width:100px;
+	height:120px;
+	margin-top:-60px;
+	color:#fff;
+	font-size:30px;
+	font-weight:500;
+	padding:15px;
+	box-sizing:border-box;
+	text-align:center;
+	line-height:1.1;
+	padding-top:35px;
+}
+.room_pic.left span{
+	left:-50px;
+}
+.room_pic span sup{
+	position:relative;
+	top:-5px;
+}
+.room_pic span small{
+	display:block;
+	font-size:12px;
+}
+
+.room_desc{
+	padding:15px 0;
+	border-top: 1px solid #ddd;
+}
+
+.room_desc:hover{
+	background-color:#fafbfd;
+	cursor:pointer;
+}
+
+.room_list_desc h3{
+	color:#ed5434;
+	font-size:20px;
+	margin-top:30px;
+}
+
+.room_list_desc ul, .room_desc_home ul{
+	list-style:none;
+	margin:0 0 25px 0;
+	padding:5px 0;
+	border-top: 1px solid #ededed;
+	border-bottom: 1px solid #ededed;
+}
+
+.room_list_desc ul li, .room_desc_home ul li{
+	display:inline-block;
+	margin-right:10px;
+	font-size:24px;
+}
+
+.room_list_desc .price {
+	line-height:1.2;
+}
+
+.room_list_desc .price strong{
+	font-size:20px;
+}
+
+.room_list_desc .price small{
+	display:block;
+	color:#999;
+}

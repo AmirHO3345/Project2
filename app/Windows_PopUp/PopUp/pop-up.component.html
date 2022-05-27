@@ -1,0 +1,14 @@
+<div class="Fix">
+  <div class="overlay open" #OverLay>
+    <div class="modal open" #Modal>
+      <div class="content">
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <div class="Close_PopUp show" (click)="Close_PopUp()" #Close>
+      <span class="RotateX"></span>
+      <span class="RotateY"></span>
+    </div>
+  </div>
+</div>
+

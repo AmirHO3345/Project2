@@ -1,0 +1,75 @@
+Fix {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.modal {
+  background: rgba(0, 0, 0,0.5);
+  height: 1px;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.5s ease 0.5s, height 0.5s ease;
+  width: 0;
+}
+
+.content {
+  color: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(0, -50%, 0);
+  transition: color 0.5s ease;
+  width: 100%;
+}
+
+.overlay.open {
+  height: 40px;
+  opacity: 1;
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
+  -webkit-appearance: none;
+  width: 40px;
+}
+
+.overlay .Close_PopUp {
+  display: none;
+}
+
+.overlay .Close_PopUp.show {
+  display: block;
+}
+
+.overlay.open .RotateX {
+  border-top: 1px solid #fff;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: rotate(45deg);
+  width: 100%;
+}
+
+.overlay.open .RotateY {
+  border-top: 1px solid #fff;
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+  width: 100%;
+}
+
+.overlay.open .modal.open {
+  height: 100%;
+  width: 100%;
+  transition: width 0.5s ease, height 0.5s ease 0.5s;
+}
+
+.overlay.open .modal.open .content {
+  color: #fff;
+  transition: color 0.5s ease 0.5s;
+}

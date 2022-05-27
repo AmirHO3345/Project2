@@ -1,0 +1,82 @@
+<div class="Login_Signup">
+  <div class="login">
+    <div class="Choose">
+      <h2 class="active" (click)="ChangeView(Login , SignUp , 1)" #Login> sign in </h2>
+      <h2 class="nonactive" (click)="ChangeView(Login , SignUp , 2)" #SignUp> sign up </h2>
+    </div>
+    <form #Auth='ngForm'>
+      <div class="Fix">
+        <div class="login-box" ngModelGroup="Login_Data" *ngIf="Login_View">
+          <div class="user-box">
+            <input type="text" placeholder=" " ngModel name="L_Email">
+            <label>Email</label>
+          </div>
+          <div class="user-box">
+            <input type="password" placeholder=" " ngModel name="L_Password">
+            <label>Password</label>
+          </div>
+          <div class="checkbox" (mousedown)="OnKeepLogin(Keep_Login)" #Keep_Login>
+            <label for="example_checkbox">
+              <input type="checkbox" id="example_checkbox" ngModel name="KeepLogin">
+              Keep me Signed in
+            </label>
+          </div>
+          <div class="Submit_Box">
+            <a (click)="OnSubmitForm()">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Login
+            </a>
+          </div>
+          <div class="Forgot_Pass">
+            <hr>
+            <a href="#">Forgot Password?</a>
+          </div>
+        </div>
+        <div class="SignUp-box" ngModelGroup="SignUp_Data" *ngIf="!Login_View">
+          <div class="user-box">
+            <input type="text" placeholder=" " ngModel name="S_UserName">
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="text" placeholder=" " ngModel name="S_Email">
+            <label>E-Mail</label>
+          </div>
+          <div class="user-box">
+            <input type="password" placeholder=" " ngModel name="S_Password">
+            <label>Password</label>
+          </div>
+          <div class="user-box">
+            <input type="password" placeholder=" " ngModel name="S_RePassword">
+            <label>Re-Password</label>
+          </div>
+          <div class="Radio_Choose">
+            <div class="radio" (click)="ClientOptional(User , Owner , Input_User ,  Input_Owner)" #User>
+              <label for="example_radio_1">
+                <input type="radio" id="example_radio_1" ngModel name="Client_Type" value="true" #Input_User>
+                User
+              </label>
+            </div>
+            <div class="radio" (click)="ClientOptional(Owner , User , Input_Owner , Input_User )" #Owner>
+              <label for="example_radio_2">
+                <input type="radio" id="example_radio_2" ngModel name="Client_Type" value="false" #Input_Owner>
+                Owner
+              </label>
+            </div>
+          </div>
+          <div class="Submit_Box">
+            <a (click)="OnSubmitForm()">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              SignUp
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

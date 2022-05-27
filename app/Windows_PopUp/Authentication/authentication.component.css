@@ -1,0 +1,325 @@
+.Login_Signup {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.login {
+  position: relative;
+  height: 560px;
+  width: 405px;
+  margin: auto;
+  padding: 60px 60px;
+  background: #0c0c0c;
+  background-size: cover;
+  box-shadow: 0px 30px 60px -5px #000;
+}
+
+form {
+  padding-top: 60px;
+}
+
+.active {
+  border-bottom: 2px solid #1161ed;
+}
+
+.nonactive {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.Choose h2 {
+  padding-left: 12px;
+  font-size: 22px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  letter-spacing: 2px;
+  display: inline-block;
+  font-weight: 100;
+  cursor: pointer;
+  transition: 0.5s;
+  margin-left: 20px;
+}
+
+.Choose h2:not(.Choose h2.active):hover {
+  text-shadow:  0 0 4px #fff ,
+                0 0 2px #fff;
+}
+
+.Choose h2:first-child {
+  padding-left: 0px;
+}
+
+.Forgot_Pass hr {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  top: 60px;
+  position: relative;
+}
+
+.Forgot_Pass a {
+  text-align: center;
+  display: block;
+  top: 80px;
+  position: relative;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.Fix {
+  height: 100%;
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+}
+
+.login-box,
+.SignUp-box {
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.login-box .user-box,
+.SignUp-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input ,
+.SignUp-box .user-box input{
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+
+.login-box .user-box label,
+.SignUp-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:not(.login-box .user-box input:placeholder-shown) ~ label,
+.SignUp-box .user-box input:not(.SignUp-box .user-box input:placeholder-shown) ~ label,
+.SignUp-box .user-box input:focus ~ label{
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+.login-box .Submit_Box,
+.SignUp-box .Submit_Box{
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.login-box .Submit_Box a,
+.SignUp-box .Submit_Box a{
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #03e9f4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  letter-spacing: 4px;
+  cursor: pointer;
+}
+
+.login-box .Submit_Box a:hover,
+.SignUp-box .Submit_Box a:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+  0 0 25px #03e9f4,
+  0 0 50px #03e9f4,
+  0 0 100px #03e9f4;
+}
+
+.login-box .Submit_Box a span,
+.SignUp-box .Submit_Box a span{
+  position: absolute;
+  display: block;
+}
+
+.login-box .Submit_Box a span:nth-child(1),
+.SignUp-box .Submit_Box a span:nth-child(1){
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #03e9f4);
+  animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+
+.login-box .Submit_Box a span:nth-child(2),
+.SignUp-box .Submit_Box a span:nth-child(2){
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, #03e9f4);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+
+.login-box .Submit_Box a span:nth-child(3),
+.SignUp-box .Submit_Box a span:nth-child(3){
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(270deg, transparent, #03e9f4);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+
+.login-box .Submit_Box a span:nth-child(4),
+.SignUp-box .Submit_Box a span:nth-child(4){
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(360deg, transparent, #03e9f4);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
+/*****************************************/
+
+.checkbox label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding-left: 30px;
+  height: 30px;
+}
+
+.checkbox label:before {
+  position: absolute;
+  top: 5px;
+  left: 0px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid silver;
+  content: "";
+  transition: all 120ms linear;
+  font-size: 20px;
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox.checkbox-checked label:before {
+  background: black;
+  color: white;
+  content: "\f00c";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FontAwesome;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}
+
+/***************************************/
+
+.Radio_Choose {
+  display: flex;
+  justify-content: space-around;
+}
+
+.Radio_Choose .radio label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  padding-left: 30px;
+  height: 30px;
+}
+
+.Radio_Choose .radio label:before {
+  position: absolute;
+  top: 4px;
+  left: 0px;
+  width: 17px;
+  height: 17px;
+  border: 1px solid silver;
+  content: "";
+  transition: all 120ms linear;
+  font-size: 20px;
+  border-radius: 90px;
+  -webkit-border-radius: 90px;
+}
+
+.Radio_Choose .radio input {
+  display: none;
+}
+
+.Radio_Choose .radio.radio-checked label:before {
+  background: white;
+  color: black;
+  content: "\f00c";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: FontAwesome;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+}

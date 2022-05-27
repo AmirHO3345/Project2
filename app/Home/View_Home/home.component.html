@@ -1,0 +1,75 @@
+<div class="Fix">
+  <div class="Container_Image">
+    <img [src]="this.Image_Array[this.Image_Number]">
+    <div class="shadowRound"></div>
+  </div>
+      <div class="options">
+      <div class="option active" [style]="'--optionBackground:url(' + this.Image_Array[0] + ');'"
+           (click)="this.ManualMove(Option ,0)" #Option>
+        <div class="shadow"></div>
+        <div class="label">
+          <div class="icon">
+            <img>
+          </div>
+          <div class="info">
+            <div class="main">Blonkisoaz</div>
+            <div class="sub">Omuke trughte a otufta</div>
+          </div>
+        </div>
+      </div>
+      <div class="option" [style]="'--optionBackground:url(' + this.Image_Array[1] + ');'"
+           (click)="this.ManualMove(Option , 1)" #Option>
+        <div class="shadow"></div>
+        <div class="label">
+          <div class="icon">
+            <img>
+          </div>
+          <div class="info">
+            <div class="main">Oretemauw</div>
+            <div class="sub">Omuke trughte a otufta</div>
+          </div>
+        </div>
+      </div>
+      <div class="option" [style]="'--optionBackground:url(' + this.Image_Array[2] + ');'"
+           (click)="this.ManualMove(Option , 2)" #Option>
+        <div class="shadow"></div>
+        <div class="label">
+          <div class="icon">
+            <img>
+          </div>
+          <div class="info">
+            <div class="main">Iteresuselle</div>
+            <div class="sub">Omuke trughte a otufta</div>
+          </div>
+        </div>
+      </div>
+      <div class="option" [style]="'--optionBackground:url(' + this.Image_Array[3] + ');'"
+           (click)="this.ManualMove(Option , 3)" #Option>
+        <div class="shadow"></div>
+        <div class="label">
+          <div class="icon">
+            <img>
+          </div>
+          <div class="info">
+            <div class="main">Idiefe</div>
+            <div class="sub">Omuke trughte a otufta</div>
+          </div>
+        </div>
+      </div>
+      <div class="option" [style]="'--optionBackground:url(' + this.Image_Array[4] + ');'"
+           (click)="this.ManualMove(Option , 4)" #Option>
+        <div class="shadow"></div>
+        <div class="label">
+          <div class="icon">
+            <img>
+          </div>
+          <div class="info">
+            <div class="main">Inatethi</div>
+            <div class="sub">Omuke trughte a otufta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<app-search-part></app-search-part>
+<app-content></app-content>

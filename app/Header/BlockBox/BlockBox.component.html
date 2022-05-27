@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <div class="nav-bar">
+    <div>
+      <div class="dropdowns-wrapper">
+        <div class="dropdown-container">
+          <div id="notification-dropdown" style="display:block;" #MainTemplate>
+            <div class="dropdown-header">
+              <span class="triangle" style="background-color:aqua;"></span>
+              <span class="heading"> {{ this.ItemInfo.Type_Box }} </span>
+              <span class="count" id="dd-notifications-count"> {{ this.ItemInfo.Info.length }} </span>
+            </div>
+            <div class="dropdown-body">
+              <div class="notification" *ngFor="let item of this.ItemInfo.Info ; let i = index">
+                <div class="notification-image-wrapper">
+                  <div class="notification-image">
+                    <img [src]="this.GetInfo(i).Image_Path" alt="" width="32">
+                  </div>
+                </div>
+                <div class="notification-text">
+                  <span class="highlight"> {{ this.GetInfo(i).Sender_Name }} </span> {{ this.GetInfo(i).Description }}
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-footer">
+              <span class="heading" style="cursor: pointer">Show All {{ this.ItemInfo.Type_Box }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

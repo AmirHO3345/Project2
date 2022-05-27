@@ -1,0 +1,45 @@
+<header class="header" #MainHeader> <!-- Slider -->
+  <a href="#" class="header__logo">Jhon Doe</a>
+  <i class="header__toggle fa fa-bars" id="nav-toggle"></i>
+  <nav class="nav" id="nav-menu"> <!-- show -->
+    <div class="nav__content bd-grid">
+      <div class="nav__close">
+        <i class="fa fa-times-circle" style="font-size:24px"></i>
+      </div>
+
+      <div class="nav__perfil" *ngIf="IsAccountExist != null">
+        <div class="M_N">
+          <div class="Message" (click)="Box_Open(false)">
+            <i class="fa fa-envelope-o"></i>
+            <span class="badge">{{this.Message_Array.length}}</span>
+          </div>
+          <div class="Notification" (click)="Box_Open(true)">
+            <i class="fa fa-bell-o"></i>
+            <span class="badge">{{this.Notification_Array.length}}</span>
+          </div>
+        </div>
+        <div class="nav__img">
+          <img src="data:image/png;base64,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" alt="">
+        </div>
+      </div>
+      <div style="position:absolute ;" *ngIf="this.Open_Box.IsActive">
+        <app-BlockBox [AddInfo]="this.BlockBox_Info"></app-BlockBox>
+      </div>
+
+      <div class="Login_SignUp" *ngIf="IsAccountExist == null">
+        <ul class="nav__list">
+          <li class="nav__item"><a (click)="OpenRegister(true)" class="nav__link">Login</a> | </li>
+          <li class="nav__item"><a (click)="OpenRegister(false)" class="nav__link">SignUp</a></li>
+        </ul>
+      </div>
+
+      <div class="nav__menu">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="#" class="nav__link active">Home</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="#" class="nav__link">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

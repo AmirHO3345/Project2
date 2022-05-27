@@ -1,0 +1,38 @@
+@media (max-width: 991px) {
+  ul#lang_top{ margin-right:45px;}
+  #sub_content{padding:0 60px;}
+  #sub_content h1{font-size:42px;}
+  #single_room_feat ul{margin-bottom:10px;}
+  .room_pic span, .room_pic.left span{
+    position:absolute;
+    bottom:0;
+    left:0;
+  }
+}
+
+@media (max-width: 767px) {
+  .parallax-window#short, .parallax-window{height: 240px;min-height:240px;}
+  .parallax-window#booking {min-height: 580px;}
+  .parallax-window#booking {min-height: 580px;}
+  #booking #sub_content{padding:30px 20px 0 20px;}
+  #sub_content{padding:0 10px;}
+  #group_1, #group_3{display:block;}
+  #container_1, #container_2, #container_5, #container_6{width:100%;}
+  #container_3, #container_4{width:47%;}
+  #group_2 {
+    display : flex;
+    justify-content : center;
+  }
+  .qty-buttons{ margin:0 auto;}
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  #group_3{
+    display:block;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  #sub_content h1{font-size:50px;}
+}
+
