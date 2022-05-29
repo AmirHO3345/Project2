@@ -1,0 +1,52 @@
+
+<table style="width:17%; border:1px solid rgb(247, 247, 247);position: fixed;">
+    <tr style="height: 80px;
+    background: #262729 url('../images/widget-title-background.jpg') no-repeat;">
+      <td style="color:aliceblue;font-family: serif;font-size: 25px; padding-left:53px;">Details</td>
+    </tr>
+    <tr style="height: 500px;background-color: rgb(247, 247, 247);">
+     <p style="margin: 35px;font-size: 22px;color: rgb(205, 209, 214);">Price</p>
+     
+     <div class="mdc-slider"  >
+        <input class="mdc-slider__input" type="range" min="0" max="88" 
+        
+         value="50" name="volume" aria-label="Continuous slider demo"
+          style="width:90%;margin-left: 15px;">
+        <div class="mdc-slider__track">
+          <div class="mdc-slider__track--inactive"></div>
+          <div class="mdc-slider__track--active">
+            <div class="mdc-slider__track--active_fill"></div>
+          </div>
+        </div>
+        <div class="mdc-slider__thumb">
+          <div class="mdc-slider__thumb-knob"></div>
+        </div>
+      </div>
+
+
+      <p style="margin-top: 35px;margin-left: 35px;margin-bottom: 35px;
+      font-size: 22px;color: rgb(205, 209, 214);">User Rating</p>
+      <ngb-rating [max]="5" [(rate)]=currentRate [readonly]="false"
+       style="font-size: 40px;color:rgb(21, 145, 202);margin-left: 38px;margin-top: -35px;"></ngb-rating>
+       <!-- <p>{{currentRate}}</p> -->
+       <p style="margin-top: 35px;margin-left: 35px;font-size: 22px;color: rgb(205, 209, 214);">Accomodation Type</p>
+      
+
+       <div class="form-check" style="margin-top: 15px;margin-left: 35px;font-size: 22px;color: rgb(205, 209, 214);">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          Apartment
+        </label>
+      </div>
+
+      
+      <div class="form-check" style="margin-top: 20px;margin-left: 35px;font-size: 22px;color: rgb(205, 209, 214);">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefaulst">
+          Hostels
+        </label>
+      </div>
+      <!-- <ngx-slider [(value)]="value" [options]="options"></ngx-slider> -->
+
+    </tr>
+  </table>

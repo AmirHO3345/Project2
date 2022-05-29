@@ -1,0 +1,16 @@
+<!--
+        <button class="btn btn-success"
+        (click)="onNewRecipe()"
+        >New Recipe</button>
+    --> 
+   
+        <app-room-item 
+        *ngFor="let roomEl of rooms let i=index" 
+        [room]="roomEl"
+        [index]="i"
+        (roomSelected)="onRoomSelected(roomEl)"
+        ></app-room-item>
+ 
+
+
+

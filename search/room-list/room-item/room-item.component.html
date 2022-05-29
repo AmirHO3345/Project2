@@ -1,0 +1,55 @@
+
+ <!-- <img width="40%" 
+        src="{{room.ImagePath}}"
+        alt="{{room.name}}"
+        class="img-responsive"
+        style="max-height:250px;">
+
+    <span class="pull-right" style="position:top;">
+        &nbsp;
+              {{room.name}}
+        
+  
+    </span>
+    <span class="pull-right">
+        {{room.description}}
+    </span
+    
+    >   -->
+    <a style="color: black;cursor: pointer;"
+    (click)="onSelected()"
+    >
+    <div class="div1" style="border: rgb(226, 220, 220) solid 1px;margin-bottom: 45px;" >
+        <img src="{{room.ImagePath}}" class="img" alt={{room.name}}/>
+        
+        <div class="div2">
+        <ngb-rating [max]="5" [(rate)]=room.rating [readonly]="true" ></ngb-rating>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary" 
+        
+        
+        >select</button>
+          <p style="font-size: 40px;font-family: serif;margin-left: 7%;"> 
+            <a href="hotel-page-v1.html" style="color: rgb(48, 48, 48);"> {{room.name}}</a>
+            
+            
+         </p>
+         
+      
+          <span style="margin-left: 70%;">from</span>
+          <span style="font-size: 200%;">${{room.price}}</span>
+          <span >/night</span>
+          <!-- <p style="font-size: 20px;font-family: serif;
+          margin-left: 7%;"> {{room.description}}</p> -->
+          
+
+        </div>
+      </div> 
+      <!-- <p>Next elements</p> -->
+
+     
+    </a>
+            
+               
