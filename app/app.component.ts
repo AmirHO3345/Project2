@@ -12,10 +12,9 @@ export class AppComponent {
   IsLogin !: boolean ;
 
   constructor(private AuthCheck : AuthenticationService) {
-    this.LoginOpen = true ;
-    this.AuthCheck.PopUpRegisterOpen.subscribe((Data) => {
+    this.LoginOpen = false ;
+    this.AuthCheck.PopUpRegisterOpen.subscribe(() => {
       this.LoginOpen = true;
-      this.IsLogin = Data ;
     })
   }
 

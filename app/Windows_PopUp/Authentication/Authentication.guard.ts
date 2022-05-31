@@ -2,6 +2,9 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
 import {map, Observable} from "rxjs";
 import {AuthenticationService} from "./authentication.service";
+import {Client} from "../../Data_Sharing/Model/user.model";
+
+// Route must be exist Enum Client as Data
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate{
@@ -13,18 +16,17 @@ export class AuthenticationGuard implements CanActivate{
     return this.AuthInfo.Account.pipe(map((UserInfo) => {
       if(UserInfo == null)
         return this.Router.createUrlTree(['404']); // This URL is Temp
-      let Client : string  = route.data['Client_Type'];
-      if(UserInfo.GetType() == Client)
+      let Client_Type : Client = route.data['Client_Type'] ;
+      if(UserInfo.GetType() == Client_Type)
         return true;
-      else
-        switch (UserInfo.GetType()) {
-          case "U" :
-            return this.Router.createUrlTree(['404']); // This URL is Temp
-          case "O" :
-            return this.Router.createUrlTree(['404']); // This URL is Temp
-          default :
-            return this.Router.createUrlTree(['404']); // This URL is Temp
-        }
+      switch (UserInfo.GetType()) {
+        case Client.User :
+          return this.Router.createUrlTree(['404']); // This URL is Temp
+        case Client.Owner :
+          return this.Router.createUrlTree(['404']); // This URL is Temp
+        default :
+          return this.Router.createUrlTree(['404']); // This URL is Temp
+      }
     }));
   }
 

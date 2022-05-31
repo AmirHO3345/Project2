@@ -166,16 +166,16 @@
 
 .Fix .options .option:nth-child(1) .label .icon img ,
 .Fix .options .option:nth-child(2) .label .icon img{
-  content: url(../../../Data_Sharing/Images/Farm.jpg);
+  content: url(../../../../assets/Images/Farm.jpg);
 }
 
 .Fix .options .option:nth-child(3) .label .icon img,
 .Fix .options .option:nth-child(4) .label .icon img{
-  content: url(../../../Data_Sharing/Images/Chalet.jpg);
+  content: url(../../../../assets/Images/Chalet.jpg);
 }
 
 .Fix .options .option:nth-child(5) .label .icon img {
-  content: url(../../../Data_Sharing/Images/Room.jpg);
+  content: url(../../../../assets/Images/Room.jpg);
 }
 
 .Fix .options .option .label .info {

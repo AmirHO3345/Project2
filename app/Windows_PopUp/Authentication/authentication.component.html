@@ -7,28 +7,33 @@
     <form #Auth='ngForm'>
       <div class="Fix">
         <div class="login-box" ngModelGroup="Login_Data" *ngIf="Login_View">
-          <div class="user-box">
-            <input type="text" placeholder=" " ngModel name="L_Email">
+          <div class="user-box" #EleContainer>
+            <input type="text" placeholder=" " ngModel name="L_Email" required email>
             <label>Email</label>
+            <i class="fa fa-exclamation-circle" [title]="this.Error_Message"></i>
           </div>
-          <div class="user-box">
-            <input type="password" placeholder=" " ngModel name="L_Password">
+          <div class="user-box" #EleContainer>
+            <input type="password" placeholder=" " ngModel name="L_Password" required [pattern]="this.Pattern_List[0]">
             <label>Password</label>
+            <i class="fa fa-exclamation-circle" [title]="this.Error_Message"></i>
           </div>
           <div class="checkbox" (mousedown)="OnKeepLogin(Keep_Login)" #Keep_Login>
             <label for="example_checkbox">
-              <input type="checkbox" id="example_checkbox" ngModel name="KeepLogin">
+              <input type="checkbox" id="example_checkbox">
               Keep me Signed in
             </label>
           </div>
-          <div class="Submit_Box">
-            <a (click)="OnSubmitForm()">
+          <div class="Submit_Box" #SubmitBTN>
+            <a (click)="OnSubmitForm(SubmitBTN)">
               <span></span>
               <span></span>
               <span></span>
               <span></span>
               Login
             </a>
+            <div class="containerLoader">
+              <div class="circle2"></div>
+            </div>
           </div>
           <div class="Forgot_Pass">
             <hr>
@@ -36,44 +41,50 @@
           </div>
         </div>
         <div class="SignUp-box" ngModelGroup="SignUp_Data" *ngIf="!Login_View">
-          <div class="user-box">
-            <input type="text" placeholder=" " ngModel name="S_UserName">
+          <div class="user-box" #EleContainer>
+            <input type="text" placeholder=" " ngModel name="S_UserName" required [pattern]="this.Pattern_List[1]">
             <label>Username</label>
+            <i class="fa fa-exclamation-circle" [title]="this.Error_Message"></i>
           </div>
-          <div class="user-box">
-            <input type="text" placeholder=" " ngModel name="S_Email">
+          <div class="user-box" #EleContainer>
+            <input type="text" placeholder=" " ngModel name="S_Email" required email>
             <label>E-Mail</label>
+            <i class="fa fa-exclamation-circle" [title]="this.Error_Message"></i>
           </div>
-          <div class="user-box">
-            <input type="password" placeholder=" " ngModel name="S_Password">
+          <div class="user-box" #EleContainer>
+            <input type="password" placeholder=" " ngModel name="S_Password" [pattern]="this.Pattern_List[0]" #Pass>
             <label>Password</label>
+            <i class="fa fa-exclamation-circle" [title]="this.Error_Message"></i>
           </div>
           <div class="user-box">
-            <input type="password" placeholder=" " ngModel name="S_RePassword">
+            <input type="password" placeholder=" " ngModel name="S_RePassword" required [pattern]="Pass.value">
             <label>Re-Password</label>
           </div>
           <div class="Radio_Choose">
             <div class="radio" (click)="ClientOptional(User , Owner , Input_User ,  Input_Owner)" #User>
               <label for="example_radio_1">
-                <input type="radio" id="example_radio_1" ngModel name="Client_Type" value="true" #Input_User>
+                <input type="radio" id="example_radio_1" ngModel name="Client_Type" value="true" required #Input_User>
                 User
               </label>
             </div>
             <div class="radio" (click)="ClientOptional(Owner , User , Input_Owner , Input_User )" #Owner>
               <label for="example_radio_2">
-                <input type="radio" id="example_radio_2" ngModel name="Client_Type" value="false" #Input_Owner>
+                <input type="radio" id="example_radio_2" ngModel name="Client_Type" value="false" required #Input_Owner>
                 Owner
               </label>
             </div>
           </div>
-          <div class="Submit_Box">
-            <a (click)="OnSubmitForm()">
+          <div class="Submit_Box" #SubmitBTN>
+            <a (click)="OnSubmitForm(SubmitBTN)">
               <span></span>
               <span></span>
               <span></span>
               <span></span>
               SignUp
             </a>
+            <div class="containerLoader">
+              <div class="circle2"></div>
+            </div>
           </div>
         </div>
       </div>

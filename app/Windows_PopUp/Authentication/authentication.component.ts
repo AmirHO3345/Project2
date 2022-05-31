@@ -1,8 +1,8 @@
-import {Component, Input, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, QueryList, Renderer2, ViewChild, ViewChildren} from '@angular/core';
 import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {Subject, take} from "rxjs";
 import {PopUp_Child, PopUpService} from "../PopUp/Pop-up.service";
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService, AuthErrorData} from "./authentication.service";
 
 @Component({
   selector: 'app-authentication',
@@ -16,17 +16,21 @@ import {AuthenticationService} from "./authentication.service";
 export class AuthenticationComponent implements PopUp_Child{
 
   @ViewChild('Auth') Authentication_Info !: NgForm;
-  @Input("Type_Window") set Type_Window(Type : boolean) {
-    this.Login_View = Type ;
-  }
+  @ViewChildren('EleContainer'  , {read : ElementRef}) BoxContainers !: QueryList<ElementRef>
+  Authentication_Done !: Subject<any>;
   Login_View : boolean;
   Keep_Login : boolean;
-  Authentication_Done !: Subject<any>;
+  Error_Message !: string ;
+  Pattern_List : string[] ;
 
   constructor(private Render : Renderer2 ,
               private AuthenticationProcess : AuthenticationService) {
     this.Login_View = true;
     this.Keep_Login = false;
+    this.Pattern_List = [
+      '^([a-zA-Z0-9@*# ]{8,15})$' , /* Password */
+      '(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$' , /* UserName */
+    ]
   }
 
   /////////////////////////// For Template /////////////////////////////
@@ -61,7 +65,6 @@ export class AuthenticationComponent implements PopUp_Child{
     this.Render.setAttribute(Enable_Input , 'checked' , '');
     this.Render.removeAttribute(Disable_Input , 'checked' , '');
   }
-
   /////////////////////////// For Program /////////////////////////////
 
   Send_Close(): Subject<any> {
@@ -69,7 +72,10 @@ export class AuthenticationComponent implements PopUp_Child{
     return this.Authentication_Done;
   }
 
-  OnSubmitForm() {
+  OnSubmitForm(btnSubmit : HTMLElement) {
+    if(this.Authentication_Info.form.invalid)
+      return;
+    this.Render.addClass(btnSubmit , "Loader");
     let AfterAuth ;
     if(this.Login_View) {
       let GroupF : FormGroup = (<FormGroup>this.Authentication_Info.form.get("Login_Data"));
@@ -87,9 +93,48 @@ export class AuthenticationComponent implements PopUp_Child{
 
     AfterAuth.pipe(take(1))
       .subscribe((Data) => {
-        this.Authentication_Done.next(" ");
-      } , (Wrong) => {
-        //Make CSS to View Message
+        this.Render.removeClass(btnSubmit , "Loader");
+        this.Render.addClass(btnSubmit , "Success");
+        setTimeout(() => {
+          this.Render.removeClass(btnSubmit , "Success");
+          this.Render.addClass(btnSubmit , "Success_Done");
+          setTimeout(() => {
+            this.Authentication_Done.next(" ");
+          } , 3200)
+        } , 1500)
+      } , (Wrong : AuthErrorData) => {
+
+        let Error_Type !: keyof typeof Wrong ;
+
+        for (const ErrorKey in Wrong)
+          if(Wrong[<keyof typeof Wrong> ErrorKey] != undefined) {
+            Error_Type = <keyof typeof Wrong> ErrorKey ;
+            this.Error_Message = <string>(<string[]>Wrong[Error_Type])[0] ;
+            break;
+          }
+
+        let Index : number | null ;
+
+        switch (Error_Type) {
+          case 'email' :
+            Index = (this.Login_View)? 0 : 1 ;
+            break;
+          case 'password' :
+            Index = (this.Login_View)? 1 : 2 ;
+            break;
+          default :
+            Index = null ;
+        }
+
+        if(Index != null) {
+          this.Render.addClass(this.BoxContainers.get(Index)?.nativeElement , "Error");
+          let Listener = this.Render.listen(this.BoxContainers.get(Index)?.nativeElement , 'click' , () => {
+            this.Render.removeClass(this.BoxContainers.get(<number>Index)?.nativeElement , "Error");
+            Listener();
+          });
+        }
+
+        this.Render.removeClass(btnSubmit , "Loader");
       });
   }
 }

@@ -1,3 +1,8 @@
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s , color 600000s 0s;
+}
+
 .Login_Signup {
   font-family: 'Montserrat', sans-serif;
   color: #fff;
@@ -140,17 +145,6 @@ form {
   cursor: pointer;
 }
 
-.login-box .Submit_Box a:hover,
-.SignUp-box .Submit_Box a:hover {
-  background: #03e9f4;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-  0 0 25px #03e9f4,
-  0 0 50px #03e9f4,
-  0 0 100px #03e9f4;
-}
-
 .login-box .Submit_Box a span,
 .SignUp-box .Submit_Box a span{
   position: absolute;
@@ -235,7 +229,6 @@ form {
     bottom: 100%;
   }
 }
-/*****************************************/
 
 .checkbox label {
   display: flex;
@@ -275,8 +268,6 @@ form {
   font-weight: normal;
   text-decoration: inherit;
 }
-
-/***************************************/
 
 .Radio_Choose {
   display: flex;
@@ -322,4 +313,127 @@ form {
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
+}
+
+.user-box input.ng-invalid.ng-touched {
+  border-bottom: 1px solid #fa0404;
+}
+
+form .ng-valid > .Submit_Box a:hover {
+  background: #03e9f4;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #03e9f4,
+  0 0 25px #03e9f4,
+  0 0 50px #03e9f4,
+  0 0 100px #03e9f4
+}
+
+form .ng-invalid > .Submit_Box a {
+  color: #0c5460;
+  cursor: default !important;
+}
+
+form .ng-invalid > .Submit_Box span {
+  display: none;
+}
+
+.user-box i {
+  color: #ed2828;
+  position: absolute ;
+  top: 15px ;
+  right: 0;
+  display: none;
+}
+
+.user-box.Error i {
+  display: inline-block;
+}
+
+.Submit_Box .containerLoader {
+  position: relative;
+  height: 50pt;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+  opacity: 0;
+  display: none;
+}
+
+.Submit_Box.Loader .containerLoader ,
+.Submit_Box.Success .containerLoader ,
+.Submit_Box.Success_Done .containerLoader{
+  transition-duration: 3s;
+  opacity: 1 ;
+  display: block;
+}
+
+.Submit_Box.Loader a ,
+.Submit_Box.Success a ,
+.Submit_Box.Success_Done a{
+  cursor : pointer ;
+  display: none !important ;
+}
+
+.Submit_Box .containerLoader .circle2 {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 50px;
+  width: 50px;
+  margin: -25px 0 0 -25px;
+  border: 4px #03e9f4 solid;
+  border-radius: 50%;
+}
+
+.Submit_Box.Loader .containerLoader .circle2 {
+  transition-duration: 2s;
+  animation: spin2 1s infinite linear;
+  border-top: 4px black solid;
+}
+
+.Submit_Box.Success .containerLoader .circle2 {
+  transition-duration: 2s;
+  animation: spin2 0.4s infinite linear;
+  border-top: 3px black solid;
+  border-color: rgba(0, 166, 90, 0.61);
+}
+
+.Submit_Box.Success_Done .containerLoader .circle2 {
+  transition-duration: 2s;
+  animation: spin3 0.2s linear;
+  animation-iteration-count: 13;
+  border-top: -2px black solid;
+  border-color: #00A65A;
+}
+
+@keyframes spin2 {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes spin3 {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }

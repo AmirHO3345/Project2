@@ -87,8 +87,8 @@ export class HeaderTestComponent implements OnInit {
     this.BlockBox_Info = {Type_Box: Type, Info: Data};
   }
 
-  public OpenRegister(Type_Window : boolean) : void {
-    this.AuthenticationInfo.PopUpRegisterOpen.next(Type_Window);
+  public OpenRegister() : void {
+    this.AuthenticationInfo.PopUpRegisterOpen.next(" ");
   }
 
 }

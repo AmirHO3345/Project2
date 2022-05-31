@@ -1,24 +1,52 @@
 
 export class UserModel {
 
-  private readonly UserName : string ;
-  private readonly ImagePath : string ;
+  readonly UserName : string ;
+  readonly ImagePath : string ;
   private readonly IDToken : string ;
-  private readonly Client_Type : string ;
+  private readonly Client_Type : Client ;
 
-  constructor(Name : string , Path : string , Token : string ) {
+  constructor(Name : string , Token : string , Type : string , Path ?: string) {
     this.UserName = Name;
-    this.ImagePath = Path;
     this.IDToken = Token;
-    this.Client_Type = "User";
+    this.Client_Type = UserModel.Convert2Client(Type);
+
+    if(Path == undefined)
+      this.ImagePath = 'assets/Images/avatar1.jpg';
+    else
+      this.ImagePath = Path;
   }
 
-  public GetName() : string { return this.UserName ; }
+  private static Convert2Client(Type : String) : Client {
 
-  public GetImage() : string { return this.ImagePath ; }
+    let Temp : Client ;
+
+    if(+Type == 0)
+      Temp = Client.User;
+    else if(+Type == 1)
+      Temp = Client.Owner;
+    else
+      Temp = Client.Admin;
+
+    return Temp;
+  }
 
   public GetToken() : string { return `Bearer ${this.IDToken}` ; }
 
-  public GetType() : string { return this.Client_Type ; }
+  public GetType() : Client { return this.Client_Type ; }
 
+  public Clone(Name ?: string , Token ?: string , Type ?: string , Path ?: string) : UserModel {
+    let UN = (Name != undefined)? Name : this.UserName ;
+    let IT = (Token != undefined)? Token : this.IDToken ;
+    let CT = (Type != undefined)? Type : this.Client_Type.toString() ;
+    let IP = (Path != undefined)? Path : this.ImagePath ;
+    return new UserModel(UN , IT , CT , IP) ;
+  }
+
+}
+
+export enum Client {
+  User,
+  Owner ,
+  Admin
 }

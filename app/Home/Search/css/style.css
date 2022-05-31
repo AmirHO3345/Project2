@@ -98,7 +98,7 @@ input.qty { width:109px;border-left:0; border-right:0; padding-left:52px;border-
 input.qtyminus, input.qtyplus, input.qtyplus:focus {position:absolute; width:35px; height:38px; 	border: 1px solid #cccccc;  outline:none; cursor:pointer;-webkit-box-shadow: none;box-shadow: none;-webkit-transition: none; z-index:1 }
 
 input.qtyplus {
-  background:#fff url(../../../Data_Sharing/Images/plus.png) no-repeat center center;
+  background:#fff url(../../../../assets/Images/plus.png) no-repeat center center;
   right:0; top:0;
   text-indent:-9999px;
   -webkit-border-top-right-radius: 2px;
@@ -110,7 +110,7 @@ input.qtyplus {
 }
 
 input.qtyminus {
-  background:#fff url(../../../Data_Sharing/Images/minus.png) no-repeat center center;
+  background:#fff url(../../../../assets/Images/minus.png) no-repeat center center;
   text-indent:-9999px;
   -webkit-border-top-left-radius: 2px;
   -webkit-border-bottom-left-radius: 2px;
