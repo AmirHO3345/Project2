@@ -14,21 +14,21 @@ import {AuthenticationService} from "./Windows_PopUp/Authentication/authenticati
 import {ContentComponent} from "./Home/content/content.component";
 import {HomeComponent} from "./Home/View_Home/home.component";
 import {SearchPartComponent} from "./Home/Search/search-part.component";
-import { SearchComponent } from 'src/search/search.component';
-import { RoomItemComponent } from 'src/search/room-list/room-item/room-item.component';
-import { RoomListComponent } from 'src/search/room-list/room-list.component';
-import { RoomsComponent } from 'src/search/rooms/rooms.component';
-import { SearchbydetailsComponent } from 'src/search/searchbydetails/searchbydetails.component';
-import { CommentItemComponent } from 'src/search/room-list/room-item/room-details/comment-item/comment-item.component';
-import { UserProfileComponent } from 'src/search/user-profile/user-profile.component';
-import { AppRoutingModule } from 'src/search/app-routing.module';
-import { RoomServiceComponent } from 'src/search/rooms/roomservice.component';
-import { RoomDetailsComponent } from 'src/search/room-list/room-item/room-details/room-details.component';
 import { NgbModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatSliderModule} from '@angular/material/slider';
 import { Ng5SliderModule } from 'ng5-slider';
 import { SlickCarouselModule } from 'ngx-slick-carousel';  
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { SearchComponent } from './Ahmad/search/search.component';
+import { RoomItemComponent } from './Ahmad/room-list/room-item/room-item.component';
+import { RoomListComponent } from './Ahmad/room-list/room-list.component';
+import { RoomsComponent } from './Ahmad/rooms.component';
+import { SearchbydetailsComponent } from './Ahmad/search/searchbydetails/searchbydetails.component';
+import { RoomDetailsComponent } from './Ahmad/room-list/room-item/room-details/room-details.component';
+import { CommentItemComponent } from './Ahmad/room-list/room-item/room-details/comment-item/comment-item.component';
+import { UserProfileComponent } from './Ahmad/user-profile/user-profile.component';
+import { AppRoutingModule } from './Ahmad/app-routing.module';
+import { RoomServiceComponent } from './Ahmad/roomservice.component';
 //import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({

@@ -1,0 +1,383 @@
+
+	<!-- Start of main content -->
+
+        <!-- Progress steps -->
+        
+       
+	<!-- Start of main content -->
+	<div class="container" >
+        <!-- Progress steps -->
+        <div class="htlfndr-steps"*ngIf="!tag">
+            <ul class="htlfndr-progress" >
+                <li class="htlfndr-active-step">
+                    <span class="htlfndr-step-number">1</span> <span class="htlfndr-step-description">results</span>
+                </li>
+                <li>
+                    <span class="htlfndr-step-number">2</span> <span class="htlfndr-step-description">hotel</span>
+                </li>
+                <li>
+                    <span class="htlfndr-step-number">3</span> <span class="htlfndr-step-description">room</span>
+                </li>
+                <li>
+                    <span class="htlfndr-step-number">4</span> <span class="htlfndr-step-description">payment</span>
+                </li>
+            </ul>
+        </div><!-- .htlfndr-steps -->
+        <!-- .htlfndr-steps -->
+
+        <aside class="htlfndr-sidebar htlfndr-sidebar-in-top htlfndr-full-form" 
+        role="search"*ngIf="!tag">
+            <div class="widget htlfndr-form-dark">
+                <h3 class="widget-title">Search for Hotels</h3>
+                <form class="search-hotel" id="search-hotel" class="htlfndr-search-form" 
+                 (ngSubmit)="onSubmit(f)" #f="ngForm"
+                >
+                    <div id="htlfndr-input-1" class="htlfndr-input-wrapper">
+                        <input type="text" name="city" id="city" 
+                        class="search-hotel-input" placeholder="Enter city, region or district" 
+                        ngModel/>
+                    </div><!-- #htlfndr-input-1 .htlfndr-input-wrapper -->
+
+                    <div id="htlfndr-input-date-in" class="htlfndr-input-wrapper">
+                        <!-- <label for="htlfndr-date-in" class="sr-only">Date in</label> -->
+                        <input type="date"
+                         name="datein" min="{{currentDate | date:'yyyy-MM-dd'}}"
+                          id="datein" class="search-hotel-input"ngModel />
+                        <!-- <button type="button" class="htlfndr-clear-datepicker"></button> -->
+                    </div><!-- #htlfndr-input-date-in .htlfndr-input-wrapper -->
+
+                    <div id="htlfndr-input-date-out" class="htlfndr-input-wrapper">
+                        <!-- <label for="htlfndr-date-out" class="sr-only">Date out</label> -->
+                        <input type="date" min="{{getDateOut() | date:'yyyy-MM-dd'}}"
+                         name="dateout" id="dateout" class="search-hotel-input"ngModel />
+                        <!-- <button type="button" class="htlfndr-clear-datepicker"></button> -->
+                    </div><!-- #htlfndr-input-date-out .htlfndr-input-wrapper -->
+
+                    <div id="htlfndr-input-4" class="htlfndr-input-wrapper" >
+                        <!-- <label for="htlfndr-dropdown" class="sr-only">The number of people in room</label> -->
+                        <select name="htlfndrdropdown" style="font-size: 18px;"
+                        id="htlfndrdropdown" class="htlfndr-dropdown" ngModel="1 adult">
+                            <option value="1 adult" >1 adult</option>
+                            <option value="2 adults in 1 room">2 adults in 1 room</option>
+                            <option value="3 adults in 1 room">3 adults in 1 room</option>
+                            <option value="4 adults in 1 room">4 adults in 1 room</option>
+                            <option value="2 adults in 2 room">2 adults in 2 room</option>
+                            <option value="need more">Need more?</option>
+                        </select>
+                    </div>#htlfndr-input-4 .htlfndr-input-wrapper
+
+                    <div id="htlfndr-input-5">
+                        <input type="submit" class="btn btn-primary" value="search"
+                        style="width: 100%;margin-top: 0%;" />
+                        <!-- <input type="submit" value="search"style="width: 100%;margin-top: 0%;" /> -->
+                    </div><!-- #htlfndr-input-5 .htlfndr-input-wrapper -->
+                    <div class="clearfix"></div>
+                </form>
+            </div><!-- .widget -->
+        </aside><!-- .htlfndr-sidebar .htlfndr-sidebar-in-top .htlfndr-full-form -->
+
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <aside class="col-sm-4 col-md-3 col-lg-3 htlfndr-sidebar htlfndr-sidebar-in-left" 
+            role="complementary" *ngIf="!tag">
+                <div class="htlfndr-search-details widget">
+                    <h3 class="widget-title">details</h3>
+                    <div class="htlfndr-widget-content">
+                        <form name="search-hotel-details" id="search-hotel-details">
+                            <!-- Price slider -->
+                            <label for="htlfndr-price-show" class="htlfndr-input-label">Price</label>
+                            <!-- <div class="mdc-slider" style="margin-top: 33px;" >
+                                <input class="mdc-slider__input" type="range" min="0" max="88" 
+                                
+                                 value="50" name="volume" aria-label="Continuous slider demo"
+                                 
+                                  style="width:90%;margin-left: 15px;">
+
+                                  
+                                <div class="mdc-slider__track">
+                                  <div class="mdc-slider__track--inactive"></div>
+                                  <div class="mdc-slider__track--active">
+                                    <div class="mdc-slider__track--active_fill"></div>
+                                  </div>
+                                </div>
+                                <div class="mdc-slider__thumb">
+                                  <div class="mdc-slider__thumb-knob"></div>
+                                </div>
+                              </div> -->
+
+                              <!-- <section class="range-slider container">
+                                <span class="output outputOne"></span>
+                                <span class="output outputTwo"></span>
+                                <span class="full-range"></span>
+                                <span class="incl-range"></span>
+                                <input name="rangeOne" value="10" min="0" max="100" step="1" type="range">
+                                <input name="rangeTwo" value="90" min="0" max="100" step="1" type="range">
+                              </section> -->
+                            
+                              <ng5-slider [(value)]="minValue" [(highValue)]="maxValue"
+                               [options]="options" ></ng5-slider>
+                        
+                            <!-- <div id="htlfndr-price-slider"></div> -->
+                            <!-- First 'input' does not need a 'name' attribute.
+                             For the backend form processing use hidden fields below -->
+                            <!-- <input type="text" id="htlfndr-price-show" readonly />
+                            <input type="hidden" name="htlfndr-price-start" id="htlfndr-price-start" value="100"/>
+                            <input type="hidden" name="htlfndr-price-stop" id="htlfndr-price-stop" value="1000"/> -->
+
+                            <!-- User Star Rating -->
+                            <p class="htlfndr-input-label" style="margin-left: 20px;">user rating</p>
+                            <ngb-rating [max]="5" [(rate)]=currentRate [readonly]="false"
+                           
+                            style="font-size: 40px;color:rgb(21, 145, 202);
+                            margin-left: 10%;margin-top: 0px;" ></ngb-rating>
+
+                            <button class="btn btn-primary" style="margin-left: 73%;
+                            width: 30%;margin-top: 6%;" (click)="currentRate=0">Reset</button>
+                            <!-- <div class="htlfndr-user-rating" data-rating="3"></div> -->
+                            <!-- The value of a hidden field is such as 'data-rating' attribute above -->
+                            <input type="hidden" name="htlfndr-rating" id="htlfndr-rating" value="3"/>
+
+                            <!-- Checkboxes-->
+                            <p class="htlfndr-input-label" >accomodation type</p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-apartment" name="htlfndr-check-apartment" />
+                                <label for="htlfndr-check-apartment">apartment <span>(5)</span></label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-hostel" name="htlfndr-check-hostel" />
+                                <label for="htlfndr-check-hostel">hostel <span>(5)</span></label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-hotel" name="htlfndr-check-hotel"  checked="checked" />
+                                <label for="htlfndr-check-hotel">hotel <span>(15)</span></label>
+                            </p>
+
+                            <p class="htlfndr-input-label">amenities</p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-television" name="htlfndr-check-television" />
+                                <label for="htlfndr-check-television">television</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-wi-fi" name="htlfndr-check-wi-fi" />
+                                <label for="htlfndr-check-wi-fi">Wi-Fi</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-swimming-pool" name="htlfndr-check-swimming-pool"  />
+                                <label for="htlfndr-check-swimming-pool">swimming pool</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-smoking" name="htlfndr-check-smoking"  />
+                                <label for="htlfndr-check-smoking">smoking allowed</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-wine-bar" name="htlfndr-check-wine-bar"  />
+                                <label for="htlfndr-check-wine-bar">wine bar</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-hot-tub" name="htlfndr-check-hot-tub"  />
+                                <label for="htlfndr-check-hot-tub">hot tub</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-air-conditioning" name="htlfndr-check-air-conditioning" />
+                                <label for="htlfndr-check-air-conditioning">air conditioning</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-breakfast" name="htlfndr-check-breakfast" />
+                                <label for="htlfndr-check-breakfast">breakfast</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking"   />
+                                <label for="htlfndr-check-free-parking">free parking</label>
+                            </p>
+
+                            <p class="htlfndr-checkbox-line" *ngIf="currentRate<=0;else infoRating" >
+                                <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking"  />
+                                <label for="htlfndr-check-free-parking"
+                                  >bestttt rating</label>
+                            </p>
+                            <ng-template #infoRating>
+                                <p class="htlfndr-checkbox-line">
+                                    <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking" disabled="disabled"  />
+                                    <label for="htlfndr-check-free-parking">best rating</label>
+                                </p>
+                            </ng-template>
+                        </form>
+                    </div><!-- .htlfndr-widget-content -->
+                </div><!-- .htlfndr-search-details -->
+            </aside><!-- .htlfndr-sidebar .htlfndr-sidebar-in-left -->
+
+
+
+
+           
+    <main class="col-sm-8 col-md-9 col-lg-9 htlfndr-search-result htlfndr-grid-view" role="main">
+      <h2 class="htlfndr-search-result-title"*ngIf="!tag">
+          <span>{{getRoomNum()}}</span> results found</h2>
+      <!-- Sorting navigation section -->
+
+      <app-room-list *ngIf="!tag"></app-room-list>
+      <!-- <app-room-details 
+      *ngIf="selectedRoom;else infoText" [room]="selectedRoom"
+      ></app-room-details> -->
+      <router-outlet></router-outlet>
+      <!-- <ng-template #infoText>
+          <p>select a room</p>
+      </ng-template> -->
+
+
+    
+     
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        <!-- <aside class="htlfndr-sidebar htlfndr-sidebar-in-top htlfndr-full-form" role="search">
+            <div class="widget htlfndr-form-dark" style="width: 71.8%;margin-left: 14%;">
+                <h3 class="widget-title">Search for Hotels</h3>
+                <form name="search-hotel" id="search-hotel" class="htlfndr-search-form">
+                    <div id="htlfndr-input-1" class="htlfndr-input-wrapper">
+                        <input type="text" name="htlfndr-city" id="htlfndr-city" class="search-hotel-input" placeholder="Enter city, region or district" />
+                    </div> -->
+        
+                    <!-- <div id="htlfndr-input-date-in" class="htlfndr-input-wrapper">
+                        <input type="date"
+                         name="htlfndr-date-in" min="{{currentDate | date:'yyyy-MM-dd'}}"
+                          id="htlfndr-date-in" class="search-hotel-input" />
+                    </div>
+        
+                    <div id="htlfndr-input-date-out" class="htlfndr-input-wrapper">
+                        <input type="date" min="{{getDateOut() | date:'yyyy-MM-dd'}}"
+                         name="htlfndr-date-out" id="htlfndr-date-out" class="search-hotel-input" />
+                         <button type="button" class="htlfndr-clear-datepicker"></button> -->
+                    <!-- </div> -->
+        
+                    <!-- <div id="htlfndr-input-4" class="htlfndr-input-wrapper">
+                        <label for="htlfndr-dropdown" class="sr-only"></label>
+                        <select name="htlfndr-dropdown" id="htlfndr-dropdown" class="htlfndr-dropdown">
+                            <option value="1 adult">1 adult</option>
+                            <option value="2 adults in 1 room">2 adults in 1 room</option>
+                            <option value="3 adults in 1 room">3 adults in 1 room</option>
+                            <option value="4 adults in 1 room">4 adults in 1 room</option>
+                            <option value="2 adults in 2 room">2 adults in 2 room</option>
+                            <option value="need more">Need more?</option>
+                        </select>
+                    </div> -->
+        
+                    <!-- <div id="htlfndr-input-5">
+                        <input type="submit" value="search" />
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </aside>
+         -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+         <!-- <div class="htlfndr-hotel-post-wrapper">
+            <div class="htlfndr-hotel-post" >
+                <a href="hotel-page-v1.html" class="htlfndr-hotel-thumbnail">
+                    <img src="https://moneyinc.com/wp-content/uploads/2016/09/Four-Seasons-Las-Vegas-750x422.jpg" alt="pic" />
+                </a>
+                <div class="htlfndr-hotel-description">
+                    <div class="htlfndr-description-content">
+                        <h2 class="htlfndr-entry-title">
+                            <a href="hotel-page-v1.html" style="font-size: 65%;">{{room.name}}</a></h2>
+                            
+                        <div class="htlfndr-rating-stars" data-rating="5">
+                            <ngb-rating [max]="5" [(rate)]=currentRate [readonly]="true"
+                            style="font-size: 40px;color:rgb(21, 145, 202); "></ngb-rating> -->
+                            
+                        <!--  <i class="fa fa-star htlfndr-star-color"></i>&nbsp;
+                            <i class="fa fa-star htlfndr-star-color"></i>&nbsp;
+                            <i class="fa fa-star htlfndr-star-color"></i>&nbsp;
+                            <i class="fa fa-star htlfndr-star-color"></i>&nbsp;
+                            <i class="fa fa-star htlfndr-star-color"></i>&nbsp; -->
+                            <!-- <p class="htlfndr-hotel-reviews">(<span>188</span> reviews)</p> -->
+                        <!-- </div> --> 
+                        <!-- .htlfndr-rating-stars -->
+                        <!-- <h5 class="htlfndr-hotel-location" >
+                            <i class="fa fa-map-marker"></i>san francisco united states</h5> -->
+                        <!-- <p class="htlfndr-last-booking">Last booking: <span>14</span> hours ago</p> -->
+                    <!-- </div> -->
+                    <!-- .htlfndr-description-content -->
+                    <!-- <a href="hotel-page-v1.html" role="button" 
+                    class="htlfndr-select-hotel-button" style="margin-left:60%">select</a>
+                    <div class="htlfndr-hotel-price">
+                        <span class="htlfndr-from">from</span>
+                         <span class="htlfndr-cost">$ {{room.price}}</span> 
+                         <span class="htlfndr-per-night">per night</span>
+                        <span class="cost">{{room.price}}</span> -->
+                    <!-- </div> -->
+                    <!-- .htlfndr-hotel-price -->
+                          <!-- </div> -->
+                          <!-- .htlfndr-hotel-description -->
+                      <!-- .htlfndr-hotel-post -->
+                 <!-- .col-md-4.htlfndr-hotel-post-wrapper -->
+
+
+
+
+
+
