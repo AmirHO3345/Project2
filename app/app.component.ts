@@ -9,13 +9,12 @@ import {AuthenticationService} from "./Windows_PopUp/Authentication/authenticati
 export class AppComponent {
 
   LoginOpen : boolean ;
-  IsLogin !: boolean ;
 
   constructor(private AuthCheck : AuthenticationService) {
     this.LoginOpen = false ;
     this.AuthCheck.PopUpRegisterOpen.subscribe(() => {
       this.LoginOpen = true;
-    })
+    });
   }
 
   public CloseRegisterWindow() {

@@ -3,6 +3,7 @@ import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {Subject, take} from "rxjs";
 import {PopUp_Child, PopUpService} from "../PopUp/Pop-up.service";
 import {AuthenticationService, AuthErrorData} from "./authentication.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-authentication',
@@ -102,21 +103,22 @@ export class AuthenticationComponent implements PopUp_Child{
             this.Authentication_Done.next(" ");
           } , 3200)
         } , 1500)
-      } , (Wrong : AuthErrorData) => {
+      } , (Wrong : HttpErrorResponse) => {
 
-        let Error_Type !: keyof typeof Wrong ;
+        let ErrorData : AuthErrorData = Wrong.error ;
+        let Error_Type !: keyof typeof ErrorData.Error ;
 
-        for (const ErrorKey in Wrong)
-          if(Wrong[<keyof typeof Wrong> ErrorKey] != undefined) {
-            Error_Type = <keyof typeof Wrong> ErrorKey ;
-            this.Error_Message = <string>(<string[]>Wrong[Error_Type])[0] ;
+        for (const ErrorKey in ErrorData.Error)
+          if(ErrorData.Error[<keyof typeof ErrorData.Error> ErrorKey] != undefined) {
+            Error_Type = <keyof typeof ErrorData.Error> ErrorKey ;
+            this.Error_Message = (<string[]>ErrorData.Error[Error_Type])[0] ;
             break;
           }
 
         let Index : number | null ;
 
         switch (Error_Type) {
-          case 'email' :
+          case "email" :
             Index = (this.Login_View)? 0 : 1 ;
             break;
           case 'password' :

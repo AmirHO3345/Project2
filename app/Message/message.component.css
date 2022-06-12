@@ -1,0 +1,134 @@
+.Fix {
+  /*background-color:#eef1f5;*/
+  padding: 0!important;
+  margin: 0!important;
+  font-family: Poppins,sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(0,0,0,.87);
+}
+
+.page-container {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-color: #222c3c;
+}
+
+.page-container:after {
+  clear: both
+}
+
+.page-container:after,
+.page-container:before {
+  content: " ";
+  display: table
+}
+
+.page-content {
+  margin-top: 0;
+  padding: 0;
+  /*background-color: #eaeef3;*/
+}
+
+
+@media (min-width: 992px) {
+  .page-container {
+    margin: 0 !important;
+    padding: 0 !important
+  }
+
+  .page-content-wrapper {
+    float: left;
+    width: 100%
+  }
+
+  .page-content-wrapper .page-content {
+    /*margin-left: 235px;*/
+    margin-top: 50px;
+    min-height: 600px;
+    padding: 25px 20px 10px
+  }
+
+  .page-content-wrapper .page-content.no-min-height {
+    min-height: auto
+  }
+
+  .page-content-wrapper .page-content {
+    padding: 20px 10px 10px !important;
+    overflow: hidden
+  }
+
+  .page-content-wrapper .page-content .page-title {
+    margin-bottom: 20px;
+    font-size: 18px
+  }
+
+  .page-content-wrapper .page-content .page-title small {
+    font-size: 13px;
+    padding-top: 3px
+  }
+
+  .page-container .page-content-wrapper .page-content .row {
+    justify-content: space-evenly;
+  }
+}
+
+@media (max-width: 991px) {
+  .page-content-wrapper .page-content {
+    margin: 0 !important;
+    padding: 20px !important;
+    min-height: 280px
+  }
+}
+
+@media (max-width: 767px) {
+  .page-content-wrapper .page-content {
+    padding: 20px 10px 10px !important;
+    margin-top: 55px !important;
+    overflow: hidden;
+  }
+  .page-content-wrapper .page-content .page-title {
+    margin-bottom: 20px;
+    font-size: 18px
+  }
+  .page-content-wrapper .page-content .page-title small {
+    font-size: 13px;
+    padding-top: 3px
+  }
+  .page-boxed .page-footer,
+  .page-footer {
+    padding-left: 10px;
+    padding-right: 10px
+  }
+  .page-footer-fixed .page-footer .container {
+    padding-left: 0;
+    padding-right: 0
+  }
+}
+
+@media print {
+
+  .Fix {
+    /*background-color: #fff !important*/
+  }
+
+  .page-footer,
+  .chat-sidebar-container,
+  .sidebar-container,
+  .chatpane {
+    display: none
+  }
+
+  .page-container {
+    margin: 0 !important;
+    padding: 0 !important
+  }
+
+  .page-content {
+    min-height: 300px !important;
+    padding: 0 20px 20px !important;
+    margin: 0 !important
+  }
+}

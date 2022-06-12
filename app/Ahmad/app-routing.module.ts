@@ -5,13 +5,13 @@ import { RoomDetailsComponent } from "./room-list/room-item/room-details/room-de
 import { SearchComponent } from "./search/search.component";
 
 const appRoutes:Routes=[
-    { path:'',redirectTo:'/search',pathMatch:'full' },
+    // { path:'',redirectTo:'/search',pathMatch:'full' },
     { path:'search',component:SearchComponent,children:[
         { path:'',component:RoomStartComponent },
         { path:':id',component:RoomDetailsComponent }
     ] },
     //{ path:'room-detail',component:RoomStartComponent}
-    
+
     // { path:'recipes',component:RecipesComponent,
     // canActivate:[AuthGuard],
     // children:[
@@ -22,11 +22,11 @@ const appRoutes:Routes=[
     // ] },
     // { path:'shopping-list',component:ShoppingListComponent },
     // { path:'auth',component:AuthComponent  }
-    
+
 ];
 
 @NgModule({
-    imports:[RouterModule.forRoot(appRoutes)],
+    imports:[RouterModule.forChild(appRoutes)],
     exports:[RouterModule]
 })
 export class AppRoutingModule{

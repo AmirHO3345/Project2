@@ -1,54 +1,41 @@
-.parallax-window#booking {
-  /*min-height: 250px;*/
-  background-color: #77a3fe;
-  width: 75%;
-  margin: 0 auto;
-  margin-top: 100px;
-  margin-bottom: 40px;
-  border-radius: 50px;
-  min-height : 160px
+.booking-section-1 {
+  background-color: #3f51b5;
+  /*background-color: #11101d;*/
+  bottom: 0;
+  padding: 8px 0;
+  width: 100%;
+  display: inline-block;
+  position: relative;
 }
 
-.parallax-window {
-  /*min-height: 550px;*/
-  /*min-height: 300px;*/
-  background:transparent;
-  position:relative;
-}
-
-.parallax-window#booking {
-  /*min-height: 550px;*/
-  /*min-height: 300px;*/
+.booking-section-1::before {
+  background-color: #292b2c;
+  bottom: 0;
+  content: "";
+  display: inline-block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: skewX(136deg);
+  transform-origin: right top 0;
+  width: 38.2291%;
 }
 
 #subheader_home{
   color:#fff;
   text-align:center;
-  display: table;
-  width:100%;
-  /*height:550px;*/
 }
 
 #sub_content{
-  display: table-cell;
-  padding:70px 15% 0 15%;
-  vertical-align: middle;
-  text-align:center;
+  text-align:right;
   font-size:22px;
 }
 
-#booking #sub_content{
-  padding:0px 20px 0 20px;
-}
-
 #book_container{
-  /*background-color:rgba(0,0,0,0.7);*/
-  /*backdrop-filter: blur(13px);*/
   text-align: left;
   display:inline-block;
-  padding:5px 15px 10px 10px;
   position:relative;
-  border-radius : 15px;
 }
 
 #group_1, #group_2, #group_3{
@@ -59,7 +46,7 @@
   width:160px;
 }
 
-#container_1, #container_2, #container_3, #container_4, #container_5, #container_6{
+#container_1, #container_2, #container_3, #container_4, #container_5, #container_6 , #container_7{
   display:inline-block;
   padding: 0 5px 10px 10px;
   position:relative;
@@ -95,7 +82,19 @@
 
 input.qty { width:109px;border-left:0; border-right:0; padding-left:52px;border-radius: 25px; }
 
-input.qtyminus, input.qtyplus, input.qtyplus:focus {position:absolute; width:35px; height:38px; 	border: 1px solid #cccccc;  outline:none; cursor:pointer;-webkit-box-shadow: none;box-shadow: none;-webkit-transition: none; z-index:1 }
+input.qtyminus,
+input.qtyplus,
+input.qtyplus:focus {
+  position:absolute;
+  width:35px;
+  height:38px;
+  border: 1px solid #cccccc;
+  outline:none;
+  cursor:pointer;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: none; z-index:1
+}
 
 input.qtyplus {
   background:#fff url(../../../../assets/Images/plus.png) no-repeat center center;
@@ -129,18 +128,6 @@ input.qtyminus {
   width:230px;
 }
 
-#container_7{
-  position:absolute;
-  bottom:-50px;
-  left:0;
-  text-align:center !important;
-  width:100%;
-}
-
-a.btn_1:hover, .btn_1:hover{
-  background: #333;
-}
-
 #container_7 .btn_1:hover{
   color:#ed5434;
   background-color:#fff;
@@ -171,8 +158,6 @@ a.btn_1, .btn_1{
   font-weight:500;
 }
 
-/*****************************************************/
-
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
@@ -181,16 +166,23 @@ a.btn_1, .btn_1{
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-/** Change Value **/
-#Fix_Part {font-size:14px; line-height:1.5; font-family:"Poppins", Arial, sans-serif; color:#555;-webkit-font-smoothing: antialiased; font-weight:300;}
+#Fix_Part {
+  font-size:14px;
+  line-height:1.5;
+  font-family:"Poppins", Arial, sans-serif;
+  color:#555;
+  -webkit-font-smoothing: antialiased;
+  font-weight:300;
+}
 
 label{ font-size:13px; font-weight:600;}
 
-/********************************************************/
-
-.form-control[readonly]{
+.form-control[readonly] {
   background-color:#fff;
 }
 
-
-
+.mat-datepicker-toggle {
+  position: absolute ;
+  top: 32px ;
+  right: 5px ;
+}

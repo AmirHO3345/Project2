@@ -19,6 +19,12 @@
   #group_1, #group_3{display:block;}
   #container_1, #container_2, #container_5, #container_6{width:100%;}
   #container_3, #container_4{width:47%;}
+  #container_7 {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+  }
   #group_2 {
     display : flex;
     justify-content : center;
@@ -36,3 +42,12 @@
   #sub_content h1{font-size:50px;}
 }
 
+@media (min-width: 1200px) {
+  .container {
+    width: 1200px;
+  }
+  #container_7 {
+    margin-left: 23px;
+    margin-right: 10px;
+  }
+}

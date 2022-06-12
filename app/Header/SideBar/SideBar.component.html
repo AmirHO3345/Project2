@@ -1,0 +1,64 @@
+<div class="Fix">
+  <div class="sidebar close" #MainSideBar> <!-- open || close -->
+    <ul class="nav-list">
+      <li>
+        <a [routerLink]="['/home']">
+          <mat-icon>home</mat-icon>
+          <span class="links_name">Home</span>
+        </a>
+        <span class="tooltip">Home</span>
+      </li>
+      <li>
+        <a href="#">
+          <mat-icon>person</mat-icon>
+          <span class="links_name">Profile</span>
+        </a>
+        <span class="tooltip">Profile</span>
+      </li>
+      <li>
+        <a href="#">
+          <mat-icon>manage_accounts</mat-icon>
+          <span class="links_name">Setting</span>
+        </a>
+        <span class="tooltip">Setting</span>
+      </li>
+      <li>
+        <a href="#">
+          <mat-icon>notifications</mat-icon>
+          <span class="links_name">Notifications</span>
+        </a>
+        <span class="tooltip">Notifications</span>
+      </li>
+      <li>
+        <a [routerLink]="['/chat']">
+          <mat-icon>chat_bubble</mat-icon>
+          <span class="links_name">Chat</span>
+        </a>
+        <span class="tooltip">Chat</span>
+      </li>
+      <li>
+        <a href="#">
+          <mat-icon>payment</mat-icon>
+          <span class="links_name">Reservation</span>
+        </a>
+        <span class="tooltip">Reservation</span>
+      </li>
+      <li>
+        <a href="#">
+          <mat-icon>favorite</mat-icon>
+          <span class="links_name">Favorite</span>
+        </a>
+        <span class="tooltip">Favorite</span>
+      </li>
+      <li class="profile close" *ngIf="this.UserAccount != null" #Control> <!-- open || close -->
+        <div class="profile-details">
+          <img [src]="this.UserAccount.ImagePath" alt="profileImg">
+          <div class="name_job">
+            <div class="name">{{this.UserAccount.UserName}}</div>
+          </div>
+        </div>
+        <mat-icon id="log_out" (click)="this.LogOut()">logout</mat-icon>
+      </li>
+    </ul>
+  </div>
+</div>
