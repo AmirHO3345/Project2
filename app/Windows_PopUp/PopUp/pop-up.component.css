@@ -6,7 +6,7 @@ Fix {
 }
 
 .modal {
-  background: rgba(0, 0, 0,0.5);
+  background: #000000d6;
   height: 1px;
   overflow: hidden;
   position: fixed;
@@ -32,7 +32,7 @@ Fix {
   position: fixed;
   right: 20px;
   top: 20px;
-  z-index: 1;
+  z-index: 4;
   -webkit-appearance: none;
   width: 40px;
 }

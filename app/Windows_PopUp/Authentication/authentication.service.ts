@@ -31,7 +31,7 @@ export class AuthenticationService {
 
   PopUpRegisterOpen : Subject<any>;
 
-  static API_Location : string = "http://192.168.43.83:8000/" ;
+  static API_Location : string = "http://192.168.43.181:8000/" ;
 
   constructor(private HTTP : HttpClient) {
     this.Account = new BehaviorSubject<UserModel | null>(null);

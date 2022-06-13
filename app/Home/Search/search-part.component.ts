@@ -14,16 +14,13 @@ export class SearchPartComponent {
 
   Adults : number ;
 
-  Arrival : {IsActive : boolean , DateDetermine : Date} ;
+  Arrival : Date ;
 
   @ViewChild("Part") DataForm !: NgForm ;
 
   constructor(private ProcessDate : DatePipe ,private Route : Router) {
     this.Adults = 1 ;
-    this.Arrival = {
-      IsActive : false ,
-      DateDetermine : new Date()
-    }
+    this.Arrival = new Date() ;
   }
 
   // True : + | Else : -
@@ -40,35 +37,40 @@ export class SearchPartComponent {
   ChangeArrival(CurrentDate : Date ) : void {
     if(this.DataForm.form.value['Departure_D'] != undefined)
           (<AbstractControl>this.DataForm.form.get("Departure_D")).reset();
-    if(Date != undefined) {
-      this.Arrival = {
-        IsActive : true ,
-        DateDetermine : new Date(+CurrentDate + (1000*60*60*24))
-      };
-    } else
-      this.Arrival.IsActive = false ;
+    if(CurrentDate != undefined)
+      this.Arrival = new Date(+CurrentDate + (1000*60*60*24)) ;
   }
 
   DateNow() : Date {
     return new Date();
   }
 
+  ClearDate(ControllerName : string) {
+    if(this.DataForm.form.get(ControllerName) != null)
+      (<AbstractControl>this.DataForm.form.get(ControllerName)).reset();
+  }
+
   onSubmit() : void {
     if(this.DataForm.invalid)
       return ;
-    let Temp : Date ;
-    let Location = this.DataForm.form.value['Location'];
-    Temp = new Date(Date.parse(this.DataForm.form.value['Departure_D'])) ;
-    let Departure_D = this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
-    Temp = new Date(Date.parse(this.DataForm.form.value['Arrival_D'])) ;
-    let Arrival_D = this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
+    let QueryParamsRoute : {
+      location : string ,
+      arrival ?: string ,
+      departure ?: string,
+      person : number
+    } = {
+      location: this.DataForm.form.value['Location'] ,
+      person: this.Adults ,
+    }
+    if(this.DataForm.form.value['Arrival_D'] != undefined) {
+      let Temp : Date ;
+      Temp = new Date(Date.parse(this.DataForm.form.value['Arrival_D'])) ;
+      QueryParamsRoute.arrival = <string>this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
+      Temp = new Date(Date.parse(this.DataForm.form.value['Departure_D'])) ;
+      QueryParamsRoute.departure = <string>this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
+    }
     this.Route.navigate(['/search'] , {
-      queryParams : {
-          location : Location ,
-          arrival : Arrival_D ,
-          departure : Departure_D,
-          person : this.Adults
-      }}
-    )
+      queryParams : QueryParamsRoute
+    })
   }
 }

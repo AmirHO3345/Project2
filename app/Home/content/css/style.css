@@ -47,7 +47,7 @@ p.lead.styled {text-align:center; font-size:18px; padding:0 10%; margin-bottom:4
 .tooltip_styled {
 	display: inline;
 	position: relative;
-	z-index: 9;
+	/*z-index: 9;*/
 }
 
 .tooltip-item::after {
