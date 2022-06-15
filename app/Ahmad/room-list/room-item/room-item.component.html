@@ -1,57 +1,117 @@
-
- <!-- <img width="40%" 
-        src="{{room.ImagePath}}"
-        alt="{{room.name}}"
-        class="img-responsive"
-        style="max-height:250px;">
-
-    <span class="pull-right" style="position:top;">
-        &nbsp;
-              {{room.name}}
-        
-  
-    </span>
-    <span class="pull-right">
-        {{room.description}}
-    </span
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="hotel, bed and breakfast, accommodations, travel, motel">
+    <meta name="description" content="Albert - Hotel and Bed&amp;Breakfast">
+    <meta name="author" content="Ansonika">
+    <title>Albert - Hotel and Bed&amp;Breakfast</title>
     
-    >   -->
-    <a style="color: black;cursor: pointer;"
-     
-[routerLink]="[index]"
-routerLinkActive="active"
->
-    <div class="div1" style="border: rgb(226, 220, 220) solid 1px;margin-bottom: 45px;" >
-        <img src="{{room.ImagePath}}" class="img" alt={{room.name}}/>
-        
-        <div class="div2">
-        <ngb-rating [max]="5" [(rate)]=room.rating [readonly]="true" ></ngb-rating>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="submit" class="btn btn-primary" 
-        
-        
-        >select</button>
-          <p style="font-size: 40px;font-family: serif;margin-left: 7%;"> 
-            <a href="hotel-page-v1.html" style="color: rgb(48, 48, 48);"> {{room.name}}</a>
-            
-            
-         </p>
-         
-      
-          <span style="margin-left: 70%;">from</span>
-          <span style="font-size: 200%;">${{room.price}}</span>
-          <span >/night</span>
-          <!-- <p style="font-size: 20px;font-family: serif;
-          margin-left: 7%;"> {{room.description}}</p> -->
-          
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
 
-        </div>
-      </div> 
-      <!-- <p>Next elements</p> -->
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700" rel="stylesheet">
 
+    <!-- BASE CSS -->
+    <!-- <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/menu.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/fontello/css/icon_set_1.css" rel="stylesheet">
+    <link href="css/fontello/css/icon_set_2.css" rel="stylesheet">
+    <link href="css/fontello/css/fontello.css" rel="stylesheet">
+    <link href="css/magnific-popup.css" rel="stylesheet"> -->
+</head>
+
+
+    <div class="layer"></div>
+    <!-- Mobile menu overlay mask -->
+    
+    <!-- <div id="preloader">
+        <div data-loader="circle-side"></div>
+    </div> -->
+    
+    <!-- End Preload -->
+    
+     <!-- Header ================================================== -->
+    
+    <!-- End Header =============================================== -->
+    
+    <!-- End SubHeader ============================================ -->
+
+ 			<div class="col-lg-9 col-md-8">
+            	<div class="row">
+                
+                	<div class="room_desc clearfix"  [routerLink]="[index]" routerLinkActive="active">
+                	<div class="col-md-7">
+                    	<figure><img src="https://offloadmedia.feverup.com/secretneworleans.co/wp-content/uploads/2021/03/10101834/Webp.net-resizeimage-46-1024x597.jpg" 
+                        alt="" class="img-responsive" style="width: 100%;"></figure>
+                    </div>
+                    <div class="col-md-5 room_list_desc">
+                    	<h3>{{room.name}}</h3>
+                        <p>
+                          {{room.type}}
+                        </p>
+                        <div class="rating">
+                          <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true" ></ngb-rating>
+                        </div>
+                        <ul>
+                        	<li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="room.wifi"><i class="icon_set_1_icon-7"></i></span>
+                                	<div class="tooltip-content">WIFI</div>
+                              </div>
+                              </li>
+                            <li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="room.coffee_machine" style="color:#F90;"><i class="icon_set_2_icon-59"></i></span>
+                                	<div class="tooltip-content" >Coffee Machine</div>
+                              </div>
+                              </li>
+                            <li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="room.tv"><i class="icon_set_2_icon-116"></i></span>
+                                	<div class="tooltip-content">Plasma TV</div>
+                              </div>
+                              </li>
+                        </ul>
+                        <div class="price">from <strong>${{room.cost}}</strong> /night<small>Breakafst included</small></div>
+                    </div>
+                    </div>
+                </div><!-- End row room -->  
+                
+                
+                
+                
+            </div>
+            <div class="col-lg-3 col-md-4 sidebar">
+     		
+            <div class="theiaStickySidebar">
+            <!-- <div class="box_style_3" id="general_facilities">
+				<h3>General facilities</h3>
+				<ul>
+					<li><i class="icon_set_1_icon-86"></i>Free Wifi</li>
+					<li><i class="icon_set_2_icon-103"></i>Loundry service</li>
+					<li><i class="icon_set_2_icon-110"></i>Swimming pool</li>
+					<li><i class="icon_set_1_icon-58"></i>Restaurant</li>
+					<li><i class="icon_set_1_icon-27"></i>Parking</li>
+				</ul> 
+			</div>-->
+			<!-- <div class="box_style_2">
+				<i class="icon_set_1_icon-90"></i>
+				<h4>Need help? Call us</h4>
+				<a href="tel://004542344599" class="phone">+45 423 445 99</a>
+				<small>Monday to Friday 9.00am - 7.30pm</small>
+			</div> -->
+
+            </div>
+            </div>
+    
      
-    </a>
-            
-               

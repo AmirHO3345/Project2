@@ -6,8 +6,9 @@
        
 	<!-- Start of main content -->
 	<div class="container" >
+        <br><br><br>
         <!-- Progress steps -->
-        <div class="htlfndr-steps"*ngIf="!tag">
+        <!-- <div class="htlfndr-steps"*ngIf="!tag">
             <ul class="htlfndr-progress" >
                 <li class="htlfndr-active-step">
                     <span class="htlfndr-step-number">1</span> <span class="htlfndr-step-description">results</span>
@@ -22,70 +23,112 @@
                     <span class="htlfndr-step-number">4</span> <span class="htlfndr-step-description">payment</span>
                 </li>
             </ul>
-        </div><!-- .htlfndr-steps -->
+        </div> -->
         <!-- .htlfndr-steps -->
-
-        <aside class="htlfndr-sidebar htlfndr-sidebar-in-top htlfndr-full-form" 
-        role="search"*ngIf="!tag">
-            <div class="widget htlfndr-form-dark">
-                <h3 class="widget-title">Search for Hotels</h3>
-                <form class="search-hotel" id="search-hotel" class="htlfndr-search-form" 
-                 (ngSubmit)="onSubmit(f)" #f="ngForm"
-                >
-                    <div id="htlfndr-input-1" class="htlfndr-input-wrapper">
-                        <input type="text" name="city" id="city" 
-                        class="search-hotel-input" placeholder="Enter city, region or district" 
-                        ngModel/>
-                    </div><!-- #htlfndr-input-1 .htlfndr-input-wrapper -->
-
-                    <div id="htlfndr-input-date-in" class="htlfndr-input-wrapper">
-                        <!-- <label for="htlfndr-date-in" class="sr-only">Date in</label> -->
-                        <input type="date"
-                         name="datein" min="{{currentDate | date:'yyyy-MM-dd'}}"
-                          id="datein" class="search-hotel-input"ngModel />
+        <!-- .htlfndr-steps -->
+            
+            <!-- SubHeader =============================================== -->
+            
+            <div class="parallax-window" id="booking" data-parallax="scroll" *ngIf="!tag"
+             data-image-src="img/sub_header_home.jpg" data-natural-width="1400"
+              data-natural-height="550">
+                <div id="subheader_home" style="margin-top: -16%">
+                    <div id="sub_content" >
+                        <div id="book_container">
+                            <form (ngSubmit)="onSubmit(f)" #f="ngForm"
+                             id="check_avail_home" autocomplete="off" >
+                                <div id="group_1">
+                                    
+                                    <div id="container_5">
+                                        <label>Location</label>
+                                        <input type="text" class="form-control" name="city" 
+                                        id="city" placeholder="Your location" [(ngModel)]="default">
+                                    </div>
+                                </div><!-- End group_1 -->
+                                <div id="group_2">
+                                   
+                                    <div id="container_1">
+                                        <label>Arrival date</label>
+                                        <!-- <input class="date-pick form-control" type="text" 
+                                        id="check_in" name="check_in" data-date-format="M d, D"
+                                         placeholder="Arrival" readonly> -->
+                                         <input matInput [matDatepicker]="picker_Arrival"
+                     class="form-control" 
+                           placeholder="Arrival" ngModel name="datein" [(ngModel)]="dateT"
+                           [min]="this.DateNow()" (ngModelChange)="this.ChangeArrival($event)"
+                            required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival"
+                    >
+                      
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker_Arrival></mat-datepicker>
                         <!-- <button type="button" class="htlfndr-clear-datepicker"></button> -->
                     </div><!-- #htlfndr-input-date-in .htlfndr-input-wrapper -->
 
-                    <div id="htlfndr-input-date-out" class="htlfndr-input-wrapper">
-                        <!-- <label for="htlfndr-date-out" class="sr-only">Date out</label> -->
-                        <input type="date" min="{{getDateOut() | date:'yyyy-MM-dd'}}"
-                         name="dateout" id="dateout" class="search-hotel-input"ngModel />
-                        <!-- <button type="button" class="htlfndr-clear-datepicker"></button> -->
-                    </div><!-- #htlfndr-input-date-out .htlfndr-input-wrapper -->
+                                       
+                                   
+                                    <div id="container_2">
+                                        <label>Departure date</label>
 
-                    <div id="htlfndr-input-4" class="htlfndr-input-wrapper" >
-                        <!-- <label for="htlfndr-dropdown" class="sr-only">The number of people in room</label> -->
-                        <select name="htlfndrdropdown" style="font-size: 18px;"
-                        id="htlfndrdropdown" class="htlfndr-dropdown" ngModel="1 adult">
-                            <option value="1 adult" >1 adult</option>
-                            <option value="2 adults in 1 room">2 adults in 1 room</option>
-                            <option value="3 adults in 1 room">3 adults in 1 room</option>
-                            <option value="4 adults in 1 room">4 adults in 1 room</option>
-                            <option value="2 adults in 2 room">2 adults in 2 room</option>
-                            <option value="need more">Need more?</option>
-                        </select>
-                    </div>#htlfndr-input-4 .htlfndr-input-wrapper
+                                        <!-- <input class="date-pick form-control" type="text"
+                                         id="check_out" name="check_out"
+                                          data-date-format="M d, D" 
+                                          placeholder="Departure" readonly> -->
 
-                    <div id="htlfndr-input-5">
-                        <input type="submit" class="btn btn-primary" value="search"
-                        style="width: 100%;margin-top: 0%;" />
-                        <!-- <input type="submit" value="search"style="width: 100%;margin-top: 0%;" /> -->
-                    </div><!-- #htlfndr-input-5 .htlfndr-input-wrapper -->
-                    <div class="clearfix"></div>
-                </form>
-            </div><!-- .widget -->
-        </aside><!-- .htlfndr-sidebar .htlfndr-sidebar-in-top .htlfndr-full-form -->
+             <input matInput [matDatepicker]="picker_Departure" class="form-control" 
+                        min="{{getDateOut() | date:'yyyy-MM-dd'}}" [(ngModel)]="dateT"
+                           placeholder="Departure" ngModel name="dateout" id="dateout"
+                            readonly required>
+                    <mat-datepicker-toggle 
+                     matSuffix [for]="picker_Departure"></mat-datepicker-toggle>
+                    <mat-datepicker  #picker_Departure></mat-datepicker>
+                                        
+                                    </div>
+                                    <div id="container_4">
+                                        <label>Rooms</label>
+                                        <div class="qty-buttons">
+                                            <input type="button" value="-" class="qtyminus" name="rooms" (click)="ChangeRooms(false)">
+                                            <input type="text" name="rooms" id="rooms" value="" [(ngModel)]="this.Rooms" class="qty form-control" placeholder="0"[(ngModel)]="this.Rooms">
+                                            <input type="button" value="+" class="qtyplus" name="rooms" (click)="ChangeRooms(true)">
+                                        </div>
+                                    </div>
+                                </div><!-- End group_2 -->
+                                <div id="group_3">
+                                    <div id="container_3">
+                                        <label>Adults</label>
+                                        <div class="qty-buttons">
+                                            <input type="button" value="-" class="qtyminus" (click)="ChangeAdults(false)"
+                                             name="adults">
+                                            <input type="text" name="adults" id="adults" value="" [(ngModel)]="this.Adults"
+                                             class="qty form-control" placeholder="0">
+                                            <input type="button" value="+" class="qtyplus" (click)="ChangeAdults(true)"
+                                            name="adults">
+                                        </div>
+                                    </div>
+                                    <div id="container_6" style="width:0%;">
+                                        <input type="submit" value="Check availability" class="btn_1" id="submit-booking">
+                                    </div>
+                                    <!-- <div id="container_6">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" name="email_booking" id="email_booking" placeholder="Your email">
+                                    </div> -->
+                                </div><!-- End group_3 -->
+                                
+                            </form>
+                            <div id="message-booking"></div>
+                        </div><!-- End book_container -->
+                    </div><!-- End sub_content -->
+                </div><!-- End subheader -->
+            </div><!-- End parallax-window -->
+            <!-- End SubHeader ============================================ -->
+          
 
 
 
 
 
 
-
-
-
-
-        <div class="row">
+        <div class="row" style="margin-top: -12%;">
             <aside class="col-sm-4 col-md-3 col-lg-3 htlfndr-sidebar htlfndr-sidebar-in-left" 
             role="complementary" *ngIf="!tag">
                 <div class="htlfndr-search-details widget">
@@ -122,7 +165,7 @@
                                 <input name="rangeTwo" value="90" min="0" max="100" step="1" type="range">
                               </section> -->
                             
-                              <ng5-slider [(value)]="minValue" [(highValue)]="maxValue"
+                              <ng5-slider  [(value)]="minValue" [(highValue)]="maxValue"
                                [options]="options" ></ng5-slider>
                         
                             <!-- <div id="htlfndr-price-slider"></div> -->
@@ -139,8 +182,8 @@
                             style="font-size: 40px;color:rgb(21, 145, 202);
                             margin-left: 10%;margin-top: 0px;" ></ngb-rating>
 
-                            <button class="btn btn-primary" style="margin-left: 73%;
-                            width: 30%;margin-top: 6%;" (click)="currentRate=0">Reset</button>
+                            <button class="btn btn-primary" style="margin-left: 51%;
+                            width: 53%;margin-top: 6%;" (click)="currentRate=0">Reset</button>
                             <!-- <div class="htlfndr-user-rating" data-rating="3"></div> -->
                             <!-- The value of a hidden field is such as 'data-rating' attribute above -->
                             <input type="hidden" name="htlfndr-rating" id="htlfndr-rating" value="3"/>
@@ -148,27 +191,50 @@
                             <!-- Checkboxes-->
                             <p class="htlfndr-input-label" >accomodation type</p>
                             <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-apartment" name="htlfndr-check-apartment" />
-                                <label for="htlfndr-check-apartment">apartment <span>(5)</span></label>
+                                <input type="checkbox" id="resort" name="resort"
+                                 name="htlfndr-check-apartment" (click)="checkingResort()" />
+                                <label for="htlfndr-check-apartment" 
+                                >resort <span>(5)</span></label>
                             </p>
                             <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-hostel" name="htlfndr-check-hostel" />
-                                <label for="htlfndr-check-hostel">hostel <span>(5)</span></label>
+                                <input type="checkbox" id="hostel" name="hostel"(click)="checkingHostel()" />
+                                <label for="htlfndr-check-hostel" 
+                                >hostel <span>(5)</span></label>
                             </p>
                             <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-hotel" name="htlfndr-check-hotel"  checked="checked" />
-                                <label for="htlfndr-check-hotel">hotel <span>(15)</span></label>
-                            </p>
-
-                            <p class="htlfndr-input-label">amenities</p>
-                            <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-television" name="htlfndr-check-television" />
-                                <label for="htlfndr-check-television">television</label>
+                                <input type="checkbox" id="chalet" 
+                                name="chalet"(click)="checkingChalet()"
+                                   />
+                                <label for="htlfndr-check-hotel">chalet <span>(15)</span></label>
                             </p>
                             <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-wi-fi" name="htlfndr-check-wi-fi" />
+                                <input type="checkbox" id="htlfndr-check-air-conditioning"
+                                 name="htlfndr-check-air-conditioning" (click)="checkingAir_cond()"/>
+                                <label for="htlfndr-check-air-conditioning">air conditioning</label>
+                            </p>
+                           
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-television" 
+                                name="htlfndr-check-television" (click)="checkingTV()"/>
+                                <label for="htlfndr-check-television" 
+                                >television</label>
+                            </p>
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-wi-fi" 
+                                name="htlfndr-check-wi-fi"(click)="checkingWIFI()" />
                                 <label for="htlfndr-check-wi-fi">Wi-Fi</label>
-                            </p>
+                            </p> 
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox"  id="htlfndr-check-wi-fi" 
+                                name="htlfndr-check-wi-fi"(click)="checkingFridge()" />
+                                <label for="htlfndr-check-wi-fi" >Fridge</label>
+                            </p> 
+                            <p class="htlfndr-checkbox-line">
+                                <input type="checkbox" id="htlfndr-check-wi-fi" 
+                                name="htlfndr-check-wi-fi"(click)="checkingCoffee()" />
+                                <label for="htlfndr-check-wi-fi">Coffee_Machine</label>
+                            </p> 
+                            <!-- <p class="htlfndr-input-label">amenities</p>
                             <p class="htlfndr-checkbox-line">
                                 <input type="checkbox" id="htlfndr-check-swimming-pool" name="htlfndr-check-swimming-pool"  />
                                 <label for="htlfndr-check-swimming-pool">swimming pool</label>
@@ -184,28 +250,27 @@
                             <p class="htlfndr-checkbox-line">
                                 <input type="checkbox" id="htlfndr-check-hot-tub" name="htlfndr-check-hot-tub"  />
                                 <label for="htlfndr-check-hot-tub">hot tub</label>
-                            </p>
-                            <p class="htlfndr-checkbox-line">
-                                <input type="checkbox" id="htlfndr-check-air-conditioning" name="htlfndr-check-air-conditioning" />
-                                <label for="htlfndr-check-air-conditioning">air conditioning</label>
-                            </p>
-                            <p class="htlfndr-checkbox-line">
+                            </p> -->
+                            
+                            <!-- <p class="htlfndr-checkbox-line">
                                 <input type="checkbox" id="htlfndr-check-breakfast" name="htlfndr-check-breakfast" />
                                 <label for="htlfndr-check-breakfast">breakfast</label>
                             </p>
                             <p class="htlfndr-checkbox-line">
                                 <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking"   />
                                 <label for="htlfndr-check-free-parking">free parking</label>
-                            </p>
+                            </p> -->
 
                             <p class="htlfndr-checkbox-line" *ngIf="currentRate<=0;else infoRating" >
-                                <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking"  />
-                                <label for="htlfndr-check-free-parking"
-                                  >bestttt rating</label>
+                                <input type="checkbox" id="htlfndr-check-free-parking"
+                                 name="htlfndr-check-free-parking"
+                                 (click)="checkBestRate()"  />
+                                <label for="htlfndr-check-free-parking">best rating</label>
                             </p>
                             <ng-template #infoRating>
                                 <p class="htlfndr-checkbox-line">
-                                    <input type="checkbox" id="htlfndr-check-free-parking" name="htlfndr-check-free-parking" disabled="disabled"  />
+                                    <input type="checkbox" id="htlfndr-check-free-parking" 
+                                    name="htlfndr-check-free-parking" disabled="disabled"  />
                                     <label for="htlfndr-check-free-parking">best rating</label>
                                 </p>
                             </ng-template>
@@ -219,7 +284,7 @@
 
            
     <main class="col-sm-8 col-md-9 col-lg-9 htlfndr-search-result htlfndr-grid-view" role="main">
-      <h2 class="htlfndr-search-result-title"*ngIf="!tag">
+      <h2 class="htlfndr-search-result-title" *ngIf="!tag">
           <span>{{getRoomNum()}}</span> results found</h2>
       <!-- Sorting navigation section -->
 

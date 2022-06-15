@@ -7856,3 +7856,53 @@ ul.glyphicon-ok::before {
 		transition: all .2s ease 0s;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.review_strip_single .rating{
+	font-size:16px;
+}
+.rating{color:#F90;}
+#rating_summary ul{
+	list-style:none;
+	margin:0 0 -5px 0;
+	padding:0;
+}
+#rating_summary ul li{
+	margin-bottom:5px;
+}
+#rating_summary ul li .rating{
+	display:inline-block;
+	font-size:14px;
+	float:right;
+}

@@ -6,7 +6,7 @@ import { RoomServiceComponent } from '../../roomservice.component';
 @Component({
   selector: 'app-searchbydetails',
   templateUrl: './searchbydetails.component.html',
-  styleUrls: ['./searchbydetails.component.css']
+  styleUrls: ['../../../Data_Sharing/Bootstraps/bootstrap.css','./searchbydetails.component.css']
 })
 export class SearchbydetailsComponent implements OnInit {
   @Input() room!: Room;

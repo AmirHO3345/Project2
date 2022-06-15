@@ -6,6 +6,124 @@
     text-align: center;
 }
 
+#container_1, #container_2, #container_3, #container_4, #container_5, #container_6 , #container_7{
+	display:inline-block;
+	padding: 0 5px 10px 10px;
+	position:relative;
+  }
+.booking-section-1 {
+	background-color: #3f51b5;
+	/*background-color: #11101d;*/
+	bottom: 0;
+	padding: 8px 0;
+	width: 100%;
+	display: inline-block;
+	position: relative;
+  }
+  
+  .booking-section-1::before {
+	background-color: #292b2c;
+	bottom: 0;
+	content: "";
+	display: inline-block;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transform: skewX(136deg);
+	transform-origin: right top 0;
+	width: 38.2291%;
+  }
+  
+  #subheader_home{
+	color:#fff;
+	text-align:center;
+  }
+  
+  #sub_content{
+	text-align:right;
+	font-size:22px;
+  }
+  
+  #book_container{
+	text-align: left;
+	display:inline-block;
+	position:relative;
+  }
+  
+  #group_1, #group_2, #group_3{
+	display:inline-block;
+  }
+  
+  #container_1, #container_2{
+	width:160px;
+  }
+  
+  #container_1, #container_2, #container_3, #container_4, #container_5, #container_6 , #container_7{
+	display:inline-block;
+	padding: 0 5px 10px 10px;
+	position:relative;
+  }
+  
+  .form-group{ position:relative}
+  .input-icon{position:absolute; right:6px; top:32px; width:28px; height:24px; background-color:#fff; text-align:right;}
+  .input-icon i { color:#999; font-size:20px;}
+  .form-control:focus {
+	border-color: #ed5434;
+	outline: 0;
+	-webkit-box-shadow:none;
+	box-shadow:none;
+  }
+  
+  .form-control{
+	color: #333;
+	height:38px;
+	border-radius: 2px;
+	line-height:1.5 !important;
+  }
+  
+  #container_1 .input-icon, #container_2 .input-icon{
+	top:36px;
+	right:10px;
+  }
+  
+  #container_1, #container_2{
+	width:160px;
+  }
+  
+  #container_5, #container_6{
+	width:230px;
+  }
+  
+  @font-face {
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	src: url(https://fonts.gstatic.com/s/poppins/v1/yQWaOD4iNU5NTY0apN-qj_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+  }
+  
+  #Fix_Part {
+	font-size:14px;
+	line-height:1.5;
+	font-family:"Poppins", Arial, sans-serif;
+	color:#555;
+	-webkit-font-smoothing: antialiased;
+	font-weight:300;
+  }
+  
+  label{ font-size:13px; font-weight:600;}
+  
+  .form-control[readonly] {
+	background-color:#fff;
+  }
+  
+  .mat-datepicker-toggle {
+	position: absolute ;
+	top: 32px ;
+	right: 5px ;
+  }
+  
 .range-slider input {
     pointer-events: none;
     position: absolute;
@@ -3038,7 +3156,7 @@ a.htlfndr-read-more-button.hovered:after {
 	content: '';
 }
 .htlfndr-sidebar-in-top #htlfndr-input-4:before {
-	background-image: url("../images/icon-person-blue.png");
+	/*background-image: url("../images/icon-person-blue.png");*/
 	background-size: 75% auto;
 	-webkit-background-size: 75% auto;
 	content: '';
@@ -7810,4 +7928,85 @@ ul.glyphicon-ok::before {
 		-o-transition: all .2s ease 0s;
 		transition: all .2s ease 0s;
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+::ng-deep .visually-hidden {
+	display: none;
 }

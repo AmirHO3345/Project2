@@ -1,7 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {AbstractControl, NgForm} from "@angular/forms";
 import { DatePipe } from '@angular/common'
 import {Router} from "@angular/router";
+import { SearchComponent } from 'src/app/Ahmad/search/search.component';
+import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
 
 @Component({
   selector: 'app-search-part',
@@ -12,15 +14,22 @@ import {Router} from "@angular/router";
 })
 export class SearchPartComponent {
 
-  Adults : number ;
+ Adults:number;
 
   Arrival : Date ;
 
+  loc!:string;
+  arrival!:string;
+  dept!:string;
+  check=false;
+  
+
   @ViewChild("Part") DataForm !: NgForm ;
 
-  constructor(private ProcessDate : DatePipe ,private Route : Router) {
+  constructor(private ProcessDate : DatePipe ,private Route : Router,private roomser:RoomServiceComponent) {
     this.Adults = 1 ;
     this.Arrival = new Date() ;
+
   }
 
   // True : + | Else : -
@@ -51,6 +60,7 @@ export class SearchPartComponent {
   }
 
   onSubmit() : void {
+    this.check=false;
     if(this.DataForm.invalid)
       return ;
     let QueryParamsRoute : {
@@ -59,18 +69,49 @@ export class SearchPartComponent {
       departure ?: string,
       person : number
     } = {
-      location: this.DataForm.form.value['Location'] ,
+      location: this.DataForm.form.value['location'] ,
       person: this.Adults ,
     }
     if(this.DataForm.form.value['Arrival_D'] != undefined) {
       let Temp : Date ;
       Temp = new Date(Date.parse(this.DataForm.form.value['Arrival_D'])) ;
       QueryParamsRoute.arrival = <string>this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
+      console.log(QueryParamsRoute.arrival);
       Temp = new Date(Date.parse(this.DataForm.form.value['Departure_D'])) ;
       QueryParamsRoute.departure = <string>this.ProcessDate.transform(Temp , "yyyy-MM-dd") ;
-    }
+      console.log(QueryParamsRoute.departure);
+      
+     
+    }console.log("adu"+this.Adults);
+    this.loc=this.DataForm.form.value['location'];
+    console.log("loc"); 
+    this.check=true;
+    this.roomser.setSendToSearch(this.loc,QueryParamsRoute.arrival,QueryParamsRoute.departure,this.Adults,true);
     this.Route.navigate(['/search'] , {
       queryParams : QueryParamsRoute
-    })
+   })
+  }
+  // sendToSearch(loc:string,arrival:string,dept:string,adult:number){
+  //   loc=this.loc;
+  //   arrival=this.arrival;
+  //   dept=this.dept;
+  //   adult=this.Adults;
+  // }
+  getCheck(){
+    return this.check;
+  }
+
+
+  getAdults(){
+    return this.Adults;
+  }
+  getArrival(){
+    return this.arrival;
+  }
+  getDept(){
+    return this.dept;
+  }
+  getLoc(){
+    return this.loc;
   }
 }
