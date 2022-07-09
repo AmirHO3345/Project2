@@ -44,6 +44,11 @@ import {MaxStringPipe} from "./Data_Sharing/Pipes/MaxString.pipe";
 import {UserChatComponent} from "./Message/UserList/userchat.component";
 import {ChatComponent} from "./Message/Chat/chat.component";
 import {MessageComponent} from "./Message/message.component";
+import {MessageService} from "./Message/message.service";
+import {TimeService} from "./Data_Sharing/Services/time.service";
+import {DateConvertPipe} from "./Data_Sharing/Pipes/DateConvert.pipe";
+import {DatePipe} from "@angular/common";
+import {ScrollTrackDirective} from "./Data_Sharing/Directives/ScrollTrack.directive";
 
 
 //import { NgxSliderModule } from '@angular-slider/ngx-slider';
@@ -71,7 +76,9 @@ import {MessageComponent} from "./Message/message.component";
     MaxStringPipe,
     UserChatComponent,
     ChatComponent,
-    MessageComponent
+    MessageComponent ,
+    DateConvertPipe ,
+    ScrollTrackDirective
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     BrowserModule,
@@ -82,7 +89,7 @@ import {MessageComponent} from "./Message/message.component";
     MatIconModule, MatButtonModule, MatToolbarModule, BrowserAnimationsModule,
     MatDatepickerModule, MatNativeDateModule, MatInputModule , MatMenuModule
   ],
-  providers: [AuthenticationService,RoomServiceComponent],
+  providers: [AuthenticationService , RoomServiceComponent , DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -163,7 +163,7 @@
   box-shadow: none!important;
 }
 
-.chat-page #inbox>li.active>a {
+.chat-page #inbox>li.ItemUser.active>a {
   background: linear-gradient(45deg, #49cdd0, #45e5c3);
 }
 
@@ -174,7 +174,7 @@
   margin-right: 10px;
 }
 
-.chat-page #inbox>li>a .media .media-body {
+.chat-page #inbox>li.ItemUser>a .media .media-body {
   width: calc(100% - 40px);
   display: inline-block;
 }
@@ -262,7 +262,7 @@
 }
 
 
-.chat-page #inbox>li>a .message {
+.chat-page #inbox>li.ItemUser>a .message {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -270,7 +270,7 @@
   width: 83%;
 }
 
-.chat-page #inbox>li>a .media .media-body {
+.chat-page #inbox>li.ItemUser>a .media .media-body {
   width: calc(100% - 40px);
   display: inline-block;
 }
@@ -289,7 +289,7 @@
   background-color: #389af0;
 }
 
-.chat-page #inbox>li>a .message {
+.chat-page #inbox>li.ItemUser>a .message {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -297,23 +297,23 @@
   width: 83%;
 }
 
-.chat-page li .message .body {
+.chat-page li.ItemUser .message .body {
   display: block;
   padding: 10px 10px 10px 10px;
 }
 
-.chat-page li.in .message {
+.chat-page li.ItemUser.in .message {
   color: #fff;
   background: linear-gradient(45deg, #a890d3, #d896d1) !important;
   border-radius: 5px;
   -webkit-border-radius: 5px;
 }
 
-.chat-page li.in .message .arrow {
+.chat-page li.ItemUser.in .message .arrow {
   border-right: 8px solid #ac91d3;
 }
 
-.chat-page #inbox>li>a {
+.chat-page #inbox>li.ItemUser>a {
   display: block;
   position: relative;
   color: #4d585f;
@@ -321,11 +321,11 @@
   border-radius: 10px;
 }
 
-.chat-page #inbox>li.active>a p, .chat-page #inbox>li.active>a small {
+.chat-page #inbox>li.ItemUser.active>a p, .chat-page #inbox>li.ItemUser.active>a small {
   color: #fff;
 }
 
-.chat-page #inbox>li>a .message {
+.chat-page #inbox>li.ItemUser>a .message {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -333,33 +333,40 @@
   width: 83%;
 }
 
-.chat-page #inbox>li>a .media .media-body {
+.chat-page #inbox>li.ItemUser>a .media .media-body {
   width: calc(100% - 40px);
   display: inline-block;
 }
 
-.chat-page #inbox>li:hover{
+.chat-page #inbox>li.ItemUser:hover{
   background: #e3e1e2;
   border-radius: 10px;
 }
 
-.chat-page #inbox>li{
+.chat-page #inbox>li.ItemUser{
   margin-top:10px;
 }
 
-.chat-page li .message .body {
+.chat-page li.ItemUser .message .body {
   display: block;
   padding: 10px 10px 10px 10px;
 }
 
-.chat-page li.in .message {
+.chat-page li.ItemUser.in .message {
   color: #fff;
   background: linear-gradient(45deg, #a890d3, #d896d1) !important;
   border-radius: 5px;
   -webkit-border-radius: 5px;
 }
-.chat-page li.in .message .arrow {
+.chat-page li.ItemUser.in .message .arrow {
   border-right: 8px solid #ac91d3;
+}
+
+.chat-page li.DoneUser {
+  text-align: center;
+  font-size: 14px;
+  color: #0000008c;
+  margin-top: 10px;
 }
 
 a {

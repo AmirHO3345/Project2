@@ -1,16 +1,16 @@
-
 export class UserModel {
 
+  readonly ID : number ;
   readonly UserName : string ;
   readonly ImagePath : string ;
   private readonly IDToken : string ;
   private readonly Client_Type : Client ;
 
-  constructor(Name : string , Token : string , Type : string , Path ?: string) {
+  constructor(id : number , Name : string , Token : string , Type : string , Path ?: string) {
+    this.ID = id ;
     this.UserName = Name;
     this.IDToken = Token;
     this.Client_Type = UserModel.Convert2Client(Type);
-
     if(Path == undefined)
       this.ImagePath = 'assets/Images/avatar1.jpg';
     else
@@ -31,7 +31,10 @@ export class UserModel {
     return Temp;
   }
 
-  public GetToken() : string { return `Bearer ${this.IDToken}` ; }
+  public GetToken() : string {
+
+    return `Bearer ${this.IDToken}` ;
+  }
 
   public GetType() : Client { return this.Client_Type ; }
 
@@ -40,9 +43,30 @@ export class UserModel {
     let IT = (Token != undefined)? Token : this.IDToken ;
     let CT = (Type != undefined)? Type : this.Client_Type.toString() ;
     let IP = (Path != undefined)? Path : this.ImagePath ;
-    return new UserModel(UN , IT , CT , IP) ;
+    return new UserModel(this.ID , UN , IT , CT , IP) ;
   }
 
+  public static Json2Object(DataJson : string) : UserModel {
+    let UserModelObject : {
+      id : number ;
+      name : string ;
+      path : string ;
+      token : string ;
+      clientType : number ;
+    } = JSON.parse(DataJson) ;
+    return new UserModel(UserModelObject.id , UserModelObject.name , UserModelObject.token ,
+      Client[UserModelObject.clientType] , UserModelObject.path) ;
+  }
+
+  public static Object2Json(DataObject : UserModel) : string {
+    return JSON.stringify({
+      id : DataObject.ID ,
+      name : DataObject.UserName ,
+      path : DataObject.ImagePath ,
+      token : DataObject.IDToken ,
+      clientType : DataObject.Client_Type
+    });
+  }
 }
 
 export enum Client {

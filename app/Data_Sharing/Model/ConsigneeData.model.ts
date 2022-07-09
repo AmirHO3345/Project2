@@ -1,3 +1,4 @@
+import {MessageModel} from "./Message.model";
 
 export class ConsigneeDataModel {
 
@@ -5,7 +6,9 @@ export class ConsigneeDataModel {
 
   readonly UserName : string ;
 
-  private readonly ImagePath : string ;
+  readonly ImagePath : string ;
+
+  private readonly Messages : { Page : number , Message : MessageModel[] , Done : boolean };
 
   IsActive : boolean ;
 
@@ -19,6 +22,11 @@ export class ConsigneeDataModel {
               , LM ?: string , DLM ?: Date) {
     this.UserID = ID ;
     this.ImagePath = IP ;
+    this.Messages = {
+      Page : 1 ,
+      Message : [] ,
+      Done : false
+    } ;
     this.UserName = UN ;
     this.IsActive = Active ;
     this.UnReadMessage = (URM != undefined)? URM : 0 ;
@@ -26,5 +34,29 @@ export class ConsigneeDataModel {
       this.LastMessage = LM ;
     if(DLM != undefined)
       this.DateLastMessage = DLM ;
+  }
+
+  SetMessageList(MessageSet : MessageModel[] , IsDone  = false ) {
+    this.Messages.Message.push(...MessageSet) ;
+    this.Messages.Page = (this.Messages.Message.length / 10) + 1 ;
+    this.Messages.Done = IsDone ;
+  }
+
+  ReceiveMessage(MessageSet : MessageModel) {
+    this.LastMessage = MessageSet.Message_Content ;
+    this.DateLastMessage = MessageSet.Message_Date ;
+    this.Messages.Message = this.Messages.Message.splice(0 , 0 , MessageSet) ;
+    this.Messages.Page = (this.Messages.Message.length / 10) + 1 ;
+  }
+
+  GetInfoMessages() {
+    return {
+      Page : this.Messages.Page ,
+      Done : this.Messages.Done
+    };
+  }
+
+  GetAllMessage() {
+    return this.Messages.Message.slice() ;
   }
 }

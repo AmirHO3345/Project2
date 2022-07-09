@@ -47,6 +47,7 @@ export class SearchComponent implements OnInit {
  Depture?:string;
  location!:string;
 
+<<<<<<< Updated upstream
 
  Arrival !: {IsActive : boolean , DateDetermine : Date} ;
 
@@ -92,6 +93,11 @@ export class SearchComponent implements OnInit {
   DateNow() : Date {
     return new Date();
   }
+=======
+  constructor(private roomService:RoomServiceComponent) { }
+
+
+>>>>>>> Stashed changes
 
   ngOnInit(): void {
 
@@ -114,7 +120,7 @@ this.datastorage.SearchingData
     return this.currentRate;
   }
   getDateOut(){
-   var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
+   var nextDays = new Date(new Date().setDate(new Date().getDate() + 1));
     return  nextDays;//this.currentDate.setDate( this.currentDate.getDate() + 1 );
   }
   getRoomNum(){

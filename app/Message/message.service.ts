@@ -1,45 +1,44 @@
 import {Injectable} from "@angular/core";
-import Pusher, {Channel} from "pusher-js";
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {map} from "rxjs";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {BehaviorSubject, forkJoin, map, Observable, Subject, take} from "rxjs";
 import {ConsigneeDataModel} from "../Data_Sharing/Model/ConsigneeData.model";
 import {MessageModel} from "../Data_Sharing/Model/Message.model";
 import {AuthenticationService} from "../Windows_PopUp/Authentication/authentication.service";
+import {UserModel} from "../Data_Sharing/Model/user.model";
+import {AsyncQueueModel} from "../Data_Sharing/Model/AsyncQueue.model";
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-interface UserListResponse {
-  Chats : {
-    id : number ,
+
+interface UserInfoResponse {
+  info_user : {
     profile_rec : {
-      name : string ,
-      status : number ,
-      path_photo : string
+      id: number,
+      name: string,
+      status: number,
+      path_photo: string
     },
-    lastMessage : {
-      id_message : number ,
-      message : string ,
-      created_at : string
+    lastMessage: {
+      id_message: number
+      message: string
+      created_at: string
     },
-    countNotread : number
-  }[];
-  current_page: number ;
-  url_next_page: string | null ;
-  url_first_page: string ;
-  url_last_page : string ;
-  total_items: number ;
+    countNotread: number
+  }
 }
 
-/*
+interface MessageListResponse {
+  /*
 When Open Any User From List Users it send to route chat or Somehow
 Instance of ConsigneeDataModel it represents this User you need to Send to him
- */
-interface MessageListResponse {
+*/
   messages : {
     id : number ,
     id_send : number ,
     id_recipient : number ,
     message : string ,
-    read_at : string | null , //Check
-    created_at : Date ,
+    read_at : string | null , // Date && as Whatsapp check if user read this message
+    created_at : string , //Date
   }[];
   current_page : number;
   url_next_page: string | null ;
@@ -49,55 +48,250 @@ interface MessageListResponse {
 }
 
 interface SendResponse {
-  Success : string ;
+  id_message : number ;
+  created_at : string ;
 }
 
-@Injectable()
+interface ChannelResponse {
+  ID : number ;
+  message ?: {
+    id : number ,
+    id_send : number ,
+    id_recipient : number ,
+    message : string ,
+    read_at : string | null // Date
+    created_at : string //Date
+  };
+  status ?: boolean ;
+}
+
+interface UpdateStateService {
+  Status : StateService ;
+  Active ?: {
+    FetchIndex : number ,
+    Active : boolean
+  } ;
+  ServiceInfo : {
+    IsDone : boolean ,
+    LengthUserCache : number ,
+    LengthUserView : number
+    IDSelected : number | null ,
+  }
+}
+
+interface InitialDataResponse {
+  users : {
+    id : number ,
+    LastMessageDate : string ,
+    UnReadMessage : number ,
+  }[];
+}
+
+interface InitialData {
+  [ID_User : number] : {
+    DateLastMessage : Date ;
+    UnreadMessage : number ;
+    IsFetch : boolean ;
+    UsersFetchIndex ?: number ;
+  }
+}
+
+@Injectable({providedIn : 'root'})
 export class MessageService {
 
-  PusherProcess : Pusher ;
-  ClientsGetter : Channel[] ; // Channels for all Users
-  UserListPage : number ;
-  MessagePage : number ;
+  private UsersFetch : ConsigneeDataModel[] ;
+  private UserCache : InitialData ;
+  private PusherProcess !: Pusher ;
+  private UserChannel !: Echo ;
+  private Account : UserModel | null ;
+  private IsDone : boolean ;
+  private AnyChange : boolean ;
+  private UnReadMessages : number
+  private IDSelected : number | null ;
+  private UserCacheNumber : number ;
+  private QueueUpdate : AsyncQueueModel ;
+  readonly UpdateState : BehaviorSubject<UpdateStateService> ;
+  Communication : Subject<MessageModel> | null ;
 
-  constructor(private HTTP : HttpClient) {
-    this.PusherProcess = new Pusher("98034be202413ea485fc" , {cluster : "ap2"}) ;
-    this.ClientsGetter = [] ;
-    this.UserListPage = this.MessagePage = 1 ;
+  constructor(private HTTP : HttpClient , private AuthenticationInfo : AuthenticationService) {
+    this.Account = null ;
+    this.IDSelected = null ;
+    this.UsersFetch = [] ;
+    this.UserCache = {} ;
+    this.IsDone = false ;
+    this.AnyChange = false ;
+    this.UnReadMessages = 0 ;
+    this.UserCacheNumber = 0 ;
+    this.QueueUpdate = new AsyncQueueModel() ;
+    this.UpdateState = new BehaviorSubject<UpdateStateService>({
+      Status : StateService.Loading ,
+      ServiceInfo : {
+        IsDone : false ,
+        LengthUserCache : 0 ,
+        LengthUserView : 0 ,
+        IDSelected : null
+      }
+    });
+    this.Communication = null ;
+    this.StartService();
   }
 
-  private AddClientChannel(Client_ID : number) {
-    let ClientChannel = this.PusherProcess.channel(`Room.Chat.${Client_ID}`);
-    this.ClientsGetter.push(ClientChannel);
-  }
-
-  FetchUserList() {
-    let Params = new HttpParams();
-    Params.append("page" , this.UserListPage++);
-    return this.HTTP.get<UserListResponse>(`${AuthenticationService.API_Location}api/chat/display_chats` ,
-      {params : Params}).
-      pipe(map((Data : UserListResponse) => {
-        let Data_Response : ConsigneeDataModel[] = [] ;
-        Data.Chats.map(UserData => {
-          let User = new ConsigneeDataModel(UserData.id ,
-            AuthenticationService.API_Location.concat(UserData.profile_rec.path_photo) ,
-            UserData.profile_rec.name , !!(UserData.profile_rec.status) ,
-            UserData.countNotread , UserData.lastMessage.message ,
-            new Date(UserData.lastMessage.created_at));
-          this.AddClientChannel(User.UserID);
-          Data_Response.push(User);
+  private StartService(): void {
+    this.QueueUpdate.UpdateListen().subscribe((Value) => {
+      if(this.Account != null) {
+        if(Value == "Wait" && this.AnyChange) {
+          this.AnyChange = false ;
+          this.SendUpdate(StateService.UsersUpdate);
+        }
+      }
+    });
+    this.AuthenticationInfo.Account.subscribe((DataAuth : UserModel | null) => {
+      if(DataAuth != null) {
+        this.Account = DataAuth ;
+        this.InitialChat().pipe(take(1)).subscribe((DataInit) => {
+          this.UserCache = DataInit ;
+          this.InitialPusher(DataAuth.ID);
+          this.SendUpdate(StateService.NoUpdate);
         });
-        return Data_Response;
-    }))
+      } else {
+        this.UserCache = {} ;
+        this.UsersFetch = [] ;
+        if(this.PusherProcess != undefined) {
+          // this.UserChannel.cancelSubscription();
+          this.PusherProcess.disconnect() ;
+        }
+        this.Account = null ;
+        this.SendUpdate(StateService.UsersUpdate);
+      }
+    });
   }
 
-  FetchMessageList(ID_A : number , ID_B : number) {
-    let Params = new HttpParams();
-    Params.append("page" , this.MessagePage++);
-    return this.HTTP.get<MessageListResponse>(`${AuthenticationService.API_Location}api/chat/show`).
-      pipe(map((Data : MessageListResponse) => {
+  private InitialChat() {
+    let Options = {
+      headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()})
+    }
+    return this.HTTP.get<InitialDataResponse>(`${AuthenticationService.API_Location}api/chat/chats` ,Options)
+      .pipe(map((InitialDataUser) => {
+        let DataResponse : InitialData = {} ;
+        InitialDataUser.users.forEach((Value) => {
+          DataResponse[Value.id] = {
+            DateLastMessage : new Date(Value.LastMessageDate) ,
+            UnreadMessage : Value.UnReadMessage ,
+            IsFetch : false ,
+            UsersFetchIndex : 66 ,
+          };
+          this.UnReadMessages += Value.UnReadMessage ;
+          this.UserCacheNumber++ ;
+        });
+        return DataResponse ;
+      }));
+  }
+
+  private InitialPusher(User_ID : number) {
+
+    this.PusherProcess = new Pusher("98034be202413ea485fc") ;
+
+    this.UserChannel = new Echo({
+      broadcaster: 'pusher',
+      authEndpoint : AuthenticationService.API_Location.concat('api/broadcasting/auth') ,
+      auth : {
+        headers : {
+          'Authorization' : this.GetAccountInfo()?.GetToken()
+        }
+      },
+      key: "98034be202413ea485fc",
+      cluster: "ap2",
+      forceTLS: true
+    });
+
+    this.UserChannel.private("Room.Chat.${User_ID")
+      .listen(".ChatEvent" , () => {
+        console.log("Success");
+      });
+
+    // this.UserChannel = this.PusherProcess.subscribe(`private-Room.Chat.${User_ID}`);
+    // this.UserChannel.bind("ChatEvent" , (DataReceive : ChannelResponse) => {
+    //   console.log("777");
+    //   let InitialDataUser = this.UserCache[DataReceive.ID] ;
+    //   if(DataReceive.status != undefined) {
+    //     if(InitialDataUser && InitialDataUser.IsFetch) {
+    //       this.UsersFetch[<number>InitialDataUser.UsersFetchIndex]
+    //         .IsActive = DataReceive.status;
+    //       this.SendUpdate(StateService.ActiveUpdate ,
+    //         {Index : <number>InitialDataUser.UsersFetchIndex , Active : DataReceive.status}) ;
+    //     }
+    //   } else if(DataReceive.message != undefined) {
+    //     //let IsSelected = (this.IDSelected != null && this.IDSelected == DataReceive.ID) ;
+    //     if(InitialDataUser == undefined) {
+    //       InitialDataUser = {
+    //         DateLastMessage : new Date(DataReceive.message.created_at) ,
+    //         UnreadMessage : 1 ,
+    //         IsFetch : true ,
+    //       }
+    //       this.UserCache[DataReceive.ID] = InitialDataUser ;
+    //     } else {
+    //       InitialDataUser.DateLastMessage = new Date(DataReceive.message.created_at);
+    //       InitialDataUser.UnreadMessage++ ;
+    //     }
+    //     this.UnReadMessages++;
+    //     let TaskIO !: number ;
+    //     let MessageInfo = new MessageModel(DataReceive.message.id , DataReceive.message.id_send
+    //       , DataReceive.message.id_recipient , DataReceive.message.message , new Date(DataReceive.message.created_at)) ;
+    //     let Listener  = this.QueueUpdate.SendRegister.subscribe((Value) => {
+    //       if(TaskIO == Value) {
+    //         this.AnyChange = true ;
+    //         Listener.unsubscribe();
+    //       }
+    //     });
+    //     TaskIO = this.QueueUpdate.Push(() => {
+    //       if (DataReceive.message == undefined) {
+    //         this.QueueUpdate.Pop();
+    //         return;
+    //       }
+    //       if(InitialDataUser.UsersFetchIndex != undefined) {
+    //         this.UsersFetch[InitialDataUser.UsersFetchIndex].ReceiveMessage(MessageInfo) ;
+    //         this.UsersFetch[InitialDataUser.UsersFetchIndex].UnReadMessage++ ;
+    //         this.SortDateMessage(false , DataReceive.ID) ;
+    //         this.QueueUpdate.Pop();
+    //       } else {
+    //         this.FetchUserInfo(DataReceive.ID).pipe(take(1))
+    //           .subscribe((UserData) => {
+    //             this.UsersFetch.push(UserData);
+    //             InitialDataUser.UsersFetchIndex = this.UsersFetch.length - 1 ;
+    //             this.SortDateMessage(false , DataReceive.ID) ;
+    //             UserData.ReceiveMessage(MessageInfo);
+    //             this.QueueUpdate.Pop();
+    //           });
+    //       }
+    //     } , true);
+    //   }
+    // });
+  }
+
+  private FetchUserInfo(ID_User : number) {
+    let Options = {
+      headers : new HttpHeaders({"Authorization" :(<UserModel>this.Account).GetToken()}) ,
+      params : new HttpParams().set("id_user" , ID_User) ,
+    };
+    return this.HTTP.get<UserInfoResponse>(`${AuthenticationService.API_Location}api/chat/info` , Options).
+    pipe(map((Data : UserInfoResponse) => {
+      return new ConsigneeDataModel(Data.info_user.profile_rec.id,
+        AuthenticationService.API_Location.concat(Data.info_user.profile_rec.path_photo),
+        Data.info_user.profile_rec.name, !!(Data.info_user.profile_rec.status),
+        Data.info_user.countNotread, Data.info_user.lastMessage.message,
+        new Date(Data.info_user.lastMessage.created_at)) ;
+    }));
+  }
+
+  private FetchPackageMessage(ID_B : number , Page : number) {
+    let Params = new HttpParams().set("id_recipient" , ID_B);
+    Params.append("page" , Page);
+    return this.HTTP.get<MessageListResponse>(`${AuthenticationService.API_Location}api/chat/show` , {
+      headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) ,
+      params : Params ,
+    }).pipe(map((DataResponse : MessageListResponse) => {
       let Data_Response : MessageModel[] = [] ;
-      Data.messages.map(UserData => {
+      DataResponse.messages.map(UserData => {
         let Message = new MessageModel(UserData.id , UserData.id_send , UserData.id_recipient ,
           UserData.message , new Date(UserData.created_at));
         Data_Response.push(Message);
@@ -106,14 +300,247 @@ export class MessageService {
     }));
   }
 
-  SendMessage(ID_From : number , ID_To : number , Message_Content : string ) {
-    return this.HTTP.post<SendResponse>(`${AuthenticationService.API_Location}api/chat/send` , {
-      // From : ID_From ,
-      id_recipient : ID_To ,
-      message : Message_Content ,
-    }).pipe(map((Data : SendResponse) => {
-      return new MessageModel(55, ID_From, ID_To, Message_Content,
-        new Date()) ;
+  private SortDateMessage(SortComplex : boolean , ID ?: number) {
+    if(SortComplex) {
+      this.UsersFetch = this.UsersFetch.sort((A , B) => {
+        let Date_A : Date = A.DateLastMessage ,
+          Date_B : Date = B.DateLastMessage ;
+        if(Date_A < Date_B) return 1 ;
+        if(Date_A > Date_B) return -1 ;
+        return 0 ;
+      });
+      this.UsersFetch.forEach((Value , Index) =>
+        this.UserCache[Value.UserID].UsersFetchIndex = Index
+      ) ;
+    } else {
+      if(ID == undefined)
+        return ;
+      let IndexFetch = <number>this.UserCache[ID].UsersFetchIndex ;
+      let Temp : ConsigneeDataModel = this.UsersFetch[IndexFetch] ;
+      this.UsersFetch = this.UsersFetch.splice(IndexFetch , 1)
+        .splice(0 , 0 , Temp) ;
+      this.UserCache[this.UsersFetch[0].UserID].UsersFetchIndex = 0 ;
+      this.UserCache[this.UsersFetch[1].UserID].UsersFetchIndex = 1 ;
+    }
+  }
+
+  private SendUpdate(State : StateService , ActiveData ?: {Index : number , Active : boolean}) {
+    let Temp : UpdateStateService ;
+    switch (State) {
+      case StateService.Loading :
+        Temp = {
+          Status : StateService.Loading ,
+          ServiceInfo : {
+            IsDone : this.IsDone ,
+            LengthUserCache : this.UserCacheNumber ,
+            LengthUserView : this.UsersFetch.length ,
+            IDSelected : this.IDSelected
+          }
+        };
+        break ;
+      case StateService.ActiveUpdate :
+        if(ActiveData == undefined)
+          return ;
+        Temp = {
+          Status : StateService.ActiveUpdate ,
+          Active : {
+            FetchIndex : ActiveData.Index ,
+            Active : ActiveData.Active
+          } ,
+          ServiceInfo : {
+            IsDone : this.IsDone ,
+            LengthUserCache : this.UserCacheNumber ,
+            LengthUserView : this.UsersFetch.length ,
+            IDSelected : this.IDSelected
+          }
+        };
+        break ;
+      case StateService.UsersUpdate :
+        Temp = {
+          Status : StateService.UsersUpdate ,
+          ServiceInfo : {
+            IsDone : this.IsDone ,
+            LengthUserCache : this.UserCacheNumber ,
+            LengthUserView : this.UsersFetch.length ,
+            IDSelected : this.IDSelected
+          }
+        };
+        break ;
+      default :
+        Temp = {
+          Status : StateService.NoUpdate ,
+          ServiceInfo : {
+            IsDone : this.IsDone ,
+            LengthUserCache : this.UserCacheNumber ,
+            LengthUserView : this.UsersFetch.length ,
+            IDSelected : this.IDSelected
+          }
+        };
+        break ;
+    }
+    this.UpdateState.next(Temp);
+  }
+
+  public FetchPackageUser(Batch : number) : void {
+    this.QueueUpdate.Pause();
+    this.SendUpdate(StateService.Loading);
+    if(this.IsDone) {
+      this.SendUpdate(StateService.NoUpdate);
+      this.QueueUpdate.Continue();
+      return ;
+    }
+    let UserCache2Array = [] ;
+    for(let Temp in this.UserCache)
+      UserCache2Array.push({
+        ID : +Temp ,
+        DataUser : this.UserCache[Temp]
+      });
+    UserCache2Array = UserCache2Array.sort((A , B) => {
+      let Date_A : Date = A.DataUser.DateLastMessage ,
+        Date_B : Date = B.DataUser.DateLastMessage ;
+      if(Date_A < Date_B) return 1 ;
+      if(Date_A > Date_B) return -1 ;
+      return 0 ;
+    });
+    let ObservableList : Observable<ConsigneeDataModel>[] = [] ;
+    UserCache2Array.forEach((Value , Index) => {
+      if(ObservableList.length >= Batch)
+        return ;
+      if(!Value.DataUser.IsFetch) {
+        ObservableList.push(this.FetchUserInfo(Value.ID));
+      }
+    });
+    this.IsDone = (ObservableList.length < Batch) ;
+    if(ObservableList.length == 0) {
+      this.SendUpdate(StateService.NoUpdate);
+      this.QueueUpdate.Continue();
+      return ;
+    }
+    forkJoin([...ObservableList]).pipe(map((DataResponse) => {
+      DataResponse.forEach((Value) => {
+        this.UsersFetch.push(Value);
+        this.UserCache[Value.UserID].IsFetch = true ;
+        this.UserCache[Value.UserID].UsersFetchIndex = this.UsersFetch.length - 1 ;
+      });
+      this.SortDateMessage(true);
+    })).subscribe((Value) => {
+      if(this.QueueUpdate.StateSnapShot() == "Wait")
+        this.SendUpdate(StateService.UsersUpdate);
+      else
+        this.AnyChange = true ;
+      this.QueueUpdate.Continue();
+    });
+  }
+
+  public FetchMessageList(ID_B : number) {
+    if(!this.UserCache[ID_B].IsFetch)
+      return { Done : false };
+    let InfoUser = this.UsersFetch[<number>this.UserCache[ID_B].UsersFetchIndex];
+    if(InfoUser.GetInfoMessages().Done)
+      return { Done : true };
+    let PageNumber = InfoUser.GetInfoMessages().Page ;
+    let ObservableList : Observable<MessageModel[]>[] = [] ;
+    if(PageNumber % 1 == 0) {
+      ObservableList.push(this.FetchPackageMessage(ID_B , PageNumber));
+    } else {
+      let Temp = Math.floor(PageNumber) ;
+      ObservableList.push(this.FetchPackageMessage(ID_B , Temp));
+      ObservableList.push(this.FetchPackageMessage(ID_B , Temp+1));
+    }
+    return forkJoin([...ObservableList]).pipe(take(1) , map((DataResponse) => {
+      let DataFinal : MessageModel[] = [] ;
+      let BlockNumber = 0 ;
+      if(PageNumber % 1 == 0) {
+        DataResponse.forEach((Value) => {
+          DataFinal.push(...Value);
+          BlockNumber++;
+        });
+        InfoUser.SetMessageList(DataFinal , (BlockNumber != 10)) ;
+        return {
+          Data : DataFinal ,
+          Done : (BlockNumber != 10)
+        };
+      }
+      else {
+        let TempNum = ((PageNumber % 1) * 10) - 1 ;
+        DataResponse.forEach((Value , Index) => {
+          if(Index > TempNum)
+            DataFinal.push(...Value);
+          BlockNumber++ ;
+        });
+        InfoUser.SetMessageList(DataFinal , (BlockNumber != 20)) ;
+        return {
+          Data : DataFinal ,
+          Done : (BlockNumber != 20)
+        };
+      }
     }));
   }
+
+  public SendMessage(ID_To : number , Message_Content : string ) {
+    return this.HTTP.post<SendResponse>(`${AuthenticationService.API_Location}api/chat/send` , {
+      id_recipient : ID_To ,
+      message : Message_Content ,
+    } , {headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) })
+      .pipe(take(1) , map((DataMessage : SendResponse) => {
+        let MessageInfo =  new MessageModel(DataMessage.id_message , (<UserModel>this.Account).ID ,
+          ID_To , Message_Content , new Date(DataMessage.created_at)) ;
+        let Index = <number>this.UserCache[MessageInfo.ID_Receive].UsersFetchIndex ;
+        this.UsersFetch[Index].ReceiveMessage(MessageInfo);
+        //Sort Date
+        return {...MessageInfo} ;
+      }));
+  }
+
+  public GetUnReadMessage() : number {
+    return this.UnReadMessages ;
+  }
+
+  public SetIDSelected(ID ?: number) {
+    if(ID != undefined) {
+      this.IDSelected = ID ;
+      //Change TempIndex : number to TempIndex : this.UsersFetch[TempIndex] Block
+      let TempIndex = <number>this.UserCache[ID].UsersFetchIndex ;
+      this.UnReadMessages -= this.UsersFetch[TempIndex].UnReadMessage ;
+      this.UsersFetch[TempIndex].UnReadMessage = 0 ;
+      this.Communication = new Subject<MessageModel>();
+      return this.UsersFetch[TempIndex].GetAllMessage() ;
+    } else {
+      this.IDSelected = null ;
+      this.Communication = null ;
+      return null ;
+    }
+  }
+
+  public GetUserView() {
+    let Result : {
+      UserID : number ,
+      UserName : string ,
+      ImagePath : string ,
+      IsActive : boolean ,
+      LastMessage : string ,
+      DateLastMessage : Date ,
+      UnReadMessage : number
+    }[] = [] ;
+    this.UsersFetch.forEach((Value) => Result.push(Value) );
+    return Result ;
+  }
+
+  public GetAccountInfo() {
+    return this.Account?.Clone() ;
+  }
+
+  public GetUserInfo(ID : number) {
+    let Index = this.UserCache[ID].UsersFetchIndex ;
+    if(Index == undefined)
+      return undefined;
+    return {...this.UsersFetch[Index]} ;
+  }
+}
+
+export enum StateService {
+  UsersUpdate ,
+  ActiveUpdate ,
+  NoUpdate ,
+  Loading
 }

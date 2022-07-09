@@ -3,144 +3,30 @@
     <div class="card-head">
       <header>User List</header>
     </div>
-    <div class="card-body no-padding height-9">
+    <div class="card-body no-padding height-9" scrollTrack #Scroller='ScrollTracking'>
       <div class="collapse collapse-xs collapse-sm show chat-page" id="open-chats">
         <div class="form-group mt-20 is-empty">
           <input type="text" value="" placeholder="Search..." class="form-control">
           <span class="material-input"></span></div>
         <ul class="list-unstyled" id="inbox">
-          <li class="active">
-            <a href="javascript:;" class="active">
+          <li class="ItemUser" routerLinkActive="active" *ngFor="let User of this.Client_Info">
+            <a [routerLink]="[User.UserID]" class="active">
               <div class="media">
                 <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
+                  <img alt="" class="media-object chat-img" [src]="User.ImagePath"> </div>
                 <div class="media-body">
                   <p class="media-heading">
-                    <span class="text-strong">Sanjay Singh</span>
-                    <span class="badge bg-danger">3</span>
-                    <small class="pull-right">13:54, 24.01.2017</small>
+                    <span class="text-strong">{{User.UserName}}</span>
+                    <span class="badge bg-danger" *ngIf="User.UnReadMessage != 0">{{User.UnReadMessage}}</span>
+                    <small class="pull-right">{{User.DateLastMessage | DateConvert:this.Current_Date}}</small>
                   </p>
-
-                  <small class=" message">Hello I am Dave Gomache a web and user interface designer. I love to work with the application interface and the .</small>
+                  <small class=" message">{{User.LastMessage | MaxString:40}}</small>
                 </div>
               </div>
             </a>
           </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img class="media-object chat-img" src="assets/Images/avatar1.jpg" alt=""> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span>Poonam Shah</span>
-                    <small class=" pull-right">05:34, 23.01.2017</small>
-                  </p>
-
-                  <small class=" message">Open after rule place He earth earth good called days unto which wherein day doesn't said day image.</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span class="text-strong">Janki Jadav</span>
-                    <span class="badge bg-purple">4</span>
-                    <small class=" pull-right">16:00, 17.11.2017</small>
-                  </p>
-
-                  <small class=" message">Years living creepeth. Form them yielding behold greater divided void was fowl earth in. Spirit Bring grass.</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span class="text-strong">Jack Richart</span>
-                    <span class="badge bg-blue">2</span>
-                    <small class=" pull-right">14:05, 24.11.2016</small>
-                  </p>
-
-                  <small class=" message">Years living creepeth. Form them yielding behold greater divided void was fowl earth in.</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span>Ajay Pandya</span>
-                    <small class=" pull-right">13:26, 24.11.2016</small>
-                  </p>
-
-                  <small class=" message">sn't hath, forth. Brought sea subdue, from divided replenish creature after creeping abundantly fl</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span>Meera Kumar</span>
-                    <small class=" pull-right">12:56, 24.11.2016</small>
-                  </p>
-
-                  <small class=" message">Open after rule place He earth earth good called days unto which wherein day doesn't said day i.</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span>Sanjay Kumar</span>
-                    <small class=" pull-right">10:18, 24.11.2016</small>
-                  </p>
-
-                  <small class=" message">tempor id pariatur sit. In eu amet aute pariatur aliquip adipisicing qui amet reprehenderit et ut consectetur
-                    reprehenderit.</small>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:;" class="active">
-              <div class="media">
-                <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" src="assets/Images/avatar1.jpg"> </div>
-                <div class="media-body">
-                  <p class="media-heading">
-                    <span>Priti Chopra</span>
-                    <small class=" pull-right">06:48, 24.11.2016</small>
-                  </p>
-
-                  <small class=" message">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
-                    in some form,.</small>
-                </div>
-              </div>
-            </a>
+          <li class="DoneUser" *ngIf="IsDone">
+            <p>No More User</p>
           </li>
         </ul>
       </div>

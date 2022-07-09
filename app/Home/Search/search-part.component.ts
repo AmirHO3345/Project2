@@ -9,8 +9,7 @@ import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
   selector: 'app-search-part',
   templateUrl: './search-part.component.html',
   styleUrls: ['../../Data_Sharing/BootStraps/bootstrap_Elbert.css' , './css/style.css'
-    , './css/responsive.css' , '../../Fonts/css/fontello.css'] ,
-  providers : [DatePipe]
+    , './css/responsive.css' , '../../Fonts/css/fontello.css']
 })
 export class SearchPartComponent {
 
