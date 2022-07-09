@@ -1,19 +1,21 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { Options } from 'ng5-slider';
 import { AbstractControl, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { RoomDetailsComponent } from '../room-list/room-item/room-details/room-details.component';
 import { DataStoragrService, FacilityDetails } from '../DataStorageService';
 import { RoomServiceComponent } from '../roomservice.component';
 import { SearchPartComponent } from 'src/app/Home/Search/search-part.component';
+import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/authentication.service';
+import { UserModel } from 'src/app/Data_Sharing/Model/user.model';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['../../Data_Sharing/Bootstraps/bootstrap.css',
+  styleUrls: ['../room-list/room-item/room-details/room-details.component.css'
+  ,'../../Data_Sharing/Bootstraps/bootstrap.css',
   //,'../../../styles.css'
-  './search.component.css','../room-list/room-item/room-details/room-details.component.css'
-  ,'../../Fonts/css/animate.min.css','../../Fonts/css/menu.css',
+  './search.component.css','../../Fonts/css/animate.min.css','../../Fonts/css/menu.css',
   '../../Fonts/css/style.css','../../Fonts/css/responsive.css',
   '../../Fonts/css/fontello/css/icon_set_1.css','../../Fonts/css/icon_set_2.css',
   '../../Fonts/css/fontello/css/fontello.css','../../Fonts/css/magnific-popup.css',
@@ -47,7 +49,6 @@ export class SearchComponent implements OnInit {
  Depture?:string;
  location!:string;
 
-<<<<<<< Updated upstream
 
  Arrival !: {IsActive : boolean , DateDetermine : Date} ;
 
@@ -55,10 +56,18 @@ export class SearchComponent implements OnInit {
 
  
 
-  constructor(private roomService:RoomServiceComponent,private datastorage:DataStoragrService) {
+ Account!:UserModel;
+  constructor(private roomService:RoomServiceComponent,private datastorage:DataStoragrService,
+    private auth:AuthenticationService,private ProcessDate:DatePipe) {
       if(this.roomService.getCheck()){
+        auth.Account.subscribe((value)=>{
+          if(value!=null){console.log('logging in');
+          console.log(value);
+          console.log(this.Account.GetToken());}
+        });
         
         this.Adults=this.roomService.getAdults();
+        this.Rooms=1;
         this.Arriv=this.roomService.getArrival();
         this.Depture=this.roomService.getDept();
         this.dateF=this.roomService.getArrival()!;
@@ -68,8 +77,8 @@ export class SearchComponent implements OnInit {
         console.log(this.Arriv);console.log(this.Depture);console.log(this.location);
       }
        else {
-    this.Adults = 0 ;
-    this.Rooms = 0 ;
+    this.Adults = 1 ;
+    this.Rooms = 1 ;
     this.Arrival = {
       IsActive : false ,
       DateDetermine : new Date()
@@ -93,13 +102,9 @@ export class SearchComponent implements OnInit {
   DateNow() : Date {
     return new Date();
   }
-=======
-  constructor(private roomService:RoomServiceComponent) { }
-
-
->>>>>>> Stashed changes
 
   ngOnInit(): void {
+   
 
     if(!this.roomService.getCheck()){
       
@@ -120,7 +125,7 @@ this.datastorage.SearchingData
     return this.currentRate;
   }
   getDateOut(){
-   var nextDays = new Date(new Date().setDate(new Date().getDate() + 1));
+   var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
     return  nextDays;//this.currentDate.setDate( this.currentDate.getDate() + 1 );
   }
   getRoomNum(){
@@ -178,7 +183,7 @@ ChangeAdults(Process : boolean) : void {
     if(this.Adults + 1 <= 20)
       this.Adults++ ;
   } else {
-    if(this.Adults - 1 >= 0)
+    if(this.Adults - 1 >= 1)
       this.Adults-- ;
   }
 }
@@ -188,21 +193,90 @@ ChangeRooms(Process : boolean) : void {
     if(this.Rooms + 1 <= 20)
       this.Rooms++ ;
   } else {
-    if(this.Rooms - 1 >= 0)
+    if(this.Rooms - 1 >= 1)
       this.Rooms-- ;
   }
 }
+@HostListener("window:scroll", []) onWindowScroll() {
+  this.scrollFunction();
+  //this.onWindowScrolll();
+}
+// When the user scrolls down 20px from the top of the document, show the button
+scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      document.getElementById("myBtn")!.style.display = "block";
+  } else {
+      document.getElementById("myBtn")!.style.display = "none";
+  }
+  let pos = (document.documentElement.scrollTop || document.body.scrollTop)
+ + document.documentElement.offsetHeight;
+let max = document.documentElement.scrollHeight;/*
+pos.toFixed(0);
+max.toFixed(0);
+Math.floor(max);
+console.log(pos.toFixed(0));
+console.log(max);*/
+let curposition=pos.toFixed(0);
+let maxx=max.toFixed(0);
+// pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
+ if(curposition == maxx )   {
+ //Do your action here
+ //console.log("hello prother");
+ this.LoadMore();
+ }
+}
 
+// When the user clicks on the button, scroll to the top of the document
+topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+} //private ProcessDate!:DatePipe;
+//@HostListener("window:scroll", ["$event"])
+// onWindowScrolll() {
+// //In chrome and some browser scroll is given to body tag
+// let pos = (document.documentElement.scrollTop || document.body.scrollTop)
+//  + document.documentElement.offsetHeight;
+// let max = document.documentElement.scrollHeight;
+// // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
+//  if(pos == max )   {
+//  //Do your action here
+//  console.log("hello prother");
+//  }
+// }
+
+date1!:string;
+date2!:string;/*
+location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
+  tv,fridge,air_conditioning,op,roomNum,adultNum,bestRate*/
+
+  locF="default";
+  dateF1="default";
+  dateF2="default";
+  cost1F=0;
+  costF2=1000000;
+  rateF=0;
+  typeF="default";
+  wifiF=0;
+  coffeeF=0;
+  tvF=0;
+  fridgeF=0;
+  air_conditioningF=0;
+  opF="=";
+  roomNumF=0;
+  adultNumF=0;
+  bestRateF=0;/*
+  "default","default","default",0,1000000,0,"default",0,0,
+  0,0,0,"=",0,0,0*/
   onSubmit(form:NgForm){
     
     const val=form.value;
     this.dateF=val.datein;
     this.dateT=val.dateout;
     let location=val.city;
-    let dateFrom=val.datein;
-    let dateTo=val.dateout;
-    console.log(dateFrom);
-    console.log(dateTo);
+    let dateFrom:Date;
+    let dateTo:Date;
+    dateFrom= new Date(Date.parse(val.datein)) ;  
+    dateTo=new Date(Date.parse(val.dateout)) ;  
     let roomNum=1;
     let adultNum=1;
     let cost1=this.minValue;
@@ -232,11 +306,43 @@ ChangeRooms(Process : boolean) : void {
     //else type="chalet";
 
     
+  //  this.datastorage.getFavouriteList();
+   /*this.dateFr= <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd") ;
+    this.dateTY= <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd") ;
 
+    console.log(this.dateFr);
+    console.log(this.dateTY);*/
+   
+
+  //  Temp = new Date(Date.parse(this.DataForm.form.value['Arrival_D'])) ;
+/*
+  console.log(dateFrom);let 
+  console.log(dateTo);*/
+  let dateFr="default";
+  let dateToo="default";
+  let check=false;
+  if(dateFrom!=undefined && dateTo!=undefined){
+    try{
+
+      dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd") ;
+      dateToo = <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd") ;
+    }
+    catch(Exception){
+      
+   dateFr="default";
+   dateToo="default";
+    }
+  }
+    /*console.log(dateFr);
+    console.log(dateToo);*/
+    if(dateFr!=undefined && dateToo!=undefined){
+      this.date1=dateFr;
+      this.date2=dateToo;
+    }
 
 console.log(location);
-console.log(dateFrom);
-console.log(dateTo);
+console.log(dateFr);
+console.log(dateToo);
 console.log(roomNum);
 console.log(adultNum);
 console.log(cost1);
@@ -250,9 +356,30 @@ console.log(fridge);
 console.log(air_conditioning);
 //console.log(op);
 
-
+this.locF=location;
+this.dateF1=dateFr;
+this.dateF2=dateToo;
+this.cost1F=cost1;
+this.costF2=cost2;
+this.rateF=rate;
+this.typeF=type;
+this.wifiF=wifi;
+this.coffeeF=coffe;
+this.tvF=tv;
+this.fridgeF=fridge;
+this.air_conditioningF=air_conditioning;
+this.opF=op;
+this.roomNumF=roomNum;
+this.adultNumF=adultNum;
+this.bestRateF=bestRate;
+if(dateFr==undefined||dateToo==undefined){
+  dateFr="default";
+  dateToo="default";
+}
+console.log("dsfdsf");
+console.log(dateFr+"         "+dateToo)
 this.datastorage.SearchingData
-(location,dateFrom,dateTo,cost1,cost2,rate,type,wifi,coffe,
+(location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
   tv,fridge,air_conditioning,op,roomNum,adultNum,bestRate);
 
 
@@ -282,8 +409,18 @@ this.datastorage.SearchingData
   let latest_date =this.datepipe.transform(date, 'yyyy-MM-dd');
   console.log(latest_date);*/
 
-  }
+}
  
+
+LoadMore(){
+
+this.datastorage.SearchingData
+(this.locF,this.dateF1,this.dateF2,this.cost1F,this.costF2,this.rateF,this.typeF
+  ,this.wifiF,this.coffeeF,
+this.tvF,this.fridgeF,this.air_conditioningF,this.opF,this.roomNumF,this.adultNumF,this.bestRateF);
+
+
+}
 
 
 }
