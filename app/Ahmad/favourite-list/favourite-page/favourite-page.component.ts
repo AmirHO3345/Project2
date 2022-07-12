@@ -29,11 +29,11 @@ export class FavouritePageComponent implements OnInit {
   favouritesFacilities:FacilityDetails[]=this.roomSer.getfavouriteFacilities();
   removeItem(){
     this.router.navigate(['/favorite']); 
-    console.log(this.roomSer.getfavouriteFacilities()[this.roomSer.getIdFav()].id);
-    this.datastorage.removeFromFavouriteList
-    (this.roomSer.getfavouriteFacilities()[this.roomSer.getIdFav()].id);
-    this.roomSer.removeFavouriteItem(this.roomSer.getIdFav());
-    this.router.navigate(['/favorite']); 
+    let id=this.index;
+    console.log(this.roomSer.getfavouriteFacilities()[id].id);
+    this.datastorage.removeFromFavouriteList(this.roomSer.getfavouriteFacilities()[id].id);
+    this.roomSer.removeFavouriteItem(id);
+    //this.router.navigate(['/favorite']); 
   //  this.router.navigate(['/favourite']);
   }
 

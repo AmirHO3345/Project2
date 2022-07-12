@@ -54,7 +54,8 @@
  			<div class="col-lg-9 col-md-8" style="width: 68%;">
             	<div class="row"  style="height: 113%;">
                 
-                	<div class="room_desc clearfix" style="width: 100%;"  [routerLink]="[index]" routerLinkActive="active">
+                	<div class="room_desc clearfix" style="width: 100%;" 
+                     [routerLink]="[index]" routerLinkActive="active">
                 	<div class="col-md-7">
                     	<figure><img src="https://pix10.agoda.net/hotelImages/5547513/-1/555ac3a73a392de501fd0a0b50d8fdff.jpg?ca=7&ce=1&s=1024x768"
                              style="width: 70%;" alt="" class="img-responsive"></figure>
@@ -125,7 +126,8 @@
                 </div>
                         <ng-template #infolike>
                             <div class="tooltip_styled tooltip-effect-4" *ngIf="like&&!check">
-                                <span class="tooltip-item"><mat-icon (click)="likeSwitch()">favorite</mat-icon>
+                                <span class="tooltip-item">
+                                    <mat-icon (click)="likeSwitch()">favorite</mat-icon>
                                 </span>
                                     <div class="tooltip-content">remove from favourites</div>
                             </div>
