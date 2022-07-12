@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { FacilityDetails } from '../../DataStorageService';
+import { DataStoragrService, FacilityDetails } from '../../DataStorageService';
 import { Room } from '../../room.model';
+import { RoomServiceComponent } from '../../roomservice.component';
 import { RoomListComponent } from '../room-list.component';
 
 @Component({
@@ -22,7 +23,36 @@ export class RoomItemComponent implements OnInit {
    @Input() room!: FacilityDetails; //@Input() allows us to bind this comp from outside
    @Input() index!:number;
    @Output() roomSelected =new EventEmitter<void>();
-  //  constructor(private roomService:RoomServiceComponent){}
+   like=false;
+    constructor(private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router){}
+  check=true;
+    likeSwitch(){ 
+      this.datastorage.getFavouriteList();
+
+      this.router.navigate(['/search']);
+      this.like=!this.like;
+      if(this.like){
+        for(let i=0;i<this.roomSer.getfavouriteFacilities().length;i++){
+          if(this.roomSer.getfavouriteFacilities()[i].name==this.room.name)this.check=false;
+        }
+        if(this.check)
+        {
+          this.roomSer.onAddFavourite(this.room);
+          this.datastorage.addToFavouriteList();
+        }
+        this.check=false;
+
+      }
+      else {
+        this.roomSer.removeFavouriteItem(this.roomSer.getIdFav());
+      }
+      //this.roomSer.getfavouriteFacilities()[this.roomSer.getfavouriteFacilities().length-1].id;
+
+
+
+
+    }
+    
 
 
 

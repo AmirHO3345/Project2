@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {BehaviorSubject, Observable, Subject, tap} from "rxjs";
 import {UserModel} from "../../Data_Sharing/Model/user.model";
+import { RoomServiceComponent } from "src/app/Ahmad/roomservice.component";
 
 interface AuthResponseData {
   user : {
@@ -31,9 +32,9 @@ export class AuthenticationService {
 
   PopUpRegisterOpen : Subject<any>;
 
-  static API_Location : string = "http://localhost/Laravel-Project-Api-Facility-Reservation/public/" ;
+  static API_Location : string = "http://laravelapimk.atwebpages.com/public/" ;
 
-  constructor(private HTTP : HttpClient) {
+  constructor(private HTTP : HttpClient,private roomser:RoomServiceComponent) {
     this.Account = new BehaviorSubject<UserModel | null>(null);
     this.PopUpRegisterOpen = new Subject();
   }
@@ -79,6 +80,10 @@ export class AuthenticationService {
     let ImagePath = AuthenticationService.API_Location.concat(Information.path_photo) ;
     const User = new UserModel(Information.user.id , Information.user.name , Information.token ,
       Information.user.rule , ImagePath);
+      
+      console.log(User.GetToken());
+
+      this.roomser.setToken(User.GetToken());
     if(KeepAccount)
       localStorage.setItem("UserAccount" , UserModel.Object2Json(User));
     this.Account.next(User);

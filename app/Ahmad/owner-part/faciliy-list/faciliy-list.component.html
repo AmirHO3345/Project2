@@ -1,0 +1,113 @@
+<section class="parallax-window" id="short" data-parallax="scroll">
+    <img src="http://www.ansonika.com/albert/img/sub_header_short.jpg" width="100%">
+    <div id="subheader">
+        <h1>Your favourite Facilities</h1>
+</div><!-- End subheader -->
+</section><!-- End section -->
+
+<br>
+<br>
+<!-- 
+	photos : Images[];//{id_photo : number , path_photo : string}[];
+	rate : number ;
+	created_at : string ;
+	
+	
+	air_condition : number;
+	coffee_machine : number;
+	fridge : number ;
+	tv : number ;
+	wifi : number; -->
+<div class="container margin_20"  >
+    <div class="row" >
+         <div class="col-lg-9 col-md-8">
+<button class="btn_1" *ngIf="!check" (click)="checkSwitch()">Add Facility</button>
+<br><br>
+<mat-card style="width: 110%;" *ngIf="check">
+<form class="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group" style="width: 40%;display:inline-block;">
+               <button type="submit" class="btn btn-success" >Save</button>&nbsp;
+                <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
+       <br><br>
+      <label for="name">Name</label>
+      <input type="text" class="form-control"  id="name" name="name" ngModel
+        placeholder="Recipe Name" >
+    </div>
+  &nbsp;&nbsp; &nbsp; &nbsp;
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="imagepath">Image URL</label> 
+        <input type="text" class="form-control" id="imagepath"  ngModel
+        name="imagepath"  placeholder="Image URL">
+    </div>
+
+   
+     
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description"  ngModel
+      name="description" rows="3" style="width: 83%;"></textarea>
+    </div>
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="location">Location</label>
+        <input type="text" class="form-control"  id="location" name="location"  ngModel
+         placeholder="location of your facility" >
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="type">Type</label><br>
+        <select id="type" name="type" ngModel style="width: 100%;"> 
+            <option>Chalet</option>
+            <option>Farmer</option>
+            <option>Hostel</option>
+          </select>
+    </div>
+    
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="rooms">Room Number</label>
+        <input type="number" id="rooms" name="rooms" ngModel placeholder="The number of rooms in your facility"
+         class="form-control">
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="adults" >Adult Number</label>
+        <input type="number" id="adults" name="adults"  ngModel
+         placeholder="The number of adults in your facility"
+         class="form-control">
+    </div>
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="cost">price</label>
+        <input type="number" id="cost" name="cost"  ngModel
+         placeholder="price per night/week/mounth"
+         class="form-control">
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+
+
+
+
+
+    <div class="form-group" >
+       
+        <input type="checkbox" name="wifi" ngModel (click)="checkingWIFI()"> &nbsp; &nbsp; &nbsp;<label for="wifi">WI-FI</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="tv" ngModel (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="fridge" ngModel (click)="checkingFridge()"> &nbsp; &nbsp; &nbsp;<label for="fridge">Fridge</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="air_condition" ngModel (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="coffee_machine" ngModel (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
+    </div>
+
+  </form>
+</mat-card>
+</div></div></div>
+
+<app-faciliy-item
+*ngFor="let facEl of facilityOwners let i=index" 
+[facilityOwner]="facEl"
+[index]="i"
+(onfacilityOwnersSelected)="onfacilityOwnersSelected(facEl)"
+></app-faciliy-item>
+

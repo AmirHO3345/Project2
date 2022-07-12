@@ -16,9 +16,6 @@ export class RoomListComponent implements OnInit {
   rooms!:FacilityDetails[];
 
   
- Adults !: number ;
- Rooms !: number ;
-
   constructor(private roomService:RoomServiceComponent/*,private router:Router,private route:ActivatedRoute*/){}
 
   ngOnInit(){

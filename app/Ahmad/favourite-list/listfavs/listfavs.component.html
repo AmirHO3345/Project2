@@ -1,0 +1,14 @@
+
+
+<app-favourite-list *ngIf="!check"></app-favourite-list>
+<router-outlet></router-outlet>
+
+<section class="parallax-window" id="short" data-parallax="scroll" style="margin-top: -15%;"
+ *ngIf="Lenghtfavourite<=0">
+<div id="subheader" *ngIf="Lenghtfavourite<=0">
+    <h1 style="text-align: center;">Your favourite list is empty</h1>
+</div><!-- End subheader -->
+</section>
+<button (click)="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+<br><br><br><br><br><br><br>

@@ -1160,13 +1160,13 @@ noscript h2 {
 	z-index: 100;
 }
 /* Star rating */
-.htlfndr-slide-rating-stars {
+.htlfndr-slide-ratingg-stars {
 	color: #fff;
 	cursor: default;
 	margin-top: 8.4rem;
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
-.htlfndr-slide-rating-stars .fa-star-o {
+.htlfndr-slide-ratingg-stars .fa-star-o {
 	font-size: 2.4rem;
 	margin-right: 1.55rem;
 }
@@ -1664,11 +1664,11 @@ select {
 	-o-transform: scale(1.1);
 	transform: scale(1.1);
 }
-.htlfndr-entry-rating-stars {
+.htlfndr-entry-ratingg-stars {
 	margin-bottom: 15px;
 	margin-left: 6px;
 }
-.htlfndr-entry-rating-stars i {
+.htlfndr-entry-ratingg-stars i {
 	color: #c1c1c1;
 	font-size: 15px;
 	margin-right: 5px;
@@ -2439,7 +2439,7 @@ a.htlfndr-read-more-button.hovered:after {
 .htlfndr-sidebar .widget {
 	width: 100%;
 }
-.htlfndr-rating-stars i {
+.htlfndr-ratingg-stars i {
 	color: #cccccc;
 }
 .htlfndr-special {
@@ -2498,7 +2498,7 @@ a.htlfndr-read-more-button.hovered:after {
 	padding-left: 14px;
 	position: relative;
 }
-.htlfndr-search-result .htlfndr-rating-stars i {
+.htlfndr-search-result .htlfndr-ratingg-stars i {
 	font-size: 18px;
 }
 .htlfndr-search-result .htlfndr-last-booking {
@@ -2632,7 +2632,7 @@ a.htlfndr-read-more-button.hovered:after {
 	position: absolute;
 	top: 0;
 }
-.htlfndr-search-result.htlfndr-row-view .htlfndr-rating-stars {
+.htlfndr-search-result.htlfndr-row-view .htlfndr-ratingg-stars {
 	margin-top: 17px;
 	position: absolute;
 	top: 0;
@@ -2953,16 +2953,16 @@ a.htlfndr-read-more-button.hovered:after {
 	width: 100%;
 }
 /* User Star rating */
-.htlfndr-user-rating {
+.htlfndr-user-ratingg {
 	display: inline-block;
 }
-.htlfndr-user-rating i {
+.htlfndr-user-ratingg i {
 	color: #08c1da;
 	cursor: pointer;
 	font-size: 26px;
 	margin-right: 10px;
 }
-.htlfndr-user-rating i.htlfndr-empty-star {
+.htlfndr-user-ratingg i.htlfndr-empty-star {
 	color: #b8b8b8;
 }
 /* Checkboxes */
@@ -3467,10 +3467,10 @@ a.htlfndr-read-more-button.hovered:after {
 	padding-bottom: 15px;
 	padding-top: 15px;
 }
-.htlfndr-near-properties .htlfndr-rating-stars {
+.htlfndr-near-properties .htlfndr-ratingg-stars {
 	line-height: 8px;
 }
-.htlfndr-near-properties .htlfndr-rating-stars i {
+.htlfndr-near-properties .htlfndr-ratingg-stars i {
 	font-size: 11px;
 }
 .htlfndr-near-properties .htlfndr-hotel-price {
@@ -4098,7 +4098,7 @@ iframe {
 .htlfndr-hotel-single-content .htlfndr-entry-title {
 	display: inline-block;
 }
-.htlfndr-hotel-single-content .htlfndr-entry-header .htlfndr-rating-stars {
+.htlfndr-hotel-single-content .htlfndr-entry-header .htlfndr-ratingg-stars {
 	display: inline-block;
 	font-size: 24px;
 	line-height: 39px;
@@ -4154,7 +4154,7 @@ iframe {
 	margin-right: 2.3rem;
 	padding-bottom: 3.8rem;
 }
-.htlfndr-hotel-marks .htlfndr-rating-stars {
+.htlfndr-hotel-marks .htlfndr-ratingg-stars {
 	line-height: 2.4rem;
 	padding-bottom: 15px;
 }
@@ -4173,7 +4173,7 @@ iframe {
 .htlfndr-hotel-marks .htlfndr-meter-cell {
 	width: 42.4%;
 }
-.htlfndr-hotel-marks .htlfndr-rating-cell {
+.htlfndr-hotel-marks .htlfndr-ratingg-cell {
 	color: #08c1da;
 	font-size: 20px;
 	padding-right: 3%;
@@ -4318,7 +4318,7 @@ meter:-moz-meter-optimum::-moz-meter-bar {
 .htlfndr-visitor-post header h3 {
 	margin-bottom: 17px;
 }
-.htlfndr-visitor-post .htlfndr-rating-stars {
+.htlfndr-visitor-post .htlfndr-ratingg-stars {
 	font-size: 20px;
 	margin-bottom: 24px;
 }
@@ -5060,7 +5060,7 @@ textarea.incorrect {
 	color: #000;
 	margin-bottom: 3px;
 }
-.htlfndr-booking-details .htlfndr-rating-stars {
+.htlfndr-booking-details .htlfndr-ratingg-stars {
 	font-size: 16px;
 	margin-bottom: 7px;
 }
@@ -6800,7 +6800,7 @@ ul.glyphicon-ok::before {
 		font-size: 4rem;
 		margin-bottom: 15%;
 	}
-	.htlfndr-booking-details .htlfndr-rating-stars {
+	.htlfndr-booking-details .htlfndr-ratingg-stars {
 		font-size: 3.5rem;
 		margin-bottom: 6%;
 	}
@@ -7074,10 +7074,10 @@ ul.glyphicon-ok::before {
 	.htlfndr-near-properties .htlfndr-hotel-info a h6 {
 		font-size: 3rem;
 	}
-	.htlfndr-near-properties .htlfndr-rating-stars {
+	.htlfndr-near-properties .htlfndr-ratingg-stars {
 		line-height: normal;
 	}
-	.htlfndr-near-properties .htlfndr-rating-stars i {
+	.htlfndr-near-properties .htlfndr-ratingg-stars i {
 		font-size: 3rem;
 	}
 	.htlfndr-near-properties .htlfndr-hotel-price {
@@ -7102,7 +7102,7 @@ ul.glyphicon-ok::before {
 		border-bottom: none;
 		padding-bottom: 0;
 	}
-	.htlfndr-hotel-marks .htlfndr-rating-stars {
+	.htlfndr-hotel-marks .htlfndr-ratingg-stars {
 		font-size: 24px;
 	}
 	.htlfndr-available-room .htlfndr-post-title {
@@ -7119,7 +7119,7 @@ ul.glyphicon-ok::before {
 		font-size: 3rem;
 		margin-bottom: 10%;
 	}
-	.htlfndr-booking-details .htlfndr-rating-stars {
+	.htlfndr-booking-details .htlfndr-ratingg-stars {
 		font-size: 3rem;
 		margin-bottom: 10%;
 	}
@@ -7383,7 +7383,7 @@ ul.glyphicon-ok::before {
 	.htlfndr-hotel-single-content .htlfndr-entry-title {
 		font-size: 6.5rem;
 	}
-	.htlfndr-hotel-single-content .htlfndr-rating-stars {
+	.htlfndr-hotel-single-content .htlfndr-ratingg-stars {
 		line-height: 30px;
 		margin-left: 0;
 	}
@@ -7722,16 +7722,16 @@ ul.glyphicon-ok::before {
 	.htlfndr-second-tab-post .htlfndr-post-title {
 		margin-top: 0;
 	}
-	.htlfndr-overview-rating,
+	.htlfndr-overview-ratingg,
 	.htlfndr-review-left-side {
 		float: left;
 		width: 23%;
 	}
-	.htlfndr-detailed-rating,
+	.htlfndr-detailed-ratingg,
 	.htlfndr-review-right-side {
 		margin-left: 23.5%;
 	}
-	.htlfndr-hotel-marks .htlfndr-rating-stars {
+	.htlfndr-hotel-marks .htlfndr-ratingg-stars {
 		font-size: 2.4rem;
 	}
 	.htlfndr-form-left-side {
@@ -7788,10 +7788,10 @@ ul.glyphicon-ok::before {
 	.htlfndr-near-properties .htlfndr-hotel-info a h6 {
 		font-size: 3rem;
 	}
-	.htlfndr-near-properties .htlfndr-rating-stars {
+	.htlfndr-near-properties .htlfndr-ratingg-stars {
 		line-height: normal;
 	}
-	.htlfndr-near-properties .htlfndr-rating-stars i {
+	.htlfndr-near-properties .htlfndr-ratingg-stars i {
 		font-size: 4rem;
 	}
 	.htlfndr-near-properties .htlfndr-hotel-price {
@@ -7807,7 +7807,7 @@ ul.glyphicon-ok::before {
 	.htlfndr-hotel-single-content .htlfndr-entry-title {
 		font-size: 5.8rem;
 	}
-	.htlfndr-hotel-single-content .htlfndr-rating-stars {
+	.htlfndr-hotel-single-content .htlfndr-ratingg-stars {
 		line-height: 32px;
 	}
 	.htlfndr-available-room .htlfndr-post-title {
@@ -7929,6 +7929,27 @@ ul.glyphicon-ok::before {
 		transition: all .2s ease 0s;
 	}
 }
+
+
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: red; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
+} 
 
 
 

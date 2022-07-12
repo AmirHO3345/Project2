@@ -44,11 +44,18 @@
         <span class="tooltip">Reservation</span>
       </li>
       <li>
-        <a href="#">
+        <a [routerLink]="['/favorite']" (click)="getFavouriteList()">
           <mat-icon>favorite</mat-icon>
           <span class="links_name">Favorite</span>
         </a>
         <span class="tooltip">Favorite</span>
+      </li>
+      <li>
+        <a [routerLink]="['/facilitylist']">
+          <mat-icon>event_seat</mat-icon>
+          <span class="links_name">facility list</span>
+        </a>
+        <span class="tooltip">facility list</span>
       </li>
       <li class="profile close" *ngIf="this.UserAccount != null" #Control> <!-- open || close -->
         <div class="profile-details">

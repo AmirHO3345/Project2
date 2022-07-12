@@ -1,0 +1,17 @@
+<section class="parallax-window" id="short" data-parallax="scroll">
+    <img src="http://www.ansonika.com/albert/img/sub_header_short.jpg" width="100%">
+    <div id="subheader">
+        <h1>Your favourite Facilities</h1>
+</div><!-- End subheader -->
+</section><!-- End section -->
+<br><br>
+ <div style="text-align: center; color: peru;font-size: 19px;">
+    <span>{{getfavNum()}}</span> results found
+</div>
+    <app-favourite-page
+*ngFor="let favEl of favourites let i=index" 
+[favourite]="favEl"
+[index]="i"
+(favouriteSelected)="onfavouriteSelected(favEl)"
+></app-favourite-page>
+

@@ -31,7 +31,7 @@
 </head>
 
 
-    <div class="layer"></div>
+    
     <!-- Mobile menu overlay mask -->
     
     <!-- <div id="preloader">
@@ -44,25 +44,38 @@
     
     <!-- End Header =============================================== -->
     
+    <!-- SubHeader =============================================== -->
+    
+   
     <!-- End SubHeader ============================================ -->
 
- 			<div class="col-lg-9 col-md-8">
-            	<div class="row">
+        <div class="container margin_60"  >
+    	<div class="row" style="width: 100%;">
+ 			<div class="col-lg-9 col-md-8" style="width: 68%;">
+            	<div class="row"  style="height: 113%;">
                 
-                	<div class="room_desc clearfix"  [routerLink]="[index]" routerLinkActive="active">
+                	<div class="room_desc clearfix" style="width: 100%;"  [routerLink]="[index]" routerLinkActive="active">
                 	<div class="col-md-7">
-                    	<figure><img src="https://offloadmedia.feverup.com/secretneworleans.co/wp-content/uploads/2021/03/10101834/Webp.net-resizeimage-46-1024x597.jpg" 
-                        alt="" class="img-responsive" style="width: 100%;"></figure>
+                    	<figure><img src="https://pix10.agoda.net/hotelImages/5547513/-1/555ac3a73a392de501fd0a0b50d8fdff.jpg?ca=7&ce=1&s=1024x768"
+                             style="width: 70%;" alt="" class="img-responsive"></figure>
                     </div>
-                    <div class="col-md-5 room_list_desc">
+                    <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">
                     	<h3>{{room.name}}</h3>
                         <p>
-                          {{room.type}}
+                            {{room.type}}
                         </p>
                         <div class="rating">
-                          <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true" ></ngb-rating>
-                        </div>
-                        <ul>
+                            <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true" style="color:#F90;
+                            font-size:16px;
+	                        font-size:14px;
+                            margin-bottom:5px;
+                            list-style:none;
+	                        margin:0 0 -5px 0;
+                        	padding:0;list-style:none;
+                        	margin:0 0 -5px 0;
+                        	padding:0;"></ngb-rating>
+                          </div>
+                          <ul>
                         	<li>
                             <div class="tooltip_styled tooltip-effect-4">
                             	<span class="tooltip-item" *ngIf="room.wifi"><i class="icon_set_1_icon-7"></i></span>
@@ -71,47 +84,59 @@
                               </li>
                             <li>
                             <div class="tooltip_styled tooltip-effect-4">
-                            	<span class="tooltip-item" *ngIf="room.coffee_machine" style="color:#F90;"><i class="icon_set_2_icon-59"></i></span>
-                                	<div class="tooltip-content" >Coffee Machine</div>
+                            	<span class="tooltip-item" *ngIf="room.coffee_machine">
+                                    <i class="icon_set_1_icon-59"></i></span>
+                                	<div class="tooltip-content">Coffee Machine</div>
                               </div>
                               </li>
                             <li>
                             <div class="tooltip_styled tooltip-effect-4">
-                            	<span class="tooltip-item" *ngIf="room.tv"><i class="icon_set_2_icon-116"></i></span>
+                            	<span class="tooltip-item" *ngIf="room.tv">
+                                    <i class="icon_set_2_icon-116"></i></span>
                                 	<div class="tooltip-content">Plasma TV</div>
-                              </div>
+                            </div>
                               </li>
+                              <li>
+                                <div class="tooltip_styled tooltip-effect-4">
+                                    <span class="tooltip-item" *ngIf="room.fridge">
+                                        <i> <mat-icon>kitchen</mat-icon></i> </span>
+                                        <div class="tooltip-content">Fridge</div>
+                                </div>
+                                  </li>
+
+
+
                         </ul>
-                        <div class="price">from <strong>${{room.cost}}</strong> /night<small>Breakafst included</small></div>
+                        <div class="price">from <strong>${{room.cost}}</strong> /night
+                            <small>Breakafst included</small></div>
                     </div>
                     </div>
                 </div><!-- End row room -->  
+               
                 
-                
-                
+                 
                 
             </div>
-            <div class="col-lg-3 col-md-4 sidebar">
-     		
-            <div class="theiaStickySidebar">
-            <!-- <div class="box_style_3" id="general_facilities">
-				<h3>General facilities</h3>
-				<ul>
-					<li><i class="icon_set_1_icon-86"></i>Free Wifi</li>
-					<li><i class="icon_set_2_icon-103"></i>Loundry service</li>
-					<li><i class="icon_set_2_icon-110"></i>Swimming pool</li>
-					<li><i class="icon_set_1_icon-58"></i>Restaurant</li>
-					<li><i class="icon_set_1_icon-27"></i>Parking</li>
-				</ul> 
-			</div>-->
-			<!-- <div class="box_style_2">
-				<i class="icon_set_1_icon-90"></i>
-				<h4>Need help? Call us</h4>
-				<a href="tel://004542344599" class="phone">+45 423 445 99</a>
-				<small>Monday to Friday 9.00am - 7.30pm</small>
-			</div> -->
 
-            </div>
-            </div>
+            <div class="tooltip_styled tooltip-effect-4" *ngIf="!like else infolike">
+                    <span class="tooltip-item"><mat-icon (click)="likeSwitch()">favorite_border</mat-icon>
+                    </span>
+                        <div class="tooltip-content">Add to favourites</div>
+                </div>
+                        <ng-template #infolike>
+                            <div class="tooltip_styled tooltip-effect-4" *ngIf="like&&!check">
+                                <span class="tooltip-item"><mat-icon (click)="likeSwitch()">favorite</mat-icon>
+                                </span>
+                                    <div class="tooltip-content">remove from favourites</div>
+                            </div>
+                        </ng-template>
+                
+         
+            
+        </div><!-- End row -->        
+   
     
-     
+    
+
+
+        

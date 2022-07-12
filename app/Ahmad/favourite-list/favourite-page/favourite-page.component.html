@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="hotel, bed and breakfast, accommodations, travel, motel">
+    <meta name="description" content="Albert - Hotel and Bed&amp;Breakfast">
+    <meta name="author" content="Ansonika">
+    <title>Albert - Hotel and Bed&amp;Breakfast</title>
+    
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700" rel="stylesheet">
+
+    <!-- BASE CSS -->
+    <!-- <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/menu.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/fontello/css/icon_set_1.css" rel="stylesheet">
+    <link href="css/fontello/css/icon_set_2.css" rel="stylesheet">
+    <link href="css/fontello/css/fontello.css" rel="stylesheet">
+    <link href="css/magnific-popup.css" rel="stylesheet"> -->
+</head>
+
+
+    
+    <!-- Mobile menu overlay mask -->
+    
+    <!-- <div id="preloader">
+        <div data-loader="circle-side"></div>
+    </div> -->
+    
+    <!-- End Preload -->
+    
+     <!-- Header ================================================== -->
+    
+    <!-- End Header =============================================== -->
+    
+    <!-- SubHeader =============================================== -->
+    
+   
+    <!-- End SubHeader ============================================ -->
+
+        <div class="container margin_60"  *ngIf="favouriteNum>0">
+    	<div class="row" [routerLink]="[index]" routerLinkActive="active">
+ 			<div class="col-lg-9 col-md-8">
+            	<div class="row"  >
+                
+                	<div class="room_desc clearfix" >
+                	<div class="col-md-7">
+                    	<figure><img src="https://pix10.agoda.net/hotelImages/5547513/-1/555ac3a73a392de501fd0a0b50d8fdff.jpg?ca=7&ce=1&s=1024x768"
+                             width="70%" alt="" class="img-responsive"></figure>
+                    </div>
+                    <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">
+                    	<h3>{{favourite.name}}</h3>
+                        <p>
+                            {{favourite.type}}
+                        </p>
+                        <div class="rating">
+                            <ngb-rating [max]="5" [(rate)]=favourite.rate [readonly]="true" ></ngb-rating>
+                          </div>
+                          <ul>
+                        	<li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="favourite.wifi"><i class="icon_set_1_icon-7"></i></span>
+                                	<div class="tooltip-content">WIFI</div>
+                              </div>
+                              </li>
+                            <li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="favourite.coffee_machine">
+                                    <i class="icon_set_1_icon-59"></i></span>
+                                	<div class="tooltip-content">Coffee Machine</div>
+                              </div>
+                              </li>
+                            <li>
+                            <div class="tooltip_styled tooltip-effect-4">
+                            	<span class="tooltip-item" *ngIf="favourite.tv">
+                                    <i class="icon_set_2_icon-116"></i></span>
+                                	<div class="tooltip-content">Plasma TV</div>
+                            </div>
+                              </li>
+                              <li>
+                                <div class="tooltip_styled tooltip-effect-4">
+                                    <span class="tooltip-item" *ngIf="favourite.fridge">
+                                        <i> <mat-icon>kitchen</mat-icon></i> </span>
+                                        <div class="tooltip-content">Fridge</div>
+                                </div>
+                                  </li>
+
+                                   
+
+
+                        </ul>
+                        <div class="price">from <strong>${{favourite.cost}}</strong> /night
+                            <small>Breakafst included</small></div>
+                    </div>
+                    </div>
+                </div><!-- End row room -->  
+               
+                
+                 
+                
+            </div>
+          
+            <li>
+                               
+                                    <div class="tooltip_styled tooltip-effect-4">
+                                        <span class="tooltip-item">
+                                            <mat-icon  (click)="removeItem()">favorite</mat-icon>
+                                        </span>
+                                            <div class="tooltip-content">remove from favourites</div>
+                                    </div>
+
+
+                                  </li>
+        </div><!-- End row -->        
+   
+    
+    
+
+
+        

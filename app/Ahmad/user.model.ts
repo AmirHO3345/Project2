@@ -1,8 +1,11 @@
+import { RoomServiceComponent } from "./roomservice.component";
+
 export class User{
     id!:number;
     name!:string;
     email!:string;
     password!:string;
+    //private room!:RoomServiceComponent;
     constructor(id:number,name:string,email:string,password:string)
     {
         this.id=id;
@@ -10,4 +13,5 @@ export class User{
         this.email=email;
         this.password=password;
     }
+
 }

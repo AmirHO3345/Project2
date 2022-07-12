@@ -110,7 +110,7 @@ export class SearchComponent implements OnInit {
       
 this.datastorage.SearchingData
 ("default","default","default",0,1000000,0,"default",0,0,
-  0,0,0,"=",0,0,0);
+  0,0,0,"=",0,0,0,1);
     }
     else {this.roomService.setCheck(false);
       this.default=this.location;
@@ -118,8 +118,9 @@ this.datastorage.SearchingData
       this.dateT=this.Depture!;
       this.datastorage.SearchingData
 (this.location,this.Arriv!,this.Depture!,0,1000000,0,"default",0,0,
-  0,0,0,"=",0,0,0);
+  0,0,0,"=",0,0,0,1);
     }
+
   }
   getCurrentRating(){
     return this.currentRate;
@@ -306,7 +307,7 @@ location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
     //else type="chalet";
 
     
-  //  this.datastorage.getFavouriteList();
+  
    /*this.dateFr= <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd") ;
     this.dateTY= <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd") ;
 
@@ -380,7 +381,7 @@ console.log("dsfdsf");
 console.log(dateFr+"         "+dateToo)
 this.datastorage.SearchingData
 (location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
-  tv,fridge,air_conditioning,op,roomNum,adultNum,bestRate);
+  tv,fridge,air_conditioning,op,roomNum,adultNum,bestRate,1);
 
 
 
@@ -417,7 +418,7 @@ LoadMore(){
 this.datastorage.SearchingData
 (this.locF,this.dateF1,this.dateF2,this.cost1F,this.costF2,this.rateF,this.typeF
   ,this.wifiF,this.coffeeF,
-this.tvF,this.fridgeF,this.air_conditioningF,this.opF,this.roomNumF,this.adultNumF,this.bestRateF);
+this.tvF,this.fridgeF,this.air_conditioningF,this.opF,this.roomNumF,this.adultNumF,this.bestRateF,0);
 
 
 }

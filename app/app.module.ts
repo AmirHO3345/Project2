@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
@@ -49,7 +49,16 @@ import {TimeService} from "./Data_Sharing/Services/time.service";
 import {DateConvertPipe} from "./Data_Sharing/Pipes/DateConvert.pipe";
 import {DatePipe} from "@angular/common";
 import {ScrollTrackDirective} from "./Data_Sharing/Directives/ScrollTrack.directive";
-
+import { FavouritePageComponent } from './Ahmad/favourite-list/favourite-page/favourite-page.component';
+import { FavouriteListComponent } from './Ahmad/favourite-list/favourite-list.component';
+import { ListfavsComponent } from './Ahmad/favourite-list/listfavs/listfavs.component';
+import { RoomDetailsComponent2 } from './Ahmad/favourite-list/favourite-page/room-details/room-details.component';
+import { FaciliyEditComponent } from './Ahmad/owner-part/faciliy-edit/faciliy-edit.component';
+import { FaciliyItemComponent } from './Ahmad/owner-part/faciliy-list/faciliy-item/faciliy-item.component';
+import { FaciliyListComponent } from './Ahmad/owner-part/faciliy-list/faciliy-list.component';
+import { ListOwnerComponent } from './Ahmad/owner-part/list-owner/list-owner.component';
+import { RoomDetailsComponent3 } from './Ahmad/owner-part/faciliy-list/faciliy-item/room-details/room-details.component';
+import {MatCardModule} from '@angular/material/card';
 
 //import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -78,16 +87,27 @@ import {ScrollTrackDirective} from "./Data_Sharing/Directives/ScrollTrack.direct
     ChatComponent,
     MessageComponent ,
     DateConvertPipe ,
-    ScrollTrackDirective
+    ScrollTrackDirective,
+    FavouritePageComponent,
+    FavouriteListComponent,
+    ListfavsComponent,
+    RoomDetailsComponent2,
+    FaciliyEditComponent,
+    FaciliyItemComponent,
+    FaciliyListComponent,
+    ListOwnerComponent,
+    RoomDetailsComponent3
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
     NgbModule, NgbRatingModule, MatSliderModule, NgxSliderModule/**/, Ng5SliderModule,
     SlickCarouselModule,
     MatIconModule, MatButtonModule, MatToolbarModule, BrowserAnimationsModule,
-    MatDatepickerModule, MatNativeDateModule, MatInputModule , MatMenuModule
+    MatDatepickerModule, MatNativeDateModule, MatInputModule , MatMenuModule,MatCardModule
+
   ],
   providers: [AuthenticationService , RoomServiceComponent , DatePipe],
   bootstrap: [AppComponent]

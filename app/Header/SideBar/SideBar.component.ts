@@ -1,6 +1,7 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {AuthenticationService} from "../../Windows_PopUp/Authentication/authentication.service";
 import {UserModel} from "../../Data_Sharing/Model/user.model";
+import { DataStoragrService } from 'src/app/Ahmad/DataStorageService';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,9 @@ export class SideBarComponent {
   @ViewChild("MainSideBar") MainSide !: ElementRef ;
   @ViewChild("Control") Parts_Control !: ElementRef ;
 
-  constructor(private Render : Renderer2 , private AuthenticationInfo : AuthenticationService) {
+  constructor(private Render : Renderer2 , private AuthenticationInfo : AuthenticationService
+    ,private datastorage:DataStoragrService
+    ) {
     this.UserAccount = null ;
     this.AuthenticationInfo.Account.subscribe((Data) => {
       if(Data != null)
@@ -41,5 +44,11 @@ export class SideBarComponent {
 
   public LogOut() {
     this.AuthenticationInfo.Logout();
+  }
+
+  getFavouriteList(){
+    //this.datastorage.getFavouriteList();
+    console.log("qwerqwer");
+   // this.dataStorage.getFavouriteList();
   }
 }

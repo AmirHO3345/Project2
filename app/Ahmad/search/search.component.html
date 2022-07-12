@@ -28,11 +28,11 @@
         <!-- .htlfndr-steps -->
             
             <!-- SubHeader =============================================== -->
-            
+            <img src="http://www.ansonika.com/albert/img/sub_header_short_2.jpg" width="100%;" *ngIf="!tag">
             <div class="parallax-window" id="booking" data-parallax="scroll" *ngIf="!tag"
              data-image-src="img/sub_header_home.jpg" data-natural-width="1400"
               data-natural-height="550">
-                <div id="subheader_home" style="margin-top: -16%">
+                <div id="subheader_home" style="margin-top: -40%;">
                     <div id="sub_content" >
                         <div id="book_container">
                             <form (ngSubmit)="onSubmit(f)" #f="ngForm"
@@ -54,12 +54,13 @@
                                          placeholder="Arrival" readonly> -->
                                          <input matInput [matDatepicker]="picker_Arrival"
                      class="form-control" 
-                           placeholder="Arrival" ngModel name="datein" [(ngModel)]="dateT"
-                           [min]="this.DateNow()" (ngModelChange)="this.ChangeArrival($event)"
-                            required readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival"
-                    >
-                      
+                           placeholder="Arrival" ngModel name="datein" [(ngModel)]="dateF"
+                           [min]="this.DateNow()" 
+                           
+                          
+                           
+                           required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival">
                     </mat-datepicker-toggle>
                     <mat-datepicker #picker_Arrival></mat-datepicker>
                         <!-- <button type="button" class="htlfndr-clear-datepicker"></button> -->
@@ -87,9 +88,9 @@
                                     <div id="container_4">
                                         <label>Rooms</label>
                                         <div class="qty-buttons">
-                                            <input type="button" value="-" class="qtyminus" name="rooms" (click)="ChangeRooms(false)">
-                                            <input type="text" name="rooms" id="rooms" value="" [(ngModel)]="this.Rooms" class="qty form-control" placeholder="0"[(ngModel)]="this.Rooms">
-                                            <input type="button" value="+" class="qtyplus" name="rooms" (click)="ChangeRooms(true)">
+                                            <input type="button" value="-" class="qtyminus" (click)="ChangeRooms(false)" name="rooms" >
+                                            <input type="text" name="rooms" id="rooms" value="" [(ngModel)]="this.Rooms"  class="qty form-control" placeholder="0">
+                                            <input type="button" value="+" class="qtyplus" (click)="ChangeRooms(true)" name="rooms" >
                                         </div>
                                     </div>
                                 </div><!-- End group_2 -->
@@ -121,18 +122,18 @@
                 </div><!-- End subheader -->
             </div><!-- End parallax-window -->
             <!-- End SubHeader ============================================ -->
-          
+            
 
 
 
 
 
 
-        <div class="row" style="margin-top: -12%;">
+        <div class="row" style="margin-top: -2%;">
             <aside class="col-sm-4 col-md-3 col-lg-3 htlfndr-sidebar htlfndr-sidebar-in-left" 
             role="complementary" *ngIf="!tag">
-                <div class="htlfndr-search-details widget">
-                    <h3 class="widget-title">details</h3>
+                <div class="htlfndr-search-details widget" >
+                    <h3 class="widget-title" >details</h3>
                     <div class="htlfndr-widget-content">
                         <form name="search-hotel-details" id="search-hotel-details">
                             <!-- Price slider -->
@@ -164,10 +165,10 @@
                                 <input name="rangeOne" value="10" min="0" max="100" step="1" type="range">
                                 <input name="rangeTwo" value="90" min="0" max="100" step="1" type="range">
                               </section> -->
-                            
+                            <div style="color:#F90;">
                               <ng5-slider  [(value)]="minValue" [(highValue)]="maxValue"
                                [options]="options" ></ng5-slider>
-                        
+                            </div>
                             <!-- <div id="htlfndr-price-slider"></div> -->
                             <!-- First 'input' does not need a 'name' attribute.
                              For the backend form processing use hidden fields below -->
@@ -179,14 +180,14 @@
                             <p class="htlfndr-input-label" style="margin-left: 20px;">user rating</p>
                             <ngb-rating [max]="5" [(rate)]=currentRate [readonly]="false"
                            
-                            style="font-size: 40px;color:rgb(21, 145, 202);
+                            style="font-size: 40px;color:#F90;
                             margin-left: 10%;margin-top: 0px;" ></ngb-rating>
-
-                            <button class="btn btn-primary" style="margin-left: 51%;
+                            
+                            <button class="btn_1" style="margin-left: 51%;
                             width: 53%;margin-top: 6%;" (click)="currentRate=0">Reset</button>
                             <!-- <div class="htlfndr-user-rating" data-rating="3"></div> -->
                             <!-- The value of a hidden field is such as 'data-rating' attribute above -->
-                            <input type="hidden" name="htlfndr-rating" id="htlfndr-rating" value="3"/>
+                            <input type="hidden" name="htlfndr-ratingg" id="htlfndr-ratingg" value="3"/>
 
                             <!-- Checkboxes-->
                             <p class="htlfndr-input-label" >accomodation type</p>
@@ -284,11 +285,23 @@
 
            
     <main class="col-sm-8 col-md-9 col-lg-9 htlfndr-search-result htlfndr-grid-view" role="main">
-      <h2 class="htlfndr-search-result-title" *ngIf="!tag">
-          <span>{{getRoomNum()}}</span> results found</h2>
+      <h2 class="htlfndr-search-result-title" *ngIf="!tag" >
+          <span style="color:#F90;">{{getRoomNum()}}</span> results found</h2>
       <!-- Sorting navigation section -->
 
       <app-room-list *ngIf="!tag"></app-room-list>
+
+      <button (click)="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+     
+      <!-- <div id="container_6" style="width:0%;">
+        <input (click)="LoadMore()" value="Load More" class="btn_1" id="submit-booking">
+      </div> -->
+
+    
+
+
+      
       <!-- <app-room-details 
       *ngIf="selectedRoom;else infoText" [room]="selectedRoom"
       ></app-room-details> -->
