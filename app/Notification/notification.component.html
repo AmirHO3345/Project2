@@ -1,0 +1,28 @@
+<div class="Fix" scrollTrack #Scroller='ScrollTracking'>
+  <div class="wrapper">
+    <div class="notifications">
+      <div class="notifications__item"
+           *ngFor="let Notify of this.Notifications"
+           (click)="this.OnDetails(Notify)"
+      >
+        <div class="notifications__item__avatar">
+          <img [src]="this.GetImagePath(Notify.NotificationFormat)" />
+        </div>
+        <div class="notifications__item__content">
+          <span class="notifications__item__title">{{Notify.NotificationData.Title}}</span>
+          <span class="notifications__item__message">{{Notify.NotificationData.Body}}</span>
+        </div>
+        <div class="DateNotification">
+          <p>{{Notify.Creation_Date | DateConvert:1:this.CurrentTime}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="Loading" *ngIf="!this.IsDone">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+    <div class="NoMore" *ngIf="this.IsDone">
+      <p>No More Notification</p>
+    </div>
+  </div>
+</div>
+

@@ -3,7 +3,7 @@
     <div class="card-head">
       <header>User List</header>
     </div>
-    <div class="card-body no-padding height-9" scrollTrack #Scroller='ScrollTracking'>
+    <div class="card-body no-padding height-9" scrollTrack #Scroller='ScrollTracking' >
       <div class="collapse collapse-xs collapse-sm show chat-page" id="open-chats">
         <div class="form-group mt-20 is-empty">
           <input type="text" value="" placeholder="Search..." class="form-control">
@@ -13,12 +13,14 @@
             <a [routerLink]="[User.UserID]" class="active">
               <div class="media">
                 <div class="media-left thumb thumb-sm">
-                  <img alt="" class="media-object chat-img" [src]="User.ImagePath"> </div>
+                  <img alt="" class="media-object chat-img" [src]="User.ImagePath">
+                  <div class="status-indicator bg-success" *ngIf="User.IsActive"></div>
+                </div>
                 <div class="media-body">
                   <p class="media-heading">
                     <span class="text-strong">{{User.UserName}}</span>
                     <span class="badge bg-danger" *ngIf="User.UnReadMessage != 0">{{User.UnReadMessage}}</span>
-                    <small class="pull-right">{{User.DateLastMessage | DateConvert:this.Current_Date}}</small>
+                    <small class="pull-right">{{User.DateLastMessage | DateConvert:1:this.Current_Date}}</small>
                   </p>
                   <small class=" message">{{User.LastMessage | MaxString:40}}</small>
                 </div>

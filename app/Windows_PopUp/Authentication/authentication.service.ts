@@ -32,7 +32,7 @@ export class AuthenticationService {
 
   PopUpRegisterOpen : Subject<any>;
 
-  static API_Location : string = "http://laravelapimk.atwebpages.com/public/" ;
+  static API_Location : string = "http://192.168.137.148:8000/" ;
 
   constructor(private HTTP : HttpClient,private roomser:RoomServiceComponent) {
     this.Account = new BehaviorSubject<UserModel | null>(null);
@@ -80,7 +80,7 @@ export class AuthenticationService {
     let ImagePath = AuthenticationService.API_Location.concat(Information.path_photo) ;
     const User = new UserModel(Information.user.id , Information.user.name , Information.token ,
       Information.user.rule , ImagePath);
-      
+
       console.log(User.GetToken());
 
       this.roomser.setToken(User.GetToken());

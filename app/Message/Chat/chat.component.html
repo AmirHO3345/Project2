@@ -1,29 +1,35 @@
 <div class="Fix">
   <div class="card card-box">
     <div class="card-head">
-      <header>Sanjay Singh</header>
+      <header *ngIf="User_Texting != undefined">{{this.User_Texting.Name}}</header>
       <div class="tools">
         <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
       </div>
     </div>
     <div class="card-body no-padding height-9">
       <div class="row">
-        <ul class="chat nice-chat chat-page small-slimscroll-style">
+        <ul class="chat nice-chat chat-page small-slimscroll-style" scrollTrack #Scroller='ScrollTracking'>
           <li *ngFor="let Message of this.AllMessage"
               [class]="(Message.ID_Sender == this.AccountInfo.ID)? 'in' : 'out'">
             <ng-template [ngIf]="Message.ID_Sender == this.AccountInfo.ID">
-              <img [src]="this.AccountInfo.ImagePath" class="avatar" alt="">
+              <div style="position: relative">
+                <img [src]="this.AccountInfo.ImagePath" class="avatar" alt="">
+                <div class="status-indicator-in bg-success" *ngIf="this.AccountInfo.IsActive"></div>
+              </div>
               <div class="message">
                 <span class="arrow"></span> <a class="name" href="#"> {{this.AccountInfo.Name}} </a>
-                <span class="datetime"> {{Message.Message_Date | DateConvert:this.Current_Date}} </span>
+                <span class="datetime"> {{Message.Message_Date | DateConvert:1:this.Current_Date}} </span>
                 <span class="body"> {{Message.Message_Content}} </span>
               </div>
             </ng-template>
             <ng-template [ngIf]="Message.ID_Sender != this.AccountInfo.ID">
-              <img [src]="this.User_Texting.ImagePath" class="avatar" alt="">
+              <div style="position: relative">
+                <img [src]="this.User_Texting.ImagePath" class="avatar" alt="">
+                <div class="status-indicator-out bg-success" *ngIf="this.User_Texting.IsActive"></div>
+              </div>
               <div class="message">
                 <span class="arrow"></span> <a class="name" href="#"> {{this.User_Texting.Name}} </a>
-                <span class="datetime"> {{Message.Message_Date | DateConvert:this.Current_Date}} </span>
+                <span class="datetime"> {{Message.Message_Date | DateConvert:1:this.Current_Date}} </span>
                 <span class="body"> {{Message.Message_Content}} </span>
               </div>
             </ng-template>

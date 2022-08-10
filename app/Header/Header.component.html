@@ -6,181 +6,23 @@
     <span>App Logo</span>
     <div class="Icons">
       <ul class="List_Icons">
-        <li *ngIf="IsAccountExist" [matMenuTriggerFor]="Notification">
-            <button mat-icon-button>
-              <span class="badge">2</span>
-              <mat-icon>notifications</mat-icon>
-            </button>
-            <mat-menu #Notification="matMenu" xPosition="before">
-              <div class="Notification Box_Container">
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> Mention you on ITE Smfra group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div> <!-- new -->
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> {{'Mention you on ITE group' | MaxString:30}}
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="Highlight"> Amir </span> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-              </div>
-            </mat-menu>
+        <li *ngIf="IsAccountExist">
+          <app-notification-icon *ngIf="this.ActiveIconNotification"></app-notification-icon>
+          <button mat-icon-button
+                  style="background-color: #ffffff38"
+                  *ngIf="!this.ActiveIconNotification"
+          >
+            <mat-icon>notifications</mat-icon>
+          </button>
           </li>
           <li *ngIf="IsAccountExist">
-            <button mat-icon-button [matMenuTriggerFor]="Message">
-              <span class="badge">2</span>
+            <app-message-icon *ngIf="this.ActiveIconMessage"></app-message-icon>
+            <button mat-icon-button
+                    style="background-color: #ffffff38"
+                    *ngIf="!this.ActiveIconMessage"
+            >
               <mat-icon>mail</mat-icon>
             </button>
-            <mat-menu #Message="matMenu" xPosition="before">
-              <div class="Message Box_Container">
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> <span>You: </span>{{'Mention you on ITE group' | MaxString:23}}
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-                <div class="Sample">
-                  <div class="Image-wrapper">
-                    <div class="Image">
-                      <img src="assets/Images/avatar1.jpg" alt="" width="32">
-                    </div>
-                  </div>
-                  <div class="Text">
-                    <span class="ClientName"> Amir </span><br> Mention you on ITE group
-                  </div>
-                  <div class="TimeSend">
-                    jun 6 at 9:30 PM
-                  </div>
-                </div>
-              </div>
-            </mat-menu>
         </li>
         <li *ngIf="!IsAccountExist">
           <button mat-icon-button (click)="OpenRegister()">

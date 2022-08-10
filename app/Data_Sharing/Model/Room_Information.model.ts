@@ -1,14 +1,21 @@
 
 export class Room_InformationModel {
 
-  Facility_Images : string[] ;
-  Facility_Name : string ;
-  Facility_Description : string;
-  Facility_Price : number ;
-  Facility_Component : Room_Specification[]
+  readonly Facility_ID : number ;
 
+  readonly Facility_Name : string ;
 
-  public constructor(FI : string[] , FN : string , FD : string , FP : number , FC : Room_Specification[]) {
+  readonly Facility_Images : string[] ;
+
+  readonly Facility_Description : string;
+
+  readonly Facility_Price : number ;
+
+  readonly Facility_Component : Room_Specification[];
+
+  public constructor(ID : number , FI : string[] , FN : string ,
+                     FD : string , FP : number , FC : Room_Specification[]) {
+    this.Facility_ID = ID ;
     this.Facility_Images = FI;
     this.Facility_Name = FN;
     this.Facility_Description = FD;
@@ -19,10 +26,9 @@ export class Room_InformationModel {
 }
 
 export enum Room_Specification {
-  BED ,
-  SHOWER,
+  WIFI,
+  Coffee_Machine,
   PLASMA_TV,
-  BATHTUB,
-  SAFE_BOX,
-  GARDEN
+  Air_Condition,
+  Fridge
 }

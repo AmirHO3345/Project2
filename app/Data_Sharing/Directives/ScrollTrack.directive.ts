@@ -2,9 +2,9 @@ import {Directive, ElementRef, OnDestroy, Renderer2} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 
 interface ScrollData {
-  HeightScroll : number ;
-  TopScroll : number ;
-  BottomScroll : number ;
+  HeightScroll : number ; // Total Height View + Invisible side
+  TopScroll : number ; // Far from above
+  BottomScroll : number ; // Offset + Top , whereas the offset height of just view without Invisible side
 }
 
 @Directive({
@@ -38,23 +38,31 @@ export class ScrollTrackDirective implements OnDestroy{
     this.Scroller_Info.next(DataSend);
   }
 
-  AccessStart() : boolean {
-    let Start_Pos = this.ElementLink.nativeElement.offsetHeight ;
-    let Pos = this.ElementLink.nativeElement.scrollTop + this.ElementLink.nativeElement.offsetHeight ;
-    let Max = this.ElementLink.nativeElement.scrollHeight ;
-    return (Pos / Max == Start_Pos/Max) ;
+  AccessStart(ShiftPercent : number) : boolean {
+    let Max = this.Scroller_Info.value.HeightScroll ;
+    let Start_Pos = this.ElementLink.nativeElement.offsetHeight;
+    let Pos = this.Scroller_Info.value.BottomScroll - (Max * ShiftPercent) ;
+    return (Pos / Max <= Start_Pos/Max) ;
   }
 
-  ScrollTo() : void {
+  ScrollTo(FullyShift ?: boolean , Shift ?: number ) : void {
     this.ScrollListener();
-    /* Stetment*/
+    if(FullyShift != undefined) {
+      if(FullyShift)
+        this.ElementLink.nativeElement.scrollTop = 0 ;
+      else
+        this.ElementLink.nativeElement.scrollTop
+          = this.ElementLink.nativeElement.scrollHeight - this.ElementLink.nativeElement.offsetHeight  ;
+    } else if(Shift != undefined) {
+      this.ElementLink.nativeElement.scrollTop = this.ElementLink.nativeElement.scrollHeight - Shift ;
+    }
     this.ScrollListener = this.Render.listen(this.ElementLink.nativeElement , 'scroll' ,
       (e) => this.ListenEvent(e));
   }
 
-  AccessEnd() : boolean {
-    let Pos = this.ElementLink.nativeElement.scrollTop + this.ElementLink.nativeElement.offsetHeight ;
-    let Max = this.ElementLink.nativeElement.scrollHeight ;
+  AccessEnd(ShiftPercent : number) : boolean {
+    let Max = this.Scroller_Info.value.HeightScroll ;
+    let Pos = this.Scroller_Info.value.BottomScroll + (Max * ShiftPercent) ;
     return (Pos / Max >= 1) ;
   }
 

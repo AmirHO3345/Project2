@@ -38,17 +38,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {RouteApplicationModule} from "./Route/RouteApplicaton.module";
-import {RouterModule} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
 import {MaxStringPipe} from "./Data_Sharing/Pipes/MaxString.pipe";
 import {UserChatComponent} from "./Message/UserList/userchat.component";
 import {ChatComponent} from "./Message/Chat/chat.component";
 import {MessageComponent} from "./Message/message.component";
-import {MessageService} from "./Message/message.service";
-import {TimeService} from "./Data_Sharing/Services/time.service";
 import {DateConvertPipe} from "./Data_Sharing/Pipes/DateConvert.pipe";
 import {DatePipe} from "@angular/common";
 import {ScrollTrackDirective} from "./Data_Sharing/Directives/ScrollTrack.directive";
+
 import { FavouritePageComponent } from './Ahmad/favourite-list/favourite-page/favourite-page.component';
 import { FavouriteListComponent } from './Ahmad/favourite-list/favourite-list.component';
 import { ListfavsComponent } from './Ahmad/favourite-list/listfavs/listfavs.component';
@@ -59,6 +57,16 @@ import { FaciliyListComponent } from './Ahmad/owner-part/faciliy-list/faciliy-li
 import { ListOwnerComponent } from './Ahmad/owner-part/list-owner/list-owner.component';
 import { RoomDetailsComponent3 } from './Ahmad/owner-part/faciliy-list/faciliy-item/room-details/room-details.component';
 import {MatCardModule} from '@angular/material/card';
+
+import {PopUpConfirm, ReservationListComponent} from "./ReservationList/ReservationList.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatProgressSpinnerModule, MatSpinner} from "@angular/material/progress-spinner";
+import {NotificationComponent} from "./Notification/notification.component";
+import {MessageIconComponent} from "./Header/MessageIcon/MessageIcon.component";
+import {NotificationIconComponent} from "./Header/NotificationIcon/NotificationIcon.component";
+import {StatisticComponent} from "./Admin/Statistic/statistic.component";
+
+
 
 //import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -96,7 +104,14 @@ import {MatCardModule} from '@angular/material/card';
     FaciliyItemComponent,
     FaciliyListComponent,
     ListOwnerComponent,
-    RoomDetailsComponent3
+    RoomDetailsComponent3 ,
+    ScrollTrackDirective ,
+    ReservationListComponent,
+    PopUpConfirm ,
+    NotificationComponent ,
+    MessageIconComponent ,
+    NotificationIconComponent ,
+    StatisticComponent
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     ReactiveFormsModule,
@@ -107,7 +122,7 @@ import {MatCardModule} from '@angular/material/card';
     SlickCarouselModule,
     MatIconModule, MatButtonModule, MatToolbarModule, BrowserAnimationsModule,
     MatDatepickerModule, MatNativeDateModule, MatInputModule , MatMenuModule,MatCardModule
-
+    , MatNativeDateModule, MatInputModule , MatMenuModule , MatDialogModule , MatProgressSpinnerModule
   ],
   providers: [AuthenticationService , RoomServiceComponent , DatePipe],
   bootstrap: [AppComponent]

@@ -1,0 +1,221 @@
+@font-face {
+  font-family: Nunito;
+  src: url(./Nunito-Regular.ttf);
+  src: url(./Nunito-Regular.ttf) format('ttf'), url(./Nunito-Regular.ttf) format('truetype')
+}
+
+.Fix {
+  position: relative;
+}
+
+a:focus {
+  outline: 0
+}
+
+#wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex
+}
+
+#wrapper #content-wrapper {
+  background-color: #fafdfb;
+  width: 100%;
+  overflow-x: hidden
+}
+
+#wrapper #content-wrapper #content {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto
+}
+
+.container,
+.container-fluid {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+.animated--fade-in {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: .2s;
+  animation-duration: .2s;
+  -webkit-animation-timing-function: opacity cubic-bezier(0, 1, .4, 1);
+  animation-timing-function: opacity cubic-bezier(0, 1, .4, 1)
+}
+
+.text-xs {
+  font-size: .7rem
+}
+
+.text-lg {
+  font-size: 1.2rem
+}
+
+.text-gray-400 {
+  color: #d1d3e2 !important
+}
+
+.text-gray-500 {
+  color: #b7b9cc !important
+}
+
+.text-gray-800 {
+  color: #5a5c69 !important
+}
+
+
+.dropdown .dropdown-menu {
+  font-size: .85rem;
+  -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important
+}
+
+.dropdown .dropdown-menu .dropdown-header {
+  font-weight: 800;
+  font-size: .65rem;
+  color: #b7b9cc
+}
+
+.dropdown.no-arrow .dropdown-toggle::after {
+  display: none
+}
+
+@media (max-width:768px) {
+  #container-wrapper {
+    min-width: 100vw
+  }
+}
+
+.breadcrumb {
+  background-color: transparent;
+  font-size: 12px;
+  font-weight: 700
+}
+
+.card .card-header .dropdown {
+  line-height: 1
+}
+
+.card .card-header .dropdown .dropdown-menu {
+  line-height: 1.5
+}
+
+.card .card-header[data-toggle=collapse] {
+  text-decoration: none;
+  position: relative;
+  padding: .75rem 3.25rem .75rem 1.25rem
+}
+
+.card .card-header[data-toggle=collapse]::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 1.725rem;
+  line-height: 51px;
+  font-weight: 900;
+  content: '\f107';
+  font-family: 'Font Awesome 5 Free'
+}
+
+.card .card-header[data-toggle=collapse].collapsed {
+  border-radius: .35rem
+}
+
+.card .card-header[data-toggle=collapse].collapsed::after {
+  content: '\f105'
+}
+
+.chart-area {
+  position: relative;
+  height: 10rem;
+  width: 100%
+}
+
+@media (min-width:768px) {
+  .chart-area {
+    height: 20rem
+  }
+}
+
+@media (min-width:768px) {
+  .chart-bar {
+    height: 20rem
+  }
+}
+
+.table-flush td,
+.table-flush th {
+  border-right: 0;
+  border-left: 0
+}
+
+.table-flush tbody tr:first-child td,
+.table-flush tbody tr:first-child th {
+  border-top: 0
+}
+
+.table-flush tbody tr:last-child td,
+.table-flush tbody tr:last-child th {
+  border-bottom: 0
+}
+
+.card .table {
+  margin-bottom: 0
+}
+
+.card .table td,
+.card .table th {
+  padding-right: 1.5rem;
+  padding-left: 1.5rem
+}
+
+.customer-message {
+  border-bottom: 1px solid #e3e6f0;
+  padding-bottom: 10px;
+  padding-top: 10px
+}
+
+.customer-message:hover {
+  background-color: #f8f9fc
+}
+
+.customer-message a .message-title {
+  padding-right: 1.3rem;
+  padding-left: 1.3rem
+}
+
+.customer-message a .message-time {
+  padding-right: 1.3rem;
+  padding-left: 1.3rem
+}
+
+.customer-message a:hover {
+  text-decoration: none
+}
+
+.card {
+  -webkit-box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important
+}

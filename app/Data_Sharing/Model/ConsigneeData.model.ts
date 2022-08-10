@@ -37,7 +37,7 @@ export class ConsigneeDataModel {
   }
 
   SetMessageList(MessageSet : MessageModel[] , IsDone  = false ) {
-    this.Messages.Message.push(...MessageSet) ;
+    this.Messages.Message.unshift(...MessageSet.reverse()) ;
     this.Messages.Page = (this.Messages.Message.length / 10) + 1 ;
     this.Messages.Done = IsDone ;
   }
@@ -45,7 +45,7 @@ export class ConsigneeDataModel {
   ReceiveMessage(MessageSet : MessageModel) {
     this.LastMessage = MessageSet.Message_Content ;
     this.DateLastMessage = MessageSet.Message_Date ;
-    this.Messages.Message = this.Messages.Message.splice(0 , 0 , MessageSet) ;
+    this.Messages.Message.push(MessageSet);
     this.Messages.Page = (this.Messages.Message.length / 10) + 1 ;
   }
 

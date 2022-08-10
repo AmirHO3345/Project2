@@ -98,6 +98,21 @@ ul li {
   border-radius: 100%;
 }
 
+.Box_Container .Sample .Image-wrapper .Image .status-indicator {
+  background-color: #eaecf4;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 100%;
+  position: absolute;
+  left: 37px;
+  top: 40px;
+  border: 0.125rem solid #fff;
+}
+
+.Box_Container .Sample .Image-wrapper .Image .status-indicator.bg-success {
+  background-color: #66bb6a!important;
+}
+
 .Notification.Box_Container .Sample .Text {
   display: table-cell;
   padding-left: 15px;
@@ -158,6 +173,55 @@ ul li {
 .Box_Container::-webkit-scrollbar-thumb
 {
   display: none;
+}
+
+.dropdown-item {
+  line-height: 1.3rem;
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem 7px 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #3a3b45;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  text-decoration: none;
+  border: 0;
+}
+
+.dropdown-item:hover {
+  background-color: #00000017;
+}
+
+.text-center {
+  text-align : center !important ;
+}
+
+.small {
+  font-size:80% ;
+  font-weight:400 ;
+}
+
+.text-gray-500 {
+  color : #b7b9cc !important ;
+}
+
+::ng-deep .mat-menu-content:not(:empty) {
+  padding-bottom: 0;
+}
+
+.Sample.Loading {
+  padding : 5px !important ;
+}
+
+.Sample.Loading mat-spinner {
+  margin: 0 auto;
+}
+
+.Sample.Loading p {
+  text-align: center;
+  font-size: 80%;
 }
 
 @media (max-width: 400px) {

@@ -23,7 +23,7 @@
         <span class="tooltip">Setting</span>
       </li>
       <li>
-        <a href="#">
+        <a [routerLink]="['/notificationList']">
           <mat-icon>notifications</mat-icon>
           <span class="links_name">Notifications</span>
         </a>
@@ -37,7 +37,7 @@
         <span class="tooltip">Chat</span>
       </li>
       <li>
-        <a href="#">
+        <a [routerLink]="['/reservationList']">
           <mat-icon>payment</mat-icon>
           <span class="links_name">Reservation</span>
         </a>
@@ -56,6 +56,11 @@
           <span class="links_name">facility list</span>
         </a>
         <span class="tooltip">facility list</span>
+        <a [routerLink]="['/statistic']">
+          <mat-icon>bar_chart</mat-icon>
+          <span class="links_name">Statistic</span>
+        </a>
+        <span class="tooltip">Statistic</span>
       </li>
       <li class="profile close" *ngIf="this.UserAccount != null" #Control> <!-- open || close -->
         <div class="profile-details">

@@ -53,7 +53,7 @@ a:hover {
   font-size: 14px;
   font-weight: 600;
   line-height: 40px;
-  min-height: 40px;
+  min-height: 45px;
 }
 
 .card-head:before,
@@ -171,6 +171,32 @@ a:hover {
   height: 35px;
   border-radius: 50px;
   margin-right: 10px;
+}
+
+.status-indicator-out {
+  background-color: #eaecf4;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 100%;
+  position: absolute;
+  right: 41px;
+  top: 33px;
+  border: 0.125rem solid #fff;
+}
+
+.status-indicator-in {
+  background-color: #eaecf4;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 100%;
+  position: relative;
+  left : 33px;
+  top : 34px;
+  border: 0.125rem solid #fff;
+}
+
+.bg-success {
+  background-color: #66bb6a!important;
 }
 
 .pull-right {

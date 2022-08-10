@@ -1,14 +1,12 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {BehaviorSubject, forkJoin, map, Observable, Subject, take} from "rxjs";
+import Pusher, {Channel} from "pusher-js";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
+import {BehaviorSubject, delay, forkJoin, map, Observable, Subject, Subscription, take} from "rxjs";
 import {ConsigneeDataModel} from "../Data_Sharing/Model/ConsigneeData.model";
 import {MessageModel} from "../Data_Sharing/Model/Message.model";
 import {AuthenticationService} from "../Windows_PopUp/Authentication/authentication.service";
 import {UserModel} from "../Data_Sharing/Model/user.model";
 import {AsyncQueueModel} from "../Data_Sharing/Model/AsyncQueue.model";
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
-
 
 interface UserInfoResponse {
   info_user : {
@@ -53,7 +51,7 @@ interface SendResponse {
 }
 
 interface ChannelResponse {
-  ID : number ;
+  id_user : number ;
   message ?: {
     id : number ,
     id_send : number ,
@@ -66,24 +64,26 @@ interface ChannelResponse {
 }
 
 interface UpdateStateService {
-  Status : StateService ;
-  Active ?: {
+  Status : ServiceAvailable ;
+  Action ?: ServiceAction ;
+  ActiveUpdate ?: {
     FetchIndex : number ,
+    UserID : number ,
     Active : boolean
-  } ;
+  };
   ServiceInfo : {
     IsDone : boolean ,
     LengthUserCache : number ,
     LengthUserView : number
     IDSelected : number | null ,
-  }
+  };
 }
 
 interface InitialDataResponse {
   users : {
     id : number ,
     LastMessageDate : string ,
-    UnReadMessage : number ,
+    UnReadMessages : number ,
   }[];
 }
 
@@ -102,13 +102,13 @@ export class MessageService {
   private UsersFetch : ConsigneeDataModel[] ;
   private UserCache : InitialData ;
   private PusherProcess !: Pusher ;
-  private UserChannel !: Echo ;
+  private UserChannel !: Channel ;
   private Account : UserModel | null ;
   private IsDone : boolean ;
   private AnyChange : boolean ;
   private UnReadMessages : number
   private IDSelected : number | null ;
-  private UserCacheNumber : number ;
+  private UserCacheLength : number ;
   private QueueUpdate : AsyncQueueModel ;
   readonly UpdateState : BehaviorSubject<UpdateStateService> ;
   Communication : Subject<MessageModel> | null ;
@@ -121,19 +121,19 @@ export class MessageService {
     this.IsDone = false ;
     this.AnyChange = false ;
     this.UnReadMessages = 0 ;
-    this.UserCacheNumber = 0 ;
+    this.UserCacheLength = 0 ;
     this.QueueUpdate = new AsyncQueueModel() ;
     this.UpdateState = new BehaviorSubject<UpdateStateService>({
-      Status : StateService.Loading ,
+      Status : ServiceAvailable.NotAvailable ,
       ServiceInfo : {
         IsDone : false ,
         LengthUserCache : 0 ,
         LengthUserView : 0 ,
         IDSelected : null
       }
-    });
+    }) ;
     this.Communication = null ;
-    this.StartService();
+    this.StartService() ;
   }
 
   private StartService(): void {
@@ -141,7 +141,7 @@ export class MessageService {
       if(this.Account != null) {
         if(Value == "Wait" && this.AnyChange) {
           this.AnyChange = false ;
-          this.SendUpdate(StateService.UsersUpdate);
+          this.SendUpdate(ServiceAvailable.Available , ServiceAction.UsersUpdate);
         }
       }
     });
@@ -151,17 +151,18 @@ export class MessageService {
         this.InitialChat().pipe(take(1)).subscribe((DataInit) => {
           this.UserCache = DataInit ;
           this.InitialPusher(DataAuth.ID);
-          this.SendUpdate(StateService.NoUpdate);
+          this.SendUpdate(ServiceAvailable.Available);
         });
       } else {
         this.UserCache = {} ;
         this.UsersFetch = [] ;
         if(this.PusherProcess != undefined) {
-          // this.UserChannel.cancelSubscription();
+          this.UserChannel.cancelSubscription();
           this.PusherProcess.disconnect() ;
         }
         this.Account = null ;
-        this.SendUpdate(StateService.UsersUpdate);
+        this.SendUpdate(ServiceAvailable.Available , ServiceAction.UsersUpdate);
+        //this.SendUpdate(ServiceAvailable.NotAvailable , ServiceAction.UsersUpdate);
       }
     });
   }
@@ -176,96 +177,92 @@ export class MessageService {
         InitialDataUser.users.forEach((Value) => {
           DataResponse[Value.id] = {
             DateLastMessage : new Date(Value.LastMessageDate) ,
-            UnreadMessage : Value.UnReadMessage ,
-            IsFetch : false ,
-            UsersFetchIndex : 66 ,
+            UnreadMessage : Value.UnReadMessages ,
+            IsFetch : false
           };
-          this.UnReadMessages += Value.UnReadMessage ;
-          this.UserCacheNumber++ ;
+          this.UnReadMessages += Value.UnReadMessages ;
+          this.UserCacheLength++ ;
         });
         return DataResponse ;
       }));
   }
 
   private InitialPusher(User_ID : number) {
-
-    this.PusherProcess = new Pusher("98034be202413ea485fc") ;
-
-    this.UserChannel = new Echo({
-      broadcaster: 'pusher',
-      authEndpoint : AuthenticationService.API_Location.concat('api/broadcasting/auth') ,
+    this.PusherProcess = new Pusher("98034be202413ea485fc" , {
+      cluster : "ap2" ,
+      authEndpoint : `${AuthenticationService.API_Location}api/broadcasting/auth` ,
       auth : {
         headers : {
-          'Authorization' : this.GetAccountInfo()?.GetToken()
+          Authorization : this.Account?.GetToken()
         }
       },
-      key: "98034be202413ea485fc",
-      cluster: "ap2",
-      forceTLS: true
+    }) ;
+    this.UserChannel = this.PusherProcess.subscribe(`private-Room.Chat.${User_ID}`);
+    this.UserChannel.bind("ChatEvent" , (DataReceive : ChannelResponse) => {
+      let ID_Sender : number ;
+      if(DataReceive.id_user != undefined)
+        ID_Sender = DataReceive.id_user ;
+      else
+        ID_Sender = <number>DataReceive.message?.id_send ;
+      let InitialDataUser = this.UserCache[ID_Sender] ;
+      if(DataReceive.status != undefined) {
+        if(InitialDataUser && InitialDataUser.IsFetch) {
+          this.UsersFetch[<number>InitialDataUser.UsersFetchIndex]
+            .IsActive = DataReceive.status;
+          this.SendUpdate(ServiceAvailable.Available , ServiceAction.ActiveUpdate ,
+            {Index : <number>InitialDataUser.UsersFetchIndex , Active : DataReceive.status}) ;
+        }
+      } else if(DataReceive.message != undefined) {
+        //let IsSelected = (this.IDSelected != null && this.IDSelected == DataReceive.ID) ;
+        if(InitialDataUser == undefined) {
+          InitialDataUser = {
+            DateLastMessage : new Date(DataReceive.message.created_at) ,
+            UnreadMessage : 1 ,
+            IsFetch : true ,
+          }
+          this.UserCache[ID_Sender] = InitialDataUser ;
+        } else {
+          InitialDataUser.DateLastMessage = new Date(DataReceive.message.created_at);
+          InitialDataUser.UnreadMessage++ ;
+        }
+        this.UnReadMessages++;
+        let TaskIO !: number ;
+        let MessageInfo = new MessageModel(DataReceive.message.id , DataReceive.message.id_send
+          , DataReceive.message.id_recipient , DataReceive.message.message , new Date(DataReceive.message.created_at)) ;
+
+        TaskIO = this.QueueUpdate.Push(() => {
+          if (DataReceive.message == undefined) {
+            this.QueueUpdate.Pop();
+            return;
+          }
+          if(InitialDataUser.UsersFetchIndex != undefined) {
+            this.UsersFetch[InitialDataUser.UsersFetchIndex].ReceiveMessage(MessageInfo) ;
+            this.UsersFetch[InitialDataUser.UsersFetchIndex].UnReadMessage++ ;
+            this.SortDateMessage(false , ID_Sender) ;
+            this.QueueUpdate.Pop();
+          } else {
+            this.FetchUserInfo(ID_Sender).pipe(take(1))
+              .subscribe((UserData) => {
+                this.UsersFetch.push(UserData);
+                InitialDataUser.UsersFetchIndex = this.UsersFetch.length - 1 ;
+                this.SortDateMessage(false , ID_Sender) ;
+                UserData.ReceiveMessage(MessageInfo);
+                this.QueueUpdate.Pop();
+              });
+          }
+          if(this.Communication != null &&
+            this.IDSelected != null && this.IDSelected == ID_Sender) //ID
+              this.Communication.next(MessageInfo);
+        } , true);
+        const Listener = this.QueueUpdate.SendRegister.pipe(delay(0))
+          .subscribe((Value) => {
+          if(TaskIO == Value) {
+            Listener.unsubscribe();
+            this.AnyChange = true ;
+          }
+        });
+      }
     });
-
-    this.UserChannel.private("Room.Chat.${User_ID")
-      .listen(".ChatEvent" , () => {
-        console.log("Success");
-      });
-
-    // this.UserChannel = this.PusherProcess.subscribe(`private-Room.Chat.${User_ID}`);
-    // this.UserChannel.bind("ChatEvent" , (DataReceive : ChannelResponse) => {
-    //   console.log("777");
-    //   let InitialDataUser = this.UserCache[DataReceive.ID] ;
-    //   if(DataReceive.status != undefined) {
-    //     if(InitialDataUser && InitialDataUser.IsFetch) {
-    //       this.UsersFetch[<number>InitialDataUser.UsersFetchIndex]
-    //         .IsActive = DataReceive.status;
-    //       this.SendUpdate(StateService.ActiveUpdate ,
-    //         {Index : <number>InitialDataUser.UsersFetchIndex , Active : DataReceive.status}) ;
-    //     }
-    //   } else if(DataReceive.message != undefined) {
-    //     //let IsSelected = (this.IDSelected != null && this.IDSelected == DataReceive.ID) ;
-    //     if(InitialDataUser == undefined) {
-    //       InitialDataUser = {
-    //         DateLastMessage : new Date(DataReceive.message.created_at) ,
-    //         UnreadMessage : 1 ,
-    //         IsFetch : true ,
-    //       }
-    //       this.UserCache[DataReceive.ID] = InitialDataUser ;
-    //     } else {
-    //       InitialDataUser.DateLastMessage = new Date(DataReceive.message.created_at);
-    //       InitialDataUser.UnreadMessage++ ;
-    //     }
-    //     this.UnReadMessages++;
-    //     let TaskIO !: number ;
-    //     let MessageInfo = new MessageModel(DataReceive.message.id , DataReceive.message.id_send
-    //       , DataReceive.message.id_recipient , DataReceive.message.message , new Date(DataReceive.message.created_at)) ;
-    //     let Listener  = this.QueueUpdate.SendRegister.subscribe((Value) => {
-    //       if(TaskIO == Value) {
-    //         this.AnyChange = true ;
-    //         Listener.unsubscribe();
-    //       }
-    //     });
-    //     TaskIO = this.QueueUpdate.Push(() => {
-    //       if (DataReceive.message == undefined) {
-    //         this.QueueUpdate.Pop();
-    //         return;
-    //       }
-    //       if(InitialDataUser.UsersFetchIndex != undefined) {
-    //         this.UsersFetch[InitialDataUser.UsersFetchIndex].ReceiveMessage(MessageInfo) ;
-    //         this.UsersFetch[InitialDataUser.UsersFetchIndex].UnReadMessage++ ;
-    //         this.SortDateMessage(false , DataReceive.ID) ;
-    //         this.QueueUpdate.Pop();
-    //       } else {
-    //         this.FetchUserInfo(DataReceive.ID).pipe(take(1))
-    //           .subscribe((UserData) => {
-    //             this.UsersFetch.push(UserData);
-    //             InitialDataUser.UsersFetchIndex = this.UsersFetch.length - 1 ;
-    //             this.SortDateMessage(false , DataReceive.ID) ;
-    //             UserData.ReceiveMessage(MessageInfo);
-    //             this.QueueUpdate.Pop();
-    //           });
-    //       }
-    //     } , true);
-    //   }
-    // });
   }
 
   private FetchUserInfo(ID_User : number) {
@@ -285,7 +282,7 @@ export class MessageService {
 
   private FetchPackageMessage(ID_B : number , Page : number) {
     let Params = new HttpParams().set("id_recipient" , ID_B);
-    Params.append("page" , Page);
+    Params = Params.append("page" , Page);
     return this.HTTP.get<MessageListResponse>(`${AuthenticationService.API_Location}api/chat/show` , {
       headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) ,
       params : Params ,
@@ -301,6 +298,8 @@ export class MessageService {
   }
 
   private SortDateMessage(SortComplex : boolean , ID ?: number) {
+    if(this.UsersFetch.length <= 1)
+      return;
     if(SortComplex) {
       this.UsersFetch = this.UsersFetch.sort((A , B) => {
         let Date_A : Date = A.DateLastMessage ,
@@ -316,66 +315,77 @@ export class MessageService {
       if(ID == undefined)
         return ;
       let IndexFetch = <number>this.UserCache[ID].UsersFetchIndex ;
-      let Temp : ConsigneeDataModel = this.UsersFetch[IndexFetch] ;
-      this.UsersFetch = this.UsersFetch.splice(IndexFetch , 1)
-        .splice(0 , 0 , Temp) ;
+      this.UsersFetch.unshift(this.UsersFetch.splice(IndexFetch , 1)[0]);
       this.UserCache[this.UsersFetch[0].UserID].UsersFetchIndex = 0 ;
       this.UserCache[this.UsersFetch[1].UserID].UsersFetchIndex = 1 ;
     }
   }
 
-  private SendUpdate(State : StateService , ActiveData ?: {Index : number , Active : boolean}) {
+  private SendUpdate(State : ServiceAvailable , Action ?: ServiceAction
+                     , ActiveData ?: {Index : number , Active : boolean}) {
     let Temp : UpdateStateService ;
     switch (State) {
-      case StateService.Loading :
+      case ServiceAvailable.NotAvailable :
         Temp = {
-          Status : StateService.Loading ,
+          Status : ServiceAvailable.NotAvailable ,
           ServiceInfo : {
             IsDone : this.IsDone ,
-            LengthUserCache : this.UserCacheNumber ,
+            LengthUserCache : this.UserCacheLength ,
             LengthUserView : this.UsersFetch.length ,
             IDSelected : this.IDSelected
           }
         };
         break ;
-      case StateService.ActiveUpdate :
-        if(ActiveData == undefined)
-          return ;
-        Temp = {
-          Status : StateService.ActiveUpdate ,
-          Active : {
-            FetchIndex : ActiveData.Index ,
-            Active : ActiveData.Active
-          } ,
-          ServiceInfo : {
-            IsDone : this.IsDone ,
-            LengthUserCache : this.UserCacheNumber ,
-            LengthUserView : this.UsersFetch.length ,
-            IDSelected : this.IDSelected
-          }
-        };
-        break ;
-      case StateService.UsersUpdate :
-        Temp = {
-          Status : StateService.UsersUpdate ,
-          ServiceInfo : {
-            IsDone : this.IsDone ,
-            LengthUserCache : this.UserCacheNumber ,
-            LengthUserView : this.UsersFetch.length ,
-            IDSelected : this.IDSelected
-          }
-        };
-        break ;
-      default :
-        Temp = {
-          Status : StateService.NoUpdate ,
-          ServiceInfo : {
-            IsDone : this.IsDone ,
-            LengthUserCache : this.UserCacheNumber ,
-            LengthUserView : this.UsersFetch.length ,
-            IDSelected : this.IDSelected
-          }
-        };
+      case ServiceAvailable.Available :
+        if(Action == ServiceAction.ActiveUpdate) {
+          if(ActiveData == undefined)
+            Temp = {
+              Status : ServiceAvailable.Available ,
+              ServiceInfo : {
+                IsDone : this.IsDone ,
+                LengthUserCache : this.UserCacheLength ,
+                LengthUserView : this.UsersFetch.length ,
+                IDSelected : this.IDSelected
+              }
+            };
+          else
+            Temp = {
+            Status : ServiceAvailable.Available ,
+            Action : ServiceAction.ActiveUpdate ,
+            ActiveUpdate : {
+              FetchIndex : ActiveData.Index ,
+              UserID : this.UsersFetch[ActiveData.Index].UserID ,
+              Active : ActiveData.Active
+            } ,
+            ServiceInfo : {
+              IsDone : this.IsDone ,
+              LengthUserCache : this.UserCacheLength ,
+              LengthUserView : this.UsersFetch.length ,
+              IDSelected : this.IDSelected
+            }
+          };
+        } else if(Action == ServiceAction.UsersUpdate) {
+          Temp = {
+            Status : ServiceAvailable.Available ,
+            Action : ServiceAction.UsersUpdate ,
+            ServiceInfo : {
+              IsDone : this.IsDone ,
+              LengthUserCache : this.UserCacheLength ,
+              LengthUserView : this.UsersFetch.length ,
+              IDSelected : this.IDSelected
+            }
+          };
+        } else {
+          Temp = {
+            Status : ServiceAvailable.Available ,
+            ServiceInfo : {
+              IsDone : this.IsDone ,
+              LengthUserCache : this.UserCacheLength ,
+              LengthUserView : this.UsersFetch.length ,
+              IDSelected : this.IDSelected
+            }
+          };
+        }
         break ;
     }
     this.UpdateState.next(Temp);
@@ -383,9 +393,9 @@ export class MessageService {
 
   public FetchPackageUser(Batch : number) : void {
     this.QueueUpdate.Pause();
-    this.SendUpdate(StateService.Loading);
+    this.SendUpdate(ServiceAvailable.NotAvailable);
     if(this.IsDone) {
-      this.SendUpdate(StateService.NoUpdate);
+      this.SendUpdate(ServiceAvailable.Available);
       this.QueueUpdate.Continue();
       return ;
     }
@@ -403,7 +413,7 @@ export class MessageService {
       return 0 ;
     });
     let ObservableList : Observable<ConsigneeDataModel>[] = [] ;
-    UserCache2Array.forEach((Value , Index) => {
+    UserCache2Array.forEach((Value) => {
       if(ObservableList.length >= Batch)
         return ;
       if(!Value.DataUser.IsFetch) {
@@ -412,7 +422,7 @@ export class MessageService {
     });
     this.IsDone = (ObservableList.length < Batch) ;
     if(ObservableList.length == 0) {
-      this.SendUpdate(StateService.NoUpdate);
+      this.SendUpdate(ServiceAvailable.Available);
       this.QueueUpdate.Continue();
       return ;
     }
@@ -423,9 +433,9 @@ export class MessageService {
         this.UserCache[Value.UserID].UsersFetchIndex = this.UsersFetch.length - 1 ;
       });
       this.SortDateMessage(true);
-    })).subscribe((Value) => {
+    })).subscribe(() => {
       if(this.QueueUpdate.StateSnapShot() == "Wait")
-        this.SendUpdate(StateService.UsersUpdate);
+        this.SendUpdate(ServiceAvailable.Available , ServiceAction.UsersUpdate);
       else
         this.AnyChange = true ;
       this.QueueUpdate.Continue();
@@ -449,29 +459,25 @@ export class MessageService {
     }
     return forkJoin([...ObservableList]).pipe(take(1) , map((DataResponse) => {
       let DataFinal : MessageModel[] = [] ;
-      let BlockNumber = 0 ;
       if(PageNumber % 1 == 0) {
-        DataResponse.forEach((Value) => {
-          DataFinal.push(...Value);
-          BlockNumber++;
-        });
-        InfoUser.SetMessageList(DataFinal , (BlockNumber != 10)) ;
+        DataFinal.push(...DataResponse[0]);
+        InfoUser.SetMessageList(DataFinal , (DataFinal.length != 10)) ;
         return {
           Data : DataFinal ,
-          Done : (BlockNumber != 10)
+          Done : (DataFinal.length != 10)
         };
       }
       else {
         let TempNum = ((PageNumber % 1) * 10) - 1 ;
-        DataResponse.forEach((Value , Index) => {
+        DataResponse[0].forEach((Value , Index) => {
           if(Index > TempNum)
-            DataFinal.push(...Value);
-          BlockNumber++ ;
+            DataFinal.push(Value);
         });
-        InfoUser.SetMessageList(DataFinal , (BlockNumber != 20)) ;
+        DataResponse[1].forEach(Value => DataFinal.push(Value));
+        InfoUser.SetMessageList(DataFinal , ((DataResponse[0].length + DataResponse[1].length) != 20)) ;
         return {
           Data : DataFinal ,
-          Done : (BlockNumber != 20)
+          Done : (DataResponse[0].length + DataResponse[1].length) != 20 ,
         };
       }
     }));
@@ -492,6 +498,22 @@ export class MessageService {
       }));
   }
 
+  public SendReadMessage(ID_Sender : number) {
+    return this.HTTP.post(`${AuthenticationService.API_Location}api/chat/read` , {
+      id_send : ID_Sender ,
+    } , {headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) })
+      .pipe(take(1) , map((Value) => {
+        if(!(Value instanceof HttpErrorResponse)) {
+          this.UnReadMessages -= this.UserCache[ID_Sender].UnreadMessage ;
+          this.UserCache[ID_Sender].UnreadMessage = 0 ;
+          if(this.UserCache[ID_Sender].UsersFetchIndex != undefined)
+            this.UsersFetch[<number>this.UserCache[ID_Sender].UsersFetchIndex].UnReadMessage = 0 ;
+          return true ;
+        } else
+          return false ;
+      }));
+  }
+
   public GetUnReadMessage() : number {
     return this.UnReadMessages ;
   }
@@ -501,8 +523,6 @@ export class MessageService {
       this.IDSelected = ID ;
       //Change TempIndex : number to TempIndex : this.UsersFetch[TempIndex] Block
       let TempIndex = <number>this.UserCache[ID].UsersFetchIndex ;
-      this.UnReadMessages -= this.UsersFetch[TempIndex].UnReadMessage ;
-      this.UsersFetch[TempIndex].UnReadMessage = 0 ;
       this.Communication = new Subject<MessageModel>();
       return this.UsersFetch[TempIndex].GetAllMessage() ;
     } else {
@@ -538,9 +558,12 @@ export class MessageService {
   }
 }
 
-export enum StateService {
+export enum ServiceAvailable {
+  Available ,
+  NotAvailable
+}
+
+export enum ServiceAction {
   UsersUpdate ,
   ActiveUpdate ,
-  NoUpdate ,
-  Loading
 }

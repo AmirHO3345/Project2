@@ -1,0 +1,33 @@
+<button mat-icon-button [matMenuTriggerFor]="Notification"
+        (menuOpened)="this.DropDownNotification()" (menuClosed)="this.DropDownNotification()" >
+  <span class="badge" *ngIf="this.UnReadNotification > 0">{{this.UnReadNotification}}</span>
+  <mat-icon>notifications</mat-icon>
+</button>
+
+<mat-menu #Notification="matMenu" xPosition="before">
+  <div class="Notification Box_Container">
+    <div *ngFor="let Item of this.Notifications"
+         [class]="(Item.IsReading) ? 'Sample' : 'Sample New'"
+    >
+      <div class="Image-wrapper">
+        <div class="Image">
+          <img [src]="this.GetImagePath(Item.NotificationFormat)" alt="" width="32">
+        </div>
+      </div>
+      <div class="Text">
+        <span class="Highlight"> {{Item.NotificationData.Title}} </span>
+        {{Item.NotificationData.Body}}
+      </div>
+      <div class="TimeSend">
+        {{Item.Creation_Date | DateConvert:1:this.CurrentTime}}
+      </div>
+    </div>
+    <div class="Sample Loading">
+      <mat-spinner [diameter]="25" *ngIf="!this.IsDone"></mat-spinner>
+      <p *ngIf="this.IsDone">No More Notification</p>
+    </div>
+  </div>
+  <a class="dropdown-item text-center small text-gray-500"
+     [routerLink]="['/notificationList']"
+  >Show All Notification</a>
+</mat-menu>

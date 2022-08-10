@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
-import {MessageService, StateService} from "../message.service";
+import {MessageService, ServiceAvailable , ServiceAction} from "../message.service";
 import {TimeService} from "../../Data_Sharing/Services/time.service";
 import {ScrollTrackDirective} from "../../Data_Sharing/Directives/ScrollTrack.directive";
 
@@ -39,24 +39,28 @@ export class UserChatComponent implements OnInit ,  AfterViewInit{
     this.Timer.UpdateTime.subscribe((Value) => this.Current_Date = Value) ;
     this.ChatProcessor.UpdateState.subscribe((Value) => {
       switch (Value.Status) {
-        case StateService.Loading :
+        case ServiceAvailable.NotAvailable :
           this.IsServiceAvailable = false ;
-          break ;
-        case StateService.NoUpdate :
-          this.IsServiceAvailable = true ;
-          break ;
-        case StateService.UsersUpdate :
-          this.Client_Info = this.ChatProcessor.GetUserView();
-          this.MessageUnRead = this.ChatProcessor.GetUnReadMessage();
-          this.IsServiceAvailable = true ;
-          break ;
-        case StateService.ActiveUpdate :
-          if(Value.Active == undefined)
-            return;
-          this.Client_Info[Value.Active.FetchIndex].IsActive
-            = Value.Active.Active ;
-          this.IsServiceAvailable = true ;
-          break ;
+          break;
+        case ServiceAvailable.Available :
+          switch (Value.Action) {
+            case ServiceAction.ActiveUpdate :
+              if(Value.ActiveUpdate == undefined)
+                return;
+              this.Client_Info[Value.ActiveUpdate.FetchIndex].IsActive
+                = Value.ActiveUpdate.Active ;
+              this.IsServiceAvailable = true ;
+              break ;
+            case ServiceAction.UsersUpdate :
+              this.Client_Info = this.ChatProcessor.GetUserView();
+              this.MessageUnRead = this.ChatProcessor.GetUnReadMessage();
+              this.IsServiceAvailable = true ;
+              break ;
+            default :
+              this.IsServiceAvailable = true ;
+              break ;
+          }
+          break;
       }
       this.IsDone = Value.ServiceInfo.IsDone ;
     });
@@ -66,12 +70,11 @@ export class UserChatComponent implements OnInit ,  AfterViewInit{
     let Temp = setInterval(() => {
       if(this.IsServiceAvailable) {
         clearInterval(Temp);
-        if(this.IsDone)
-          this.Client_Info = this.ChatProcessor.GetUserView();
-        else
+        this.Client_Info = this.ChatProcessor.GetUserView();
+        if(this.Client_Info.length == 0 && !this.IsDone)
           this.ChatProcessor.FetchPackageUser(10);
         this.ScrollControl.Scroller_Info.subscribe((ScrollData) => {
-          if(this.ScrollControl.AccessEnd()) {
+          if(this.ScrollControl.AccessEnd(0.06)) {
             if(this.IsServiceAvailable && !this.IsDone)
               this.ChatProcessor.FetchPackageUser(10);
           }
