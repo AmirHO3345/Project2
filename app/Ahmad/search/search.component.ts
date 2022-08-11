@@ -219,11 +219,26 @@ console.log(pos.toFixed(0));
 console.log(max);*/
 let curposition=pos.toFixed(0);
 let maxx=max.toFixed(0);
+console.log(curposition);
+console.log(maxx);
+let maxxx= +maxx;
+//maxxx-=200;
+let currpos= +curposition;
+let check=false;
 // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
- if(curposition == maxx )   {
+ if(currpos== maxxx||currpos== maxxx+1||currpos== maxxx+2 )   {
+   if(!check){check=true; console.log('downArrive'); console.log(check);
+ this.LoadMore();
+
+
+}
  //Do your action here
  //console.log("hello prother");
- this.LoadMore();
+
+ }
+ else {
+   check=false;
+
  }
 }
 

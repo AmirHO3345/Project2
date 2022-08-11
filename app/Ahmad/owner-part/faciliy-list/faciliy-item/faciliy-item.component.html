@@ -56,11 +56,12 @@
                 
                 	<div class="room_desc clearfix" >
                 	<div class="col-md-7">
-                    	<figure><img src={{facilityOwner.photos[0].url}}
+                    	<figure><img src={{staticPath+facilityOwner.photos[0].path_photo}}
                              width="70%" alt="" class="img-responsive"></figure>
                     </div>
                     <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">
                     	<h3>{{facilityOwner.name}}</h3>
+                        <!-- <h3>{{facilityOwnerAdd.name}}</h3> -->
                         <p>
                             {{facilityOwner.type}}
                         </p>
@@ -92,14 +93,13 @@
                                         <div class="tooltip-content">Fridge</div>
                                 </div>
                                   </li>
-                                  <li>
+                                  <!-- <li>
                                     <div class="tooltip_styled tooltip-effect-4">
                                         <span class="tooltip-item" >
-                                            <i>  <mat-icon (click)="removeItem()">delete_outline</mat-icon></i> </span>
+                                            <i>  <mat-icon>delete_outline</mat-icon></i> </span>
                                             <div class="tooltip-content">Delete Facility</div>
                                     </div>
-                                      </li>
-       
+                                      </li> -->
                         </ul>
                         <div class="price">from <strong>${{facilityOwner.cost}}</strong> /night
                             <small>Breakafst included</small>

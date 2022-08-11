@@ -1,10 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { AbstractControl, NgForm } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { FacilityDetails } from 'src/app/Ahmad/DataStorageService';
+import { DataStoragrService, FacilityDetails } from 'src/app/Ahmad/DataStorageService';
 import { Room } from 'src/app/Ahmad/room.model';
 import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
 import { SearchComponent } from 'src/app/Ahmad/search/search.component';
+import { UserModel } from 'src/app/Data_Sharing/Model/user.model';
+import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/authentication.service';
 @Component({
   selector: 'app-room-details',
   templateUrl: './room-details.component.html',
@@ -17,7 +21,7 @@ import { SearchComponent } from 'src/app/Ahmad/search/search.component';
   '../../../../Fonts/css/owl.theme.default.css','../../../../Fonts/css/owl.carousel.css',
   '../../../../Fonts/css/Date_Time_Picker.css','../../../../Home/View_Home/css/style.css']
 })
-export class RoomDetailsComponent implements OnInit   {
+export class RoomDetailsComponent implements OnInit/* ,OnChanges,AfterViewInit,AfterViewChecked */ {
 
  
 // @ViewChild('Image_Move') Image_View !: ElementRef ;
@@ -40,15 +44,18 @@ export class RoomDetailsComponent implements OnInit   {
  Image_Array : string[] ;
  Image_Number : number ;
  Mission_Move : number | null ;
+ AccountUser : UserModel | null
 
 qwer!:string[];
 currentDate=new Date();
-constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
-  private route:ActivatedRoute,private search:SearchComponent) {
+constructor( private http:HttpClient,private Render : Renderer2,private roomSer:RoomServiceComponent,private ProcessDate:DatePipe,
+  private route:ActivatedRoute,private search:SearchComponent,private datastorage:DataStoragrService ,
+  private AuthService : AuthenticationService) {
     //for(let i=0;i<this.roomSer.getImages(1).length;i++)
     //this.Image_Array = [this.roomSer.getImages(0)[0],this.roomSer.getImages(1)[1]];
   // this.Current_Image_Num = 1;
   // console.log(`I have apples`);
+  this.AccountUser = null ;
   this.Adults = 1 ;
     this.Rooms = 1 ;
     this.Arrival = {
@@ -67,11 +74,104 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
     this.Image_Number = 0;
     this.Mission_Move = setInterval(()=>this.AutoMove() , 3000);
 }
+  // ngAfterViewChecked(): void {
+    
+  //   console.log('ngAfterViewChecked');
+  // }
+  // ngAfterViewInit(): void {
+  //   console.log('ngAfterViewInit');
+  // }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log('ngOnChanges');
+  // }
+bookNow(){
+  
+  
+}
+facilityForm!:FormGroup;
+private initForm(){
+  let arrival='';
+  let depture='';
+  this.facilityForm=new FormGroup({
+    'arrival':new FormControl(arrival),
+    'departure':new FormControl(depture)
+  })
+}
+error!:string;
+onSubmitBook(){
+  if(this.AccountUser==null){
+    alert('please login to continue');
+  }
+
+  else {
+
+    this.send();
+  }
+}
+
+send(){
+  let Arrival=this.facilityForm.value['arrival'];
+  let Depture=this.facilityForm.value['departure'];
+
+  
+let dateFr="default";
+let dateToo="default";
+  let dateFrom:Date;
+  let dateTo:Date;  
+  dateFrom= new Date(Date.parse(Arrival)) ;  
+  dateTo=new Date(Date.parse(Depture)) ;  
+  if(dateFrom!=undefined && dateTo!=undefined){
+    try{
+
+      dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd") ;
+      dateToo = <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd") ;
+    }
+    catch(Exception){
+   dateFr="default";
+   dateToo="default";
+    }
+  }
+  console.log(dateFr);
+  console.log(dateToo);
+  this.datastorage.bookNow(dateFr,dateToo,this.roomSer.getRooms()[this.id].id);
+  // let options = {
+  //   headers:new HttpHeaders({"Authorization":this.roomSer.getToken()})
+  // };
+  // //console.log(id_F);
+  // return this.http
+  // .post(`${DataStoragrService.API_Location}api/bookings/booking`,
+  // {
+  //   id_facility:this.roomSer.getRooms()[this.id].id,
+  //   start_date:dateFr,
+  //   end_date:dateToo
+  // },
+  //  options
+  // )
+  // .subscribe((res) => {} , (err) => {
+  //   console.log(err);
+  //     this.error=err.error['facility']
+  //     console.log(this.error);
+    
+  // });
+}
+
+  showError(messeage:string){
+
+  }
   ngOnInit() {
+    this.initForm();
+   // alert('please login to continue');
+// this.datastorage.SearchingData
+// ("default","default","default",0,1000000,0,"default",0,0,
+//   0,0,0,"=",0,0,0,1);
+this.AuthService.Account.subscribe(Value => {
+  this.AccountUser = Value ;
+});
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];
       console.log("idididi: "+this.id);
+      console.log(this.roomSer.getRooms()[this.id].id);
       this.search.tag=true;
       this.room=this.roomSer.getRoomId(this.id);
       //this.favourite=this.roomSer.getFavouriteId(this.id);
@@ -162,11 +262,14 @@ private AutoMove() {
     Next_Number = this.Image_Number + 1;
   this.ManualMove(this.Element_Images.get(Next_Number)?.nativeElement , Next_Number , false);
 }
-
-
+check=false;
+rateFromUser=0;
 onSubmit(ngform:NgForm){
-  console.log("comment");
-  ngform.onReset();
+  const value=ngform.value;
+  console.log(value.comment);
+  console.log(this.rateFromUser);
+  this.check=true;
+  //ngform.onReset();
 }
 
 

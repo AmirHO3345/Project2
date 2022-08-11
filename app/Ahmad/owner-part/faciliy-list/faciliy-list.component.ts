@@ -1,11 +1,13 @@
 import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConsigneeDataModel } from 'src/app/Data_Sharing/Model/ConsigneeData.model';
+import { DataStoragrService, FacilityDetailsowner } from '../../DataStorageService';
 import { Images } from '../../ImagesOfroom.model';
 import { Room } from '../../room.model';
 import { RoomServiceComponent } from '../../roomservice.component';
+import { FacilityDetailsOwner } from '../../user-profile/FacilityOwner.model';
 import { ListOwnerComponent } from '../list-owner/list-owner.component';
 
 @Component({
@@ -23,30 +25,86 @@ import { ListOwnerComponent } from '../list-owner/list-owner.component';
 })
 export class FaciliyListComponent implements OnInit,OnDestroy {
 
-  @Output() facilityOwnerWasSelected=new EventEmitter<Room>();
+  @Output() facilityOwnerWasSelected=new EventEmitter<FacilityDetailsowner>();
+  @Output() facilityOwnerWasSelectedAdd=new EventEmitter<FacilityDetailsOwner>();
+
   subscription!:Subscription;
-  facilityOwners!:Room[];
+  facilityOwners!:FacilityDetailsowner[];
+  facilityOwnersAdd!:FacilityDetailsOwner[];
   ItemAdding!:Room;
   check=false;
   AddMode=false;
   id!: number;
   facilityForm!:FormGroup;
-  
+  form=this.fb.group({
+      lessons:this.fb.array([])
+  })
 
-  
-  constructor(private roomService:RoomServiceComponent,private listown:ListOwnerComponent,private router:Router,private route:ActivatedRoute){}
+
+  lessonForm!:FormGroup;
+  constructor(private datastorage:DataStoragrService,private fb:FormBuilder,private roomService:RoomServiceComponent,private listown:ListOwnerComponent,private router:Router,private route:ActivatedRoute){}
  // checkk=this.lisyfav.check;
+
+get lesson(){
+  return this.form.controls["lessons"] as FormArray;
+}
+
+ addLesson(){
+    const lessonForm=this.fb.group({
+      title:['',Validators.required]
+    });
+    this.lesson.push(lessonForm);
+ }
+
+ private fbb!: FormBuilder;
+
+ private initForm(){
+   let facilityName='';
+   let desc='';
+   let loc='';
+   let type='Chalet';
+   let roomNum=1;
+   let adultNum=1;
+   let price=1;
+   let imagesPath=new FormArray([]);
+   this.facilityForm=new FormGroup({
+     'name':new FormControl(facilityName,Validators.required),
+     'description':new FormControl(desc,Validators.required),
+      'location':new FormControl(loc,Validators.required),
+      'type':new FormControl(type,Validators.required),
+      'rooms':new FormControl(roomNum,Validators.required),
+      'adults':new FormControl(adultNum,Validators.required),
+      'cost':new FormControl(price,Validators.required),
+      'imagepath':imagesPath
+   })
+ }
+ 
+ get registerFormControl() {
+  return this.facilityForm.controls;
+}
+
+
+
   EditMode=this.roomService.getEditItem();
 
   ngOnInit(){
-    
-    this.subscription= this.roomService.FacilityOwnerChanged.subscribe(
-        (facilityOwner:Room[])=>{
+    this.datastorage.getOwnerFacility();
+    this.initForm();
+    this.subscription= this.roomService.FacilityownerChanged.subscribe(
+        (facilityOwner:FacilityDetailsowner[])=>{
             this.facilityOwners=facilityOwner;
         }
   );
     this.facilityOwners=this.roomService.getFacilityOwner();
     
+
+
+    this.subscription= this.roomService.FacilityOwnerChanged.subscribe(
+      (facilityOwner:FacilityDetailsOwner[])=>{
+          this.facilityOwnersAdd=facilityOwner;
+      }
+);
+  this.facilityOwnersAdd=this.roomService.getFacilityOwnerAdd();
   //   this.route.params.subscribe(
   //     (params:Params)=>{
   //         this.id=+params['id'];
@@ -68,15 +126,19 @@ export class FaciliyListComponent implements OnInit,OnDestroy {
     this.subscription.unsubscribe();
   }
   
-  onfacilityOwnersSelected(facilityOwner:Room){
+  onfacilityOwnersSelected(facilityOwner:FacilityDetailsowner){
     this.facilityOwnerWasSelected.emit(facilityOwner);
+  }
+
+  onfacilityOwnersSelectedAdd(facilityOwner:FacilityDetailsOwner){
+    this.facilityOwnerWasSelectedAdd.emit(facilityOwner);
   }
   onAddFacility(){
    // this.roomService.onAddFacilityOwner(this.roomService.getIdFacilityOwner());
-    
   }
-  checkSwitch(){
+  checkSwitch(){console.log(this.check);
     this.check=!this.check;
+    console.log(this.check);
   }
   checkEdit(){
     
@@ -186,20 +248,56 @@ loc!:string;
 //     //console.log(recipeimagePath);
 // }
 
+get controls() { // a getter!
+  return (<FormArray>this.facilityForm.get('imagepath')).controls;
+}
+onAddImage(){
+  console.log(this.check);
+  (<FormArray>this.facilityForm.get('imagepath')).push(
+    new FormGroup({
+      'url':new FormControl()
+    })
+  );
+  console.log(this.check);
+}
+onDeleteIngredient(index:number)
+    {
+        (<FormArray>this.facilityForm.get('imagepath')).removeAt(index);
+    }
 
-   onSubmit(form:NgForm)
+
+ //selectedFile!:File;   
+//  onFileSelected(event: any){
+//    this.selectedFile=<File>event.target.files[0];
+
+//   console.log(this.selectedFile); 
+// }
+url!:string|ArrayBuffer|null;
+shortLink: string = "";
+loading: boolean = false; // Flag variable
+file!: File ; // Variable to store file
+onChange(event: any) {
+  if (event.target.files && event.target.files[0]) {
+    var reader = new FileReader();
+    reader.onload = (event: ProgressEvent) => {
+      this.url = (<FileReader>event.target).result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+  }
+  console.log(this.url);
+}
+
+
+submitted = false;
+
+   onSubmit()
 {
-  
-  const val=form.value;
-  console.log(val.name);    
-    // this.ItemAdding.name="kkh";
-    // this.ItemAdding.photos[0].url=val.imagepath;
-    // this.ItemAdding.description=val.desc;
-    // this.ItemAdding.location=val.location;
-    // this.ItemAdding.type=val.type;
-    // this.ItemAdding.num_room=val.rooms;
-    // this.ItemAdding.num_guest=val.adults;
-    // this.ItemAdding.cost=val.cost;
+  this.submitted = true;
+  this.loading = !this.loading;
+  console.log(this.facilityForm.valid);
+  if (this.facilityForm.valid) {
+    alert('Form Submitted succesfully!!!\n Check the values in browser console.');
+    console.table(this.facilityForm.value);
     let wifi=0;
     let coffe=0;
     let tv=0;
@@ -210,70 +308,35 @@ loc!:string;
     if(this.checkAir_cond)air_conditioning=1;
     if(this.checkTV)tv=1;
     if(this.checkFridge)fridge=1;
-    // this.ItemAdding.wifi=wifi;
-    // this.ItemAdding.tv=tv;
-    // this.ItemAdding.coffee_machine=coffe;
-    // this.ItemAdding.air_condition=air_conditioning;
-    // this.ItemAdding.fridge=fridge;
-    let created_at ="06-06-2023";
-    let id=1;
-    let id_user=5;
-    // this.ItemAdding.photos[0].id=0;
-    // this.ItemAdding.created_at=created_at;
-    // this.ItemAdding.id=id;
-    // this.ItemAdding.id_user=id_user;
-   const newItem=new Room(air_conditioning,coffe,val.cost,created_at,val.description
-      ,fridge,1,5,val.location,val.name,val.adults,val.rooms,[
-      new Images(1,val.imagepath)
-    ],tv,val.type,wifi);
-
-
-//     const newItem=new Room(this.facilityForm.value['air_condition']
-//     ,this.facilityForm.value['coffee_machine'],this.facilityForm.value['cost'],
-// '22-12-2020',this.facilityForm.value['description'],this.facilityForm.value['fridge'],1,5,
-// this.facilityForm.value['location'],this.facilityForm.value['name'],this.facilityForm.value['adults'],
-// this.facilityForm.value['rooms'],[
-//   new Images(1,'val.imagepath')
-// ], this.facilityForm.value['tv'],this.facilityForm.value['type'],this.facilityForm.value['wifi']
-// );
-            console.log(newItem);
-            this.roomService.onAddFacilityOwner(newItem);
+    // console.log(this.selectedFile);
+    // const fd = new FormData();
+    // fd.append('image',this.selectedFile,this.selectedFile.name);
+    //console.log(fd);
+            const newfacility=new FacilityDetailsOwner(air_conditioning,
+              this.facilityForm.value['name'],
+              this.facilityForm.value['location'],
+              this.facilityForm.value['description'],
+              this.facilityForm.value['imagepath'],
+              this.facilityForm.value['cost'],
+              this.facilityForm.value['type'],
+              this.facilityForm.value['adults'],
+              this.facilityForm.value['rooms'],wifi,coffe,fridge,tv);
             this.check=!this.check;
+            console.log(newfacility);
+            this.roomService.onAddFacilityOwner(newfacility);
+            this.datastorage.getOwnerFacility();
+            console.log('length: '+this.roomService.getFacilityOwnerAdd().length);
 
-
-
-
- 
-	// created_at : string ;
-	// id : number ;
-	// id_user : number ;
-	// photos : Images[];//{id_photo : number , path_photo : string}[];
-	// rate : number ;
-  // if(this.EditMode){
-    
-
-  //   this.roomService.removeFacilityOwnerItem(this.roomService.getIdFacilityOwner());
-
-  //   this.roomService.onAddFacilityOwner(newItem);
-  //   this.check=!this.check;
-  //   this.roomService.setEditItem(false);
-  // }
-  // else{
-  //     this.roomService.onAddFacilityOwner(newItem);
-  //     this.check=!this.check;
-  // }
-
-
-  // }
-
+            this.datastorage.storeFacilityOwner(newfacility.air_condition
+              ,newfacility.name,newfacility.location,newfacility.description,this.url,
+              newfacility.cost,newfacility.type,newfacility.num_guest,newfacility.num_room,
+              newfacility.wifi,newfacility.coffee_machine,newfacility.fridge,newfacility.tv);
+            console.log("kljljl");
+           this.initForm();
+           this.submitted=false;
+  } 
 
  }
-// ngAfterViewChecked(): void {
-//   if(this.roomService.getCheckOwnerID()){
-//     this.initForm();
-//     this.roomService.setCheckOwnerID(true);
-//     console.log('edit222');
-//   }
   
  
 

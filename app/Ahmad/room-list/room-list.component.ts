@@ -17,8 +17,14 @@ export class RoomListComponent implements OnInit {
 
   
   constructor(private roomService:RoomServiceComponent/*,private router:Router,private route:ActivatedRoute*/){}
-
+qwer!:FacilityDetails[];
   ngOnInit(){
+    
+    this.qwer=this.roomService.getRooms();
+
+
+
+    //console.log(this.qwer[0].id);
   this.subscription= this.roomService.roomChanged.subscribe(
       (room:FacilityDetails[])=>{
           this.rooms=room;

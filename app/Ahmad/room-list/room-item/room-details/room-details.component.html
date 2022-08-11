@@ -190,7 +190,7 @@
                     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
                     <div class="form-group">
                         <label for="exampleInputPassword1">Leave a comment</label>
-                        <input type="text" class="form-control" 
+                        <input type="text" class="form-control" ngModel name="comment"
                         id="examplecomment" placeholder="your comment">
                       </div>
                       <!-- <div class="form-check">
@@ -199,7 +199,8 @@
                       </div> -->
                       <label for="exampleInputPassword1">put your rate</label>
                       <div class="rating">
-                        <ngb-rating [max]="5" [(rate)]=currentRate [readonly]="false" style="font-size: 28px;" ></ngb-rating>
+                        <ngb-rating [max]="5" [(rate)]=rateFromUser
+                         [readonly]="false" style="font-size: 28px;" ></ngb-rating>
                     </div>
                       <button type="submit" class="btn_1 add_bottom_15">Submit</button>
                       
@@ -279,8 +280,7 @@
             <div class="theiaStickySidebar">
             	<div class="box_style_1">
                     <div id="message-booking"></div>
-                    <form method="post" action="assets/check_avail.php"
-                     id="check_avail" autocomplete="off" >
+                    <form (ngSubmit)="onSubmitBook()" [formGroup]="facilityForm">
                     <input name="room_type" id="room_type" 
                     type="hidden" value="Double room">	
                     	<div class="row">
@@ -290,10 +290,11 @@
 
 
                                     <input matInput [matDatepicker]="picker_Arrival"
+
                      class="form-control" style="border-radius: 12px"
-                           placeholder="Arrival" ngModel name="Arrival_D"
-                           min="{{currentDate | date:'yyyy-MM-dd'}}"
-                            required readonly>
+                           placeholder="Arrival" ngModel formControlName="arrival"
+                           min="{{currentDate | date:'yyyy-MM-dd'}}" 
+                            required readonly >
                     <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
                     style="position: absolute;bottom: 0px;
                     right: 0%;top:0%;margin-top: 16%;">
@@ -319,9 +320,10 @@
                             	<div class="form-group">
                                 	<label>Departure date</label>
                                     
-                                    <input matInput [matDatepicker]="picker_Departure" class="form-control"
+                                    <input matInput [matDatepicker]="picker_Departure"
+                                     class="form-control"
                                      style="border-radius: 12px"
-                                    placeholder="Departure" ngModel name="Departure_D"
+                                    placeholder="Departure" ngModel formControlName="departure"
                                     min="{{getDateOut() | date:'yyyy-MM-dd'}}"
                                     (ngModelChange)="this.ChangeArrival($event)"
                                      readonly required>
@@ -345,7 +347,7 @@
 
                                 <div id="container_3" style="text-align:center">
                                     <!-- <label>Adults</label> -->
-                                    <div class="qty-buttons">
+                                    <!-- <div class="qty-buttons">
                                       <input type="button" value="-" 
                                       class="qtyminus" name="adults"
                                        (click)="ChangeAdults(false)">
@@ -357,7 +359,7 @@
                                               required readonly>
                                       <input type="button" value="+" class="qtyplus" 
                                       name="adults" (click)="ChangeAdults(true)">
-                                    </div>
+                                    </div> -->
                                   </div>
 
 
@@ -368,14 +370,14 @@
                                 <label>Rooms</label>
                                 <div id="container_3" style="text-align:center;">
                                     <!-- <label style="color:white;">Rooms</label> -->
-                                    <div class="qty-buttons">
+                                    <!-- <div class="qty-buttons">
                                       <input type="button" value="-" class="qtyminus" name="rooms"
                                        (click)="ChangeRooms(false)">
                                       <input type="text" name="rooms" id="rooms" class="qty form-control"
                                              [(ngModel)]="this.Rooms" name="Rooms" required readonly>
                                       <input type="button" value="+" class="qtyplus" 
                                       name="rooms" (click)="ChangeRooms(true)">
-                                    </div>
+                                    </div> -->
                                   </div>
                                </div>
                             </div>
@@ -391,12 +393,14 @@
                                    <div class="col-md-12 col-sm-6">
                                    <div class="form-group">
                                 	<label>Email</label>
-                            	 		<input type="text" class="form-control" name="email_booking" id="email_booking" placeholder="Your email">
+                            	 		<input type="text" class="form-control" name="email_booking" 
+                                         id="email_booking" placeholder="Your email">
                                    </div>
                                    </div>
                                    <div class="col-md-12 col-sm-12">
                                    <div class="form-group">
-                                   <input type="submit" value="Book now" class="btn_full" id="submit-booking">
+                                   <input type="submit" value="Book now" class="btn_full"
+                                    >
                                    </div>
                                    </div>
                              </div>

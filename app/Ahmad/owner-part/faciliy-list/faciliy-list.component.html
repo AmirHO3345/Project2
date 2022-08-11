@@ -24,14 +24,15 @@
 <button class="btn_1" *ngIf="!check" (click)="checkSwitch()">Add Facility</button>
 <br><br>
 <mat-card style="width: 110%;" *ngIf="check">
-<form class="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+<!-- <form class="myForm" (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group" style="width: 40%;display:inline-block;">
                <button type="submit" class="btn btn-success" >Save</button>&nbsp;
                 <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
        <br><br>
       <label for="name">Name</label>
       <input type="text" class="form-control"  id="name" name="name" ngModel
-        placeholder="Recipe Name" >
+        placeholder="Facility Name" >
     </div>
   &nbsp;&nbsp; &nbsp; &nbsp;
     <div class="form-group" style="width: 40%;display:inline-block;">
@@ -100,7 +101,104 @@
         <input type="checkbox" name="coffee_machine" ngModel (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
     </div>
 
+  </form> -->
+
+  <span class="text-danger" *ngIf="(submitted)">some Field is Empty</span>
+
+  <form class="myForm" (ngSubmit)="onSubmit()" [formGroup]="facilityForm">
+    <div class="form-group" style="width: 83%;display:inline-block;">
+               <button type="submit" class="btn btn-success" >Save</button>&nbsp;
+                <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
+       <br><br>
+      <label for="name">Name</label>
+      <input type="text" class="form-control"  id="name"  formControlName="name" 
+        placeholder="Facility Name" >
+    </div>
+  &nbsp;&nbsp; &nbsp; &nbsp;
+  <br>
+
+  <br>
+    <div class="form-group" style="width: 83%;display:inline-block;">
+        <label for="imagepath">Image URL</label> 
+        <div class="col-xs-12" formArrayName="imagepath">
+        <div *ngFor="let rec of controls let i =index"
+         [formGroupName]="i">
+        <input type="text" class="form-control"   formControlName="url"
+          placeholder="Image URL">
+          <img [src]="url" style="display: none;">
+          <button class="btn btn-danger"style="width: 40px;margin-top:20px;" 
+                     (click)="onDeleteIngredient(i)">X</button>
+        </div>
+    </div>
+        <button type="button" class="btn_1" (click)="onAddImage()">Add More</button>
+    </div>
+
+   
+   
+     
+    <div class="form-group">
+      <label for="description" >Description</label>
+      <textarea class="form-control" id="description" placeholder="decribe your facility"  formControlName="description" 
+       rows="3" style="width: 83%;"></textarea>
+    </div>
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="location">Location</label>
+        <input type="text" class="form-control"  id="location"  formControlName="location"
+         placeholder="location of your facility" >
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="type">Type</label><br>
+        <select id="type" style="width: 100%;" ngModel="Chalet" formControlName="type"> 
+            <option>Chalet</option>
+            <option>Farmer</option>
+            <option>Hostel</option>
+          </select>
+    </div>
+    
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="rooms" >Room Number</label>
+        <input type="number" id="rooms" ngModel="1" formControlName="rooms" 
+        placeholder="The number of rooms in your facility"
+         class="form-control">
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="adults" >Adult Number</label>
+        <input type="number" id="adults" ngModel="1" formControlName="adults"
+         placeholder="The number of adults in your facility"
+         class="form-control">
+    </div>
+    <div class="form-group" style="width: 40%;display:inline-block;">
+        <label for="cost">price</label>
+        <input type="number" id="cost" ngModel="1" formControlName="cost"
+         placeholder="price per night/week/mounth"
+         class="form-control">
+    </div> &nbsp;&nbsp; &nbsp; &nbsp;
+
+
+
+
+
+    <div class="form-group" >
+       
+        <input type="checkbox"   (click)="checkingWIFI()"> &nbsp; &nbsp; &nbsp;<label for="wifi">WI-FI</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox"   (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox"   (click)="checkingFridge()"> &nbsp; &nbsp; &nbsp;<label for="fridge">Fridge</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox"   (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox"  (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
+    </div>
+
   </form>
+
+
+
 </mat-card>
 </div></div></div>
 
@@ -111,3 +209,19 @@
 (onfacilityOwnersSelected)="onfacilityOwnersSelected(facEl)"
 ></app-faciliy-item>
 
+<!-- 
+<app-faciliy-itemAdd
+*ngFor="let facEl of facilityOwnersAdd let i=index" 
+[facilityOwnerAdd]="facEl"
+[indexAdd]="i"
+(onfacilityOwnersSelectedAdd)="onfacilityOwnersSelectedAdd(facEl)"
+></app-faciliy-itemAdd> -->
+
+
+<!-- 
+<app-faciliy-item
+*ngFor="let facEl of facilityOwnersAdd let i=index" 
+[facilityOwnerAdd]="facEl"
+[index]="i"
+(onfacilityOwnersSelectedAdd)="onfacilityOwnersSelectedAdd(facEl)"
+></app-faciliy-item> -->

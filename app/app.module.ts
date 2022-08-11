@@ -57,6 +57,7 @@ import { FaciliyListComponent } from './Ahmad/owner-part/faciliy-list/faciliy-li
 import { ListOwnerComponent } from './Ahmad/owner-part/list-owner/list-owner.component';
 import { RoomDetailsComponent3 } from './Ahmad/owner-part/faciliy-list/faciliy-item/room-details/room-details.component';
 import {MatCardModule} from '@angular/material/card';
+import { FaciliyItemComponentAdd } from './Ahmad/owner-part/faciliy-list/faciliy-item/facility-itemAdd.component';
 
 import {PopUpConfirm, ReservationListComponent} from "./ReservationList/ReservationList.component";
 import {MatDialogModule} from "@angular/material/dialog";
@@ -104,6 +105,7 @@ import {StatisticComponent} from "./Admin/Statistic/statistic.component";
     FaciliyItemComponent,
     FaciliyListComponent,
     ListOwnerComponent,
+
     RoomDetailsComponent3 ,
     ScrollTrackDirective ,
     ReservationListComponent,
@@ -111,7 +113,8 @@ import {StatisticComponent} from "./Admin/Statistic/statistic.component";
     NotificationComponent ,
     MessageIconComponent ,
     NotificationIconComponent ,
-    StatisticComponent
+    StatisticComponent ,
+    FaciliyItemComponentAdd
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     ReactiveFormsModule,

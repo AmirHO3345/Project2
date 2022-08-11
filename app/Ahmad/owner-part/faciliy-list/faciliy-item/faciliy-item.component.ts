@@ -1,7 +1,9 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { FacilityDetailsowner } from 'src/app/Ahmad/DataStorageService';
 import { Room } from 'src/app/Ahmad/room.model';
 import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
+import { FacilityDetailsOwner } from 'src/app/Ahmad/user-profile/FacilityOwner.model';
 import { FaciliyListComponent } from '../faciliy-list.component';
 
 @Component({
@@ -21,19 +23,23 @@ export class FaciliyItemComponent implements OnInit {
 
   id!:number;
   
-  @Input() facilityOwner!: Room; //@Input() allows us to bind this comp from outside
+  @Input() facilityOwner!: FacilityDetailsowner; //@Input() allows us to bind this comp from outside
+  @Input() facilityOwnerAdd!: FacilityDetailsOwner; //@Input() allows us to bind this comp from outside
+
   @Input() index!:number;
   @Output() facilityOwnerSelected =new EventEmitter<void>();
   constructor(private roomSer:RoomServiceComponent,private router:Router,
     private faclist:FaciliyListComponent,private route:ActivatedRoute) { }
-
+    staticPath='http://192.168.137.247:8000/';
   facilityOwnerNum=this.roomSer.getLenghtFacilityOwner();
-  facilityOwners:Room[]=this.roomSer.getFacilityOwner();
-  removeItem(){
-    console.log('delete: '+this.roomSer.getIdFacilityOwner())
-    this.roomSer.removeFacilityOwnerItem(this.roomSer.getIdFacilityOwner());
-  //  this.router.navigate(['/favourite']);
-  }
+  facilityOwners:FacilityDetailsowner[]=this.roomSer.getFacilityOwner();
+  facilityOwnersAdd:FacilityDetailsOwner[]=this.roomSer.getFacilityOwnerAdd();
+
+  // removeItem(){
+  //   console.log('delete: '+this.roomSer.getIdFacilityOwner())
+  //   this.roomSer.removeFacilityOwnerItem(this.roomSer.getIdFacilityOwner());
+  // //  this.router.navigate(['/favourite']);
+  // }
   editItem(){
     
     //this.router.navigate(['/facilitylist']);

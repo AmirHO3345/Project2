@@ -62,20 +62,38 @@
 
    <mat-card  *ngIf="check">
     <form class="myForm"  [formGroup]="facilityForm" (ngSubmit)="onSubmit()">
-        <div class="form-group" style="width: 40%;display:inline-block;">
-                   <button type="submit" class="btn btn-success" >Save</button>&nbsp;
-                    <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
-           <br><br>
-          <label for="name">Name</label>
-          <input type="text" class="form-control"  id="name" formControlName="name" 
-            placeholder="Recipe Name" >
-        </div>
-      &nbsp;&nbsp; &nbsp; &nbsp;
-        <div class="form-group" style="width: 40%;display:inline-block;">
-            <label for="imagepath">Image URL</label> 
-            <input type="text" class="form-control" id="imagepath"  
-            formControlName="imagepath"  placeholder="Image URL">
-        </div>
+        <span class="text-danger" *ngIf="(submitted)">some Field is Empty</span>
+
+       
+          <div class="form-group" style="width: 83%;display:inline-block;">
+                     <button type="submit" class="btn btn-success" >Save</button>&nbsp;
+                      <button type="button" class="btn btn-danger"
+                       (click)="checkSwitch()">Cancel</button>
+             <br><br>
+            <label for="name">Name</label>
+            <input type="text" class="form-control"  id="name"  formControlName="name" 
+              placeholder="Facility Name" >
+          </div>
+        &nbsp;&nbsp; &nbsp; &nbsp;
+        <br>
+        <br>
+          <!-- <div class="form-group" style="width: 83%;display:inline-block;">
+              <label for="imagepath">Image URL</label> 
+              <div class="col-xs-12" formArrayName="imagepath">
+              <div *ngFor="let rec of controls let i =index"
+               [formGroupName]="i">
+              <input type="file" class="form-control" (change)="onChange($event)" 
+                formControlName="url"
+                placeholder="Image URL">
+                <img [src]="url" style="display: none;">
+                <button class="btn btn-danger"style="width: 40px;margin-top:20px;" 
+                           (click)="onDeleteIngredient(i)">X</button>
+              </div>
+          </div>
+              <button type="button" class="btn_1" (click)="onAddImage()">Add More</button>
+          </div> -->
+      
+         
     
        
          
@@ -92,15 +110,16 @@
         <div class="form-group" style="width: 40%;display:inline-block;">
             <label for="type">Type</label><br>
             <select id="type" formControlName="type"  style="width: 100%;"> 
-                <option>Chalet</option>
-                <option>Farmer</option>
-                <option>Hostel</option>
+                <option>chalet</option>
+                <option>farmer</option>
+                <option>hostel</option>
               </select>
         </div>
         
         <div class="form-group" style="width: 40%;display:inline-block;">
             <label for="rooms">Room Number</label>
-            <input type="number" id="rooms" formControlName="rooms"  placeholder="The number of rooms in your facility"
+            <input type="number" id="rooms" formControlName="rooms" 
+             placeholder="The number of rooms in your facility"
              class="form-control">
         </div> &nbsp;&nbsp; &nbsp; &nbsp;
         <div class="form-group" style="width: 40%;display:inline-block;">
@@ -148,6 +167,7 @@
         	<div class="col-md-8" id="room_detail_desc">
             <div id="single_room_feat">
                 <ul>
+                    <li>  <mat-icon (click)="removeItem()">delete_outline</mat-icon></li>
                 	<li *ngIf="facilityowner.wifi"><i class="icon_set_1_icon-7"></i>Wifi</li>
                     <li *ngIf="facilityowner.coffee_machine"><i class="icon_set_1_icon-59"></i>Coffee Machine</li>
                     <li *ngIf="facilityowner.tv"><i class="icon_set_2_icon-116"></i>Plasma TV</li>
