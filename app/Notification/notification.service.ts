@@ -54,6 +54,7 @@ interface NotificationResponse {
 interface UpdateStateService {
   Status : ServiceAvailable ;
   IsAnyUpdate : boolean ;
+  IsFromPusher : boolean
 }
 
 @Injectable({providedIn : 'root'})
@@ -82,7 +83,8 @@ export class NotificationService {
     this.UserAccount = null ;
     this.UpdateState = new BehaviorSubject<UpdateStateService>({
       Status : ServiceAvailable.NotAvailable ,
-      IsAnyUpdate : false
+      IsAnyUpdate : false ,
+      IsFromPusher : false
     });
     this.StartService() ;
   }
@@ -132,7 +134,7 @@ export class NotificationService {
         (DataResponse.data != undefined)?DataResponse.data.body.id_booking:undefined) ;
       this.Notifications.unshift(Info);
       this.UnReadNotification++ ;
-      this.SendUpdate(ServiceAvailable.Available , true);
+      this.SendUpdate(ServiceAvailable.Available , true , true);
     });
   }
 
@@ -182,10 +184,11 @@ export class NotificationService {
       (Facility != undefined) ? Facility : undefined);
   }
 
-  private SendUpdate(State : ServiceAvailable , AnyUpdate : boolean) {
+  private SendUpdate(State : ServiceAvailable , AnyUpdate : boolean , IsFromPusher : boolean = false) {
     this.UpdateState.next({
       Status : State ,
-      IsAnyUpdate : AnyUpdate
+      IsAnyUpdate : AnyUpdate ,
+      IsFromPusher : IsFromPusher
     });
   }
 
@@ -194,10 +197,9 @@ export class NotificationService {
     Params = Params.append('page' , PageNeed) ;
     return this.HTTP.get<NotificationResponse>(`${AuthenticationService.API_Location}api/user/notifications`
       , {
-      headers : new HttpHeaders({"Authorization" : "Bearer 186|i1sY0Lwb9KW6zVirCKNAhFpVW2eDNvqj1nJZFfXS"}) ,
+      headers : new HttpHeaders({"Authorization" : (<UserModel>this.UserAccount).GetToken()}) ,
       params : Params ,
     }).pipe(take(1) , map(Value => {
-      console.log(Value);
           let NotificationBundle : NotificationModel[] = [] ;
           Value.Notifications.forEach(NotifyPart => {
             let DataFacilityID !: number ;
@@ -247,7 +249,7 @@ export class NotificationService {
   public CloseNotification() {
     return this.HTTP.post<any>(`${AuthenticationService.API_Location}api/user/notifications` , {
       type : 'update'} , {
-      headers: new HttpHeaders({"Authorization": "Bearer 186|i1sY0Lwb9KW6zVirCKNAhFpVW2eDNvqj1nJZFfXS"}),
+      headers: new HttpHeaders({"Authorization": (<UserModel>this.UserAccount).GetToken()}),
     }).pipe(take(1), map((Value) => {
       console.log(Value);
       for (let i = 0; i < this.Notifications.length ; i++) {

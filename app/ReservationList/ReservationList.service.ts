@@ -38,8 +38,9 @@ export class ReservationListService {
 
   constructor(private HTTP : HttpClient , private AuthenticationInfo : AuthenticationService) {
     this.AuthenticationInfo.Account.subscribe((Value) => {
-      if(Value != null)
+      if(Value != null) {
         this.Account = Value ;
+      }
     });
     this.Page = 1 ;
     this.TotalPage = 1 ;
@@ -53,16 +54,16 @@ export class ReservationListService {
     let Params = new HttpParams().set("page" , Page);
     Params = Params.append('num_values' , this.ItemsOfPage);
     return this.HTTP.get<ResponseReservations>(`${AuthenticationService.API_Location}api/bookings/show` , {
-      headers : new HttpHeaders({"Authorization" : "Bearer 71|2Sto50YqvEiedvp3qv819aPfZSdikUwM8pOJKAhD"}) ,
+      headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) ,
       params : Params
     }).pipe(take(1), map(Value => {
-        let Temp: ReservationModel[] = [];
+        let Temp: ReservationModel[] = [] ;
         Value.infoBookings.forEach(Item => {
           Temp.push(new ReservationModel(Item.id_facility , Item.id
             , Item.name, Item.path_photo, new Date(Item.start_date)
             , new Date(Item.end_date), Item.cost , new Date(Item.created_at)));
         });
-        this.TotalPage = Value.total_pages;
+        this.TotalPage = Value.total_pages ;
         this.TotalItem = Value.total_items ;
         this.Page = Page ;
         this.IsGoToBack = true ;
@@ -75,7 +76,7 @@ export class ReservationListService {
     let Params = new HttpParams().set("id_booking" ,  Item.IdReservation);
     Params = Params.append("id_facility" , Item.IdRoom);
     return this.HTTP.delete(`${AuthenticationService.API_Location}api/bookings/unbooking` , {
-      headers : new HttpHeaders({"Authorization" : "Bearer 71|2Sto50YqvEiedvp3qv819aPfZSdikUwM8pOJKAhD"}) ,
+      headers : new HttpHeaders({"Authorization" : (<UserModel>this.Account).GetToken()}) ,
       params : Params
     }).pipe(take(1) , map((Value) => {
       console.log(Value);

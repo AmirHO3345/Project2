@@ -32,7 +32,7 @@ export class AuthenticationService {
 
   PopUpRegisterOpen : Subject<any>;
 
-  static API_Location : string = "http://127.0.0.1:8000/" ;
+  static API_Location : string = "http://localhost/Laravel-Project-Api-Facility-Reservation/public/" ;
 
   constructor(private HTTP : HttpClient,private roomser:RoomServiceComponent) {
     this.Account = new BehaviorSubject<UserModel | null>(null);

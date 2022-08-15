@@ -6,6 +6,7 @@ import {ChatComponent} from "../Message/Chat/chat.component";
 import {ReservationListComponent} from "../ReservationList/ReservationList.component";
 import {NotificationComponent} from "../Notification/notification.component";
 import {StatisticComponent} from "../Admin/Statistic/statistic.component";
+import {ControlAdminComponent} from "../Admin/Control Customer/ControlAdmin.component";
 
 const RouteApplication : Routes = [
   {path : "" , redirectTo : "home" , pathMatch : "full"} ,
@@ -15,7 +16,8 @@ const RouteApplication : Routes = [
     ]} ,
   {path : "notificationList" , component : NotificationComponent} ,
   {path : "reservationList" , component : ReservationListComponent} ,
-  {path : "statistic" , component : StatisticComponent}
+  {path : "statistic" , component : StatisticComponent} ,
+  {path : "adminController" , component : ControlAdminComponent}
   //{path : "**" , redirectTo : "SomethingWrong"}
 ]
 

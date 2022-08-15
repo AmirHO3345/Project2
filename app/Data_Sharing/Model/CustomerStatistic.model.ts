@@ -1,40 +1,49 @@
 
 export class CustomerStatisticModel {
 
-  readonly CountUser : number ;
+  CountUser : number
 
-  readonly CountOwner : number ;
+  CountOwner : number ;
 
-  readonly CountCustomerForget : number ;
+  CountCustomerForget : number ;
 
-  readonly NewCustomer : {
-    User : number ,
-    Owner : number
-  } ;
+  DetailsCountUser !: {
+    SinceLastMonth : number ,
+    MonthDetails : {
+      Month : string ,
+      Amount : number
+    }[]
+  }
 
-  private readonly UserInfo : CustomerInfo[] ;
+  DetailsCountOwner !: {
+    SinceLastMonth : number ,
+    MonthDetails : {
+      Month : string ,
+      Amount : number
+    }[]
+  }
 
-  private readonly OwnerInfo : CustomerInfo[] ;
+  private UserInfo : CustomerInfo[] ;
 
-  constructor(CU : number , CW : number , CCF : number , NumUser : number , NumOwner : number,
-              UI : CustomerInfo[] , OI : CustomerInfo[] ) {
+  private OwnerInfo : CustomerInfo[] ;
+
+  constructor(CU : number , CW : number , CCF : number, UI : CustomerInfo[]
+              , OI : CustomerInfo[] ) {
     this.CountUser = CU ;
     this.CountOwner = CW ;
     this.CountCustomerForget = CCF ;
-    this.NewCustomer = {
-      User : NumUser ,
-      Owner : NumOwner
-    } ;
     this.UserInfo = UI ;
     this.OwnerInfo = OI ;
   }
 
-  SetMoreUserInfo(Items : CustomerInfo[]) {
-    Items.forEach(Value => this.UserInfo.push(Value));
+  SetUserInfo(Items : CustomerInfo[]) {
+    this.UserInfo = [] ;
+    this.UserInfo.push(...Items) ;
   }
 
-  SetMoreOwnerInfo(Items : CustomerInfo[]) {
-    Items.forEach(Value => this.OwnerInfo.push(Value));
+  SetOwnerInfo(Items : CustomerInfo[]) {
+    this.OwnerInfo = [] ;
+    this.OwnerInfo.push(...Items) ;
   }
 
   GetOwnerInfo() {
@@ -43,6 +52,23 @@ export class CustomerStatisticModel {
 
   GetUserInfo() {
     return this.UserInfo.slice() ;
+  }
+
+  GetDetailsCount(Type : number) {
+    /*
+    1 : User ,
+    2 : Owner
+     */
+    let Result : number[] = [] ;
+    switch (Type) {
+      case 1 :
+        this.DetailsCountUser.MonthDetails.forEach(Value => Result.push(Value.Amount));
+        break ;
+      default :
+        this.DetailsCountOwner.MonthDetails.forEach(Value => Result.push(Value.Amount));
+        break ;
+    }
+    return Result ;
   }
 
 }

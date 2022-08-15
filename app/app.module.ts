@@ -66,6 +66,9 @@ import {NotificationComponent} from "./Notification/notification.component";
 import {MessageIconComponent} from "./Header/MessageIcon/MessageIcon.component";
 import {NotificationIconComponent} from "./Header/NotificationIcon/NotificationIcon.component";
 import {StatisticComponent} from "./Admin/Statistic/statistic.component";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {ControlAdminComponent} from "./Admin/Control Customer/ControlAdmin.component";
 
 
 
@@ -114,7 +117,8 @@ import {StatisticComponent} from "./Admin/Statistic/statistic.component";
     MessageIconComponent ,
     NotificationIconComponent ,
     StatisticComponent ,
-    FaciliyItemComponentAdd
+    FaciliyItemComponentAdd ,
+    ControlAdminComponent
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     ReactiveFormsModule,
@@ -125,7 +129,8 @@ import {StatisticComponent} from "./Admin/Statistic/statistic.component";
     SlickCarouselModule,
     MatIconModule, MatButtonModule, MatToolbarModule, BrowserAnimationsModule,
     MatDatepickerModule, MatNativeDateModule, MatInputModule , MatMenuModule,MatCardModule
-    , MatNativeDateModule, MatInputModule , MatMenuModule , MatDialogModule , MatProgressSpinnerModule
+    , MatNativeDateModule, MatInputModule , MatMenuModule , MatDialogModule , MatProgressSpinnerModule ,
+    MatPaginatorModule , MatTableModule
   ],
   providers: [AuthenticationService , RoomServiceComponent , DatePipe],
   bootstrap: [AppComponent]

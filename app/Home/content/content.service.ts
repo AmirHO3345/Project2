@@ -46,14 +46,14 @@ export class contentService {
   }
 
   private StartService() {
-    // forkJoin([this.FetchTopRate() , this.FetchTopSell()])
-    //   .pipe(take(1)).subscribe(Value => {
-    //     this.TopRateRoom = Value[0] ;
-    //     this.TopSellRoom = Value[1] ;
-    //     this.UpdateService.next(ServiceAvailable.ReadyGetData);
-    // } , () => setTimeout(() => {
-    //   this.StartService();
-    // } , 1000));
+    forkJoin([this.FetchTopRate() , this.FetchTopSell()])
+      .pipe(take(1)).subscribe(Value => {
+        this.TopRateRoom = Value[0] ;
+        this.TopSellRoom = Value[1] ;
+        this.UpdateService.next(ServiceAvailable.ReadyGetData);
+    } , () => setTimeout(() => {
+      this.StartService();
+    } , 1000));
   }
 
   private FetchTopRate() {

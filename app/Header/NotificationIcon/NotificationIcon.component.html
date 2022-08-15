@@ -5,7 +5,7 @@
 </button>
 
 <mat-menu #Notification="matMenu" xPosition="before">
-  <div class="Notification Box_Container">
+  <div class="Notification Box_Container" scrollTrack #Scroller='ScrollTracking'>
     <div *ngFor="let Item of this.Notifications"
          [class]="(Item.IsReading) ? 'Sample' : 'Sample New'"
     >

@@ -1,4 +1,4 @@
-import {Component, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 import {ScrollTrackDirective} from "../../Data_Sharing/Directives/ScrollTrack.directive";
 import {NotificationModel, NotificationTypes} from "../../Data_Sharing/Model/Notification.model";
 import {Observable, Subscription} from "rxjs";
@@ -11,7 +11,7 @@ import {TimeService} from "../../Data_Sharing/Services/time.service";
   templateUrl: './NotificationIcon.component.html',
   styleUrls: ['../Header.component.css']
 })
-export class NotificationIconComponent {
+export class NotificationIconComponent implements OnInit , AfterViewInit{
 
   @ViewChild('Scroller') ScrollControl !: ScrollTrackDirective ;
   Notifications : NotificationModel[] ;
@@ -51,11 +51,23 @@ export class NotificationIconComponent {
         this.Notifications = this.NotificationProcessor.GetNotificationList() ;
         this.IsDone = this.NotificationProcessor.GetPageInfo().IsDone ;
         this.RunScroll = true ;
-        if(!this.IsOpen)
+        if(!this.IsOpen && Value.IsFromPusher)
           this.UnReadNotification++ ;
       }
     }) ;
     this.LinkTimer = this.Timer.UpdateTime.subscribe(Value => this.CurrentTime = Value) ;
+  }
+
+  ngAfterViewInit(): void {
+    this.ScrollControl.Scroller_Info.subscribe(() => {
+      if(this.RunScroll && !this.IsDone &&
+        this.ScrollControl.AccessEnd(0.09)) {
+        this.RunScroll = false ;
+        let Temp = this.NotificationProcessor.FetchNotificationList() ;
+        if(Temp instanceof Observable)
+          Temp.subscribe();
+      }
+    });
   }
 
   DropDownNotification() {

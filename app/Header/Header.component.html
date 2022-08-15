@@ -25,6 +25,11 @@
             </button>
         </li>
         <li *ngIf="!IsAccountExist">
+          <button mat-icon-button [routerLink]="['/home']">
+            <mat-icon>home</mat-icon>
+          </button>
+        </li>
+        <li *ngIf="!IsAccountExist">
           <button mat-icon-button (click)="OpenRegister()">
             <mat-icon>account_circle</mat-icon>
           </button>

@@ -1,0 +1,316 @@
+<div class="Fix">
+  <div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <div class="container-fluid" id="container-wrapper">
+          <ng-template [ngIf]="true">
+            <!-- Table User -->
+            <div class="col-xl-12 col-lg-6 mb-4" style="margin-top: 80px;">
+              <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">User Info</h6>
+                  <form>
+                    <div class="input-group rounded">
+                      <input type="search" class="form-control rounded" placeholder="Search"
+                             [(ngModel)]="this.InputSearch.User" name="UserSearch"
+                      />
+                      <span class="input-group-text border-0 SearchIcon"
+                            (click)="this.SearchCustomer(0 , this.InputSearch.User)">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <div class="table-responsive">
+                  <div class="mat-elevation-z8">
+                    <mat-paginator [pageSize]="10"
+                                   showFirstLastButtons
+                                   aria-label="Select page" #PaginatorUser>
+                    </mat-paginator>
+                    <table mat-table [dataSource]="this.TableMatData.TableUser" style="width: 100%;">
+
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="ID">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> ID </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.ID}} </td>
+                      </ng-container>
+
+                      <!-- CustomerName Column -->
+                      <ng-container matColumnDef="CustomerName">
+                        <th mat-header-cell *matHeaderCellDef > CustomerName </th>
+                        <td mat-cell *matCellDef="let element" > {{element.CustomerName}} </td>
+                      </ng-container>
+
+                      <!-- CustomerEmail Column -->
+                      <ng-container matColumnDef="CustomerEmail">
+                        <th mat-header-cell *matHeaderCellDef > CustomerEmail </th>
+                        <td mat-cell *matCellDef="let element" > {{element.CustomerEmail}} </td>
+                      </ng-container>
+
+                      <!-- Phone Column -->
+                      <ng-container matColumnDef="Phone">
+                        <th mat-header-cell *matHeaderCellDef> Phone </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Phone}} </td>
+                      </ng-container>
+
+                      <!-- Gender Column -->
+                      <ng-container matColumnDef="Gender">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> Gender </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.Gender}} </td>
+                      </ng-container>
+
+                      <!-- Age Column -->
+                      <ng-container matColumnDef="Age">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 100px"> Age </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 100px"> {{element.Age}} </td>
+                      </ng-container>
+
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="Delete">
+                        <th mat-header-cell *matHeaderCellDef ></th>
+                        <td mat-cell *matCellDef="let element" >
+                          <button type="button"
+                                  class="btn btn-danger"
+                                  style="padding: 0.175rem 0.45rem ;font-size: 0.7rem;"
+                                  (click)="this.DeleteRow(element.ID , 2 , 0)"
+                          >Danger</button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="['ID', 'CustomerName', 'CustomerEmail' , 'Phone' ,
+                          'Gender' , 'Age' , 'Delete']"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['ID', 'CustomerName', 'CustomerEmail' , 'Phone' ,
+                          'Gender' , 'Age' , 'Delete'];"></tr>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card-footer"></div>
+              </div>
+            </div>
+            <!-- Table Owner -->
+            <div class="col-xl-12 col-lg-6 mb-4">
+              <div class="card" style="margin-top: 100px">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Owner Info</h6>
+                  <form>
+                    <div class="input-group rounded">
+                      <input type="search" class="form-control rounded" placeholder="Search"
+                             [(ngModel)]="this.InputSearch.Owner" name="OwnerSearch"
+                      />
+                      <span class="input-group-text border-0 SearchIcon"
+                            (click)="this.SearchCustomer(1 , this.InputSearch.Owner)">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <div class="table-responsive">
+                  <div class="mat-elevation-z8">
+                    <mat-paginator [pageSize]="10"
+                                   showFirstLastButtons
+                                   aria-label="Select page" #PaginatorOwner>
+                    </mat-paginator>
+                    <table mat-table [dataSource]="this.TableMatData.TableOwner" style="width: 100%;">
+
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="ID">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> ID </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.ID}} </td>
+                      </ng-container>
+
+                      <!-- CustomerName Column -->
+                      <ng-container matColumnDef="CustomerName">
+                        <th mat-header-cell *matHeaderCellDef> CustomerName </th>
+                        <td mat-cell *matCellDef="let element"> {{element.CustomerName}} </td>
+                      </ng-container>
+
+                      <!-- CustomerEmail Column -->
+                      <ng-container matColumnDef="CustomerEmail">
+                        <th mat-header-cell *matHeaderCellDef> CustomerEmail </th>
+                        <td mat-cell *matCellDef="let element"> {{element.CustomerEmail}} </td>
+                      </ng-container>
+
+                      <!-- Phone Column -->
+                      <ng-container matColumnDef="Phone">
+                        <th mat-header-cell *matHeaderCellDef> Phone </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Phone}} </td>
+                      </ng-container>
+
+                      <!-- Gender Column -->
+                      <ng-container matColumnDef="Gender">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> Gender </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.Gender}} </td>
+                      </ng-container>
+
+                      <!-- Age Column -->
+                      <ng-container matColumnDef="Age">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 100px"> Age </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 100px"> {{element.Age}} </td>
+                      </ng-container>
+
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="Delete">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                          <button type="button"
+                                  class="btn btn-danger"
+                                  style="padding: 0.175rem 0.45rem ;font-size: 0.7rem;"
+                                  (click)="this.DeleteRow(element.ID , 2 , 1)"
+                          >Danger</button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="['ID', 'CustomerName', 'CustomerEmail' , 'Phone' ,
+                          'Gender' , 'Age' , 'Delete']"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['ID', 'CustomerName', 'CustomerEmail' , 'Phone' ,
+                          'Gender' , 'Age' , 'Delete'];"></tr>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card-footer"></div>
+              </div>
+            </div>
+            <!-- Table Facility -->
+            <div class="col-xl-12 col-lg-6 mb-4">
+              <div class="card" style="margin-top: 100px">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Facility Info</h6>
+                  <form>
+                    <div class="input-group rounded">
+                      <input type="search" class="form-control rounded" placeholder="Search"
+                             [(ngModel)]="this.InputSearch.Facility" name="FacilitySearch"
+                      />
+                      <span class="input-group-text border-0 SearchIcon"
+                            (click)="this.SearchFacility(this.InputSearch.Facility)">
+                        <i class="fas fa-search"></i>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <div class="table-responsive">
+                  <div class="mat-elevation-z8">
+                    <mat-paginator [pageSize]="10"
+                                   showFirstLastButtons
+                                   aria-label="Select page" #PaginatorFacility>
+                    </mat-paginator>
+                    <table mat-table [dataSource]="this.TableMatData.TableFacility" style="width: 100%;">
+
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="ID">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> ID </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.ID}} </td>
+                      </ng-container>
+
+                      <!-- CustomerName Column -->
+                      <ng-container matColumnDef="Name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+                      </ng-container>
+
+                      <!-- CustomerEmail Column -->
+                      <ng-container matColumnDef="Type">
+                        <th mat-header-cell *matHeaderCellDef> Type </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Type}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="ID_Owner">
+                        <th mat-header-cell *matHeaderCellDef> ID Owner </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ID_Owner}} </td>
+                      </ng-container>
+
+                      <!-- Phone Column -->
+                      <ng-container matColumnDef="Location">
+                        <th mat-header-cell *matHeaderCellDef> Location </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Location}} </td>
+                      </ng-container>
+
+                      <!-- Gender Column -->
+                      <ng-container matColumnDef="Cost">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 80px"> Cost </th>
+                        <td mat-cell *matCellDef="let element" style="min-width: 80px"> {{element.Cost}} </td>
+                      </ng-container>
+
+                      <!-- Delete Column -->
+                      <ng-container matColumnDef="Delete">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element">
+                          <button type="button"
+                                  class="btn btn-danger"
+                                  style="padding: 0.175rem 0.45rem ;font-size: 0.7rem;"
+                                  (click)="this.DeleteRow(element.ID , 1)"
+                          >Danger</button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="['ID', 'Name', 'Type' , 'ID_Owner' ,
+                          'Location' , 'Cost' , 'Delete']"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ['ID', 'Name', 'Type' , 'ID_Owner' ,
+                          'Location' , 'Cost' , 'Delete'];"></tr>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card-footer"></div>
+              </div>
+            </div>
+            <!-- Form -->
+            <div class="card col-xl-7" style="margin-bottom: 20px ; margin-left: auto ; margin-right: auto">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Add User , Owner or Admin</h6>
+              </div>
+              <div class="container" style="padding: 38px 0">
+                <form (ngSubmit)="this.AddCustomer(Add)" #Add='ngForm'>
+                  <div class="form-row flex-row align-items-center justify-content-between">
+                    <div class="form-group col-md-5">
+                      <label>Name</label>
+                      <input type="text" class="form-control" placeholder="Name"
+                             ngModel name="CustomerName" required
+                      >
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label>Email</label>
+                      <input type="email" class="form-control" placeholder="Email"
+                             ngModel name="Add_Email" required email
+                      >
+                    </div>
+                  </div>
+                  <div class="form-row flex-row align-items-center justify-content-between">
+                    <div class="form-group col-md-5">
+                      <label>Password</label>
+                      <input type="password" class="form-control" placeholder="Password"
+                             ngModel name="Add_Password" required #Pass
+                      >
+                    </div>
+                    <div class="form-group col-md-5">
+                      <label>Re-Password</label>
+                      <input type="password" class="form-control" placeholder="Re-Password"
+                             ngModel name="Add_RePassword" required [pattern]="Pass.value"
+                      >
+                    </div>
+                  </div>
+                  <div class="form-row flex-row align-items-center justify-content-between">
+                    <div class="form-group col-md-3">
+                      <label>State</label>
+                      <select class="form-control"
+                              ngModel name="Add_Type" required
+                      >
+                        <option selected>User</option>
+                        <option selected>Owner</option>
+                        <option selected>Admin</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row" style="justify-content : space-around;">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
