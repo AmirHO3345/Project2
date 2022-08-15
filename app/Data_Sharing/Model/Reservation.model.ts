@@ -34,13 +34,14 @@ export class ReservationModel {
 
   //View Cancel
   private UpdateReservationStanding() {
-    let RangeDate = (+this.DateFrom - +this.CreateReservation)/(1000*60*60*24);
-    if(RangeDate <= 1) {
-      this.ReservationStanding = +new Date() < +this.DateFrom ;
-    } else {
-      let CreateShift = new Date(+this.CreateReservation + (1000*60*60*24));
-      this.ReservationStanding = +CreateShift > (+new Date());
-    }
+    this.ReservationStanding = +new Date() < +this.DateFrom
+    // let RangeDate = (+this.DateFrom - +this.CreateReservation)/(1000*60*60*24);
+    // if(RangeDate <= 1) {
+    //   this.ReservationStanding = +new Date() < +this.DateFrom ;
+    // } else {
+    //   let CreateShift = new Date(+this.CreateReservation + (1000*60*60*24));
+    //   this.ReservationStanding = +CreateShift > (+new Date());
+    // }
   }
 
   IsReservationStanding() : boolean {

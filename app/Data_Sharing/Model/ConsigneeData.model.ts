@@ -59,4 +59,9 @@ export class ConsigneeDataModel {
   GetAllMessage() {
     return this.Messages.Message.slice() ;
   }
+
+  GetClone() {
+    return new ConsigneeDataModel(this.UserID, this.ImagePath, this.UserName
+      , this.IsActive, this.UnReadMessage, this.LastMessage, this.DateLastMessage) ;
+  }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import Pusher, {Channel} from "pusher-js";
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
-import {BehaviorSubject, delay, forkJoin, map, Observable, Subject, Subscription, take} from "rxjs";
+import {BehaviorSubject, delay, forkJoin, map, Observable, Subject, take} from "rxjs";
 import {ConsigneeDataModel} from "../Data_Sharing/Model/ConsigneeData.model";
 import {MessageModel} from "../Data_Sharing/Model/Message.model";
 import {AuthenticationService} from "../Windows_PopUp/Authentication/authentication.service";
@@ -275,8 +275,8 @@ export class MessageService {
       return new ConsigneeDataModel(Data.info_user.profile_rec.id,
         AuthenticationService.API_Location.concat(Data.info_user.profile_rec.path_photo),
         Data.info_user.profile_rec.name, !!(Data.info_user.profile_rec.status),
-        Data.info_user.countNotread, Data.info_user.lastMessage.message,
-        new Date(Data.info_user.lastMessage.created_at)) ;
+        Data.info_user.countNotread, (Data.info_user.lastMessage != undefined)? Data.info_user.lastMessage.message : undefined,
+        (Data.info_user.lastMessage != undefined)? new Date(Data.info_user.lastMessage.created_at) : undefined) ;
     }));
   }
 
@@ -491,9 +491,25 @@ export class MessageService {
       .pipe(take(1) , map((DataMessage : SendResponse) => {
         let MessageInfo =  new MessageModel(DataMessage.id_message , (<UserModel>this.Account).ID ,
           ID_To , Message_Content , new Date(DataMessage.created_at)) ;
-        let Index = <number>this.UserCache[MessageInfo.ID_Receive].UsersFetchIndex ;
-        this.UsersFetch[Index].ReceiveMessage(MessageInfo);
-        //Sort Date
+        if(this.UserCache[ID_To] == undefined) {
+          this.FetchUserInfo(ID_To).subscribe(Value => {
+            Value.ReceiveMessage(MessageInfo);
+            this.UsersFetch.push(Value);
+            this.UserCache[ID_To] = {
+              DateLastMessage : MessageInfo.Message_Date ,
+              UnreadMessage : 0 ,
+              IsFetch : true ,
+              UsersFetchIndex : this.UsersFetch.length - 1
+            } ;
+            this.SortDateMessage(false , ID_To);
+            this.SendUpdate(ServiceAvailable.Available , ServiceAction.UsersUpdate) ;
+          });
+        } else {
+          let Index = <number>this.UserCache[MessageInfo.ID_Receive].UsersFetchIndex ;
+          this.UsersFetch[Index].ReceiveMessage(MessageInfo);
+          this.SortDateMessage(false , MessageInfo.ID_Receive);
+          this.SendUpdate(ServiceAvailable.Available , ServiceAction.UsersUpdate) ;
+        }
         return {...MessageInfo} ;
       }));
   }
@@ -554,7 +570,7 @@ export class MessageService {
     let Index = this.UserCache[ID].UsersFetchIndex ;
     if(Index == undefined)
       return undefined;
-    return {...this.UsersFetch[Index]} ;
+    return this.UsersFetch[Index].GetClone() ;
   }
 }
 

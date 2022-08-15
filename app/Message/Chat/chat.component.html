@@ -13,22 +13,28 @@
               [class]="(Message.ID_Sender == this.AccountInfo.ID)? 'in' : 'out'">
             <ng-template [ngIf]="Message.ID_Sender == this.AccountInfo.ID">
               <div style="position: relative">
-                <img [src]="this.AccountInfo.ImagePath" class="avatar" alt="">
+                <img [src]="this.AccountInfo.ImagePath" class="avatar" alt=""
+                     style="cursor: pointer" (click)="this.GoProfile(Message.ID_Sender)"
+                >
                 <div class="status-indicator-in bg-success" *ngIf="this.AccountInfo.IsActive"></div>
               </div>
               <div class="message">
-                <span class="arrow"></span> <a class="name" href="#"> {{this.AccountInfo.Name}} </a>
+                <span class="arrow"></span> <a class="name" (click)="this.GoProfile(Message.ID_Sender)">
+                {{this.AccountInfo.Name}} </a>
                 <span class="datetime"> {{Message.Message_Date | DateConvert:1:this.Current_Date}} </span>
                 <span class="body"> {{Message.Message_Content}} </span>
               </div>
             </ng-template>
             <ng-template [ngIf]="Message.ID_Sender != this.AccountInfo.ID">
               <div style="position: relative">
-                <img [src]="this.User_Texting.ImagePath" class="avatar" alt="">
+                <img [src]="this.User_Texting.ImagePath" class="avatar" alt=""
+                     style="cursor: pointer" (click)="this.GoProfile(Message.ID_Sender)"
+                >
                 <div class="status-indicator-out bg-success" *ngIf="this.User_Texting.IsActive"></div>
               </div>
               <div class="message">
-                <span class="arrow"></span> <a class="name" href="#"> {{this.User_Texting.Name}} </a>
+                <span class="arrow"></span> <a class="name" (click)="this.GoProfile(Message.ID_Sender)">
+                {{this.User_Texting.Name}} </a>
                 <span class="datetime"> {{Message.Message_Date | DateConvert:1:this.Current_Date}} </span>
                 <span class="body"> {{Message.Message_Content}} </span>
               </div>

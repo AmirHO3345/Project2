@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {MessageModel} from "../../Data_Sharing/Model/Message.model";
 import {MessageService, ServiceAction, ServiceAvailable} from "../message.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {UserModel} from "../../Data_Sharing/Model/user.model";
 import {Observable, Subscription} from "rxjs";
 import {AbstractControl, NgForm} from "@angular/forms";
@@ -43,7 +43,7 @@ export class ChatComponent implements OnInit , AfterViewInit , OnDestroy {
   IsDone : boolean ;
 
   constructor(private ChatProcessor : MessageService , private route : ActivatedRoute ,
-              private Timer : TimeService) {
+              private Nav : Router, private Timer : TimeService) {
     let Temp = <UserModel>this.ChatProcessor.GetAccountInfo() ;
     this.AccountInfo = {
       ID : Temp.ID ,
@@ -122,35 +122,46 @@ export class ChatComponent implements OnInit , AfterViewInit , OnDestroy {
     let UserTemp = this.ChatProcessor.GetUserInfo(IdUserTexting);
     if(UserTemp == undefined)
       // Navigate To Page 404
-      return ; //Close Chat
+      return ; //Close Cha
     this.User_Texting = {
       ID : UserTemp.UserID ,
       Name : UserTemp.UserName ,
       ImagePath : UserTemp.ImagePath ,
       IsActive : UserTemp.IsActive
     };
-    let Temp = <MessageModel[]>this.ChatProcessor.SetIDSelected(this.User_Texting.ID);
-    if(Temp.length > 0) {
-      this.AllMessage = Temp ;
+    let Temp_1 = <MessageModel[]>this.ChatProcessor.SetIDSelected(this.User_Texting.ID);
+    if(Temp_1.length > 9) {
+      this.AllMessage = Temp_1 ;
       setTimeout(() => {
         this.ScrollControl.ScrollTo(false);
         this.ChatProcessor.SendReadMessage(this.User_Texting.ID).subscribe();
         this.IsScrollRun = true ;
       } , 1);
     } else {
-      let Temp = this.ChatProcessor.FetchMessageList(this.User_Texting.ID);
-      if(Temp instanceof Observable) {
-        let ObserveTemp = Temp.subscribe((Value) => {
-          this.AllMessage.push(...Value.Data);
-          this.IsDone = Value.Done ;
+        let Temp_2 = this.ChatProcessor.FetchMessageList(this.User_Texting.ID);
+        if(Temp_2 instanceof Observable) {
+          let ObserveTemp = Temp_2.subscribe((Value) => {
+            if(Temp_1.length > 0) {
+              this.AllMessage = Temp_1 ;
+              this.AllMessage.unshift(...Value.Data);
+            } else
+              this.AllMessage.push(...Value.Data);
+            this.IsDone = Value.Done ;
+            this.IsScrollRun = true ;
+            setTimeout(() => {
+              this.ScrollControl.ScrollTo(false);
+            } , 100);
+            this.ChatProcessor.SendReadMessage(this.User_Texting.ID).subscribe();
+            ObserveTemp.unsubscribe();
+          });
+        } else if(Temp_2.Done) {
+          this.AllMessage = Temp_1 ;
           this.IsScrollRun = true ;
           setTimeout(() => {
             this.ScrollControl.ScrollTo(false);
           } , 100);
           this.ChatProcessor.SendReadMessage(this.User_Texting.ID).subscribe();
-          ObserveTemp.unsubscribe();
-        });
-      }
+        }
     }
     if(this.ChatProcessor.Communication != null)
       this.Listener = this.ChatProcessor.Communication.subscribe((Value) => {
@@ -167,12 +178,19 @@ export class ChatComponent implements OnInit , AfterViewInit , OnDestroy {
     let FieldInputForm : AbstractControl = <AbstractControl>FormData.form.get("message") ;
     this.ChatProcessor.SendMessage(this.User_Texting.ID , FieldInputForm.value)
       .subscribe((Value) => {
+        if(Value instanceof Observable)
+          return ;
         this.AllMessage.push(Value) ;
         setTimeout(() => {
           this.ScrollControl.ScrollTo(false);
         } , 100);
       });
     FieldInputForm.reset();
+  }
+
+  public GoProfile(ID : number) {
+    console.log(ID);
+    //this.Nav.navigate([]);
   }
 
   ngOnDestroy(): void {
