@@ -15,6 +15,10 @@ export class AppComponent {
     this.AuthCheck.PopUpRegisterOpen.subscribe(() => {
       this.LoginOpen = true;
     });
+    this.AuthCheck.Account.subscribe(Value =>{
+      // if(Value != null)
+      //   console.log(Value.GetType());
+    })
   }
 
   public CloseRegisterWindow() {

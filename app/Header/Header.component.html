@@ -1,12 +1,14 @@
 <mat-toolbar class="Fix" color="primary" #MainHeader> <!-- SliderShrink | SliderOpen -->
   <mat-toolbar-row class="Toolbar_Row">
-    <button mat-icon-button (click)="Control_Side()">
+    <button mat-icon-button
+            *ngIf="this.IsAccountExist != null"
+            (click)="Control_Side()">
       <mat-icon>menu</mat-icon>
     </button>
     <span>App Logo</span>
     <div class="Icons">
       <ul class="List_Icons">
-        <li *ngIf="IsAccountExist">
+        <li *ngIf="this.IsAccountExist">
           <app-notification-icon *ngIf="this.ActiveIconNotification"></app-notification-icon>
           <button mat-icon-button
                   style="background-color: #ffffff38"
@@ -15,7 +17,7 @@
             <mat-icon>notifications</mat-icon>
           </button>
           </li>
-          <li *ngIf="IsAccountExist">
+          <li *ngIf="IsAccountExist && IsAccountExist.GetType() != 2">
             <app-message-icon *ngIf="this.ActiveIconMessage"></app-message-icon>
             <button mat-icon-button
                     style="background-color: #ffffff38"

@@ -1,69 +1,100 @@
 <div class="Fix">
   <div class="sidebar close" #MainSideBar> <!-- open || close -->
     <ul class="nav-list">
-      <li>
-        <a [routerLink]="['/home']">
-          <mat-icon>home</mat-icon>
-          <span class="links_name">Home</span>
-        </a>
-        <span class="tooltip">Home</span>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>person</mat-icon>
-          <span class="links_name">Profile</span>
-        </a>
-        <span class="tooltip">Profile</span>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>manage_accounts</mat-icon>
-          <span class="links_name">Setting</span>
-        </a>
-        <span class="tooltip">Setting</span>
-      </li>
-      <li>
-        <a [routerLink]="['/notificationList']">
-          <mat-icon>notifications</mat-icon>
-          <span class="links_name">Notifications</span>
-        </a>
-        <span class="tooltip">Notifications</span>
-      </li>
-      <li>
-        <a [routerLink]="['/chat']">
-          <mat-icon>chat_bubble</mat-icon>
-          <span class="links_name">Chat</span>
-        </a>
-        <span class="tooltip">Chat</span>
-      </li>
-      <li>
-        <a [routerLink]="['/reservationList']">
-          <mat-icon>payment</mat-icon>
-          <span class="links_name">Reservation</span>
-        </a>
-        <span class="tooltip">Reservation</span>
-      </li>
-      <li>
-        <a [routerLink]="['/favorite']" (click)="getFavouriteList()">
-          <mat-icon>favorite</mat-icon>
-          <span class="links_name">Favorite</span>
-        </a>
-        <span class="tooltip">Favorite</span>
-      </li>
-      <li>
-        <a [routerLink]="['/facilitylist']">
-          <mat-icon>event_seat</mat-icon>
-          <span class="links_name">facility list</span>
-        </a>
-        <span class="tooltip">facility list</span>
-      </li>
-      <li>
-        <a [routerLink]="['/statistic']">
-          <mat-icon>bar_chart</mat-icon>
-          <span class="links_name">Statistic</span>
-        </a>
-        <span class="tooltip">Statistic</span>
-      </li>
+      <ng-template [ngIf]="this.UserAccount != null">
+        <div [ngSwitch]="this.UserAccount.GetType()">
+          <div *ngSwitchCase="0">
+            <li>
+              <a [routerLink]="['/home']">
+                <mat-icon>home</mat-icon>
+                <span class="links_name">Home</span>
+              </a>
+              <span class="tooltip">Home</span>
+            </li>
+            <li>
+              <a href="#">
+                <mat-icon>person</mat-icon>
+                <span class="links_name">Profile</span>
+              </a>
+              <span class="tooltip">Profile</span>
+            </li>
+            <li>
+              <a href="#">
+                <mat-icon>manage_accounts</mat-icon>
+                <span class="links_name">Setting</span>
+              </a>
+              <span class="tooltip">Setting</span>
+            </li>
+            <li>
+              <a [routerLink]="['/notificationList']">
+                <mat-icon>notifications</mat-icon>
+                <span class="links_name">Notifications</span>
+              </a>
+              <span class="tooltip">Notifications</span>
+            </li>
+            <li>
+              <a [routerLink]="['/chat']">
+                <mat-icon>chat_bubble</mat-icon>
+                <span class="links_name">Chat</span>
+              </a>
+              <span class="tooltip">Chat</span>
+            </li>
+            <li>
+              <a [routerLink]="['/reservationList']">
+                <mat-icon>payment</mat-icon>
+                <span class="links_name">Reservation</span>
+              </a>
+              <span class="tooltip">Reservation</span>
+            </li>
+          </div>
+          <div *ngSwitchCase="1">
+            <li>
+              <a [routerLink]="['/notificationList']">
+                <mat-icon>notifications</mat-icon>
+                <span class="links_name">Notifications</span>
+              </a>
+              <span class="tooltip">Notifications</span>
+            </li>
+            <li>
+              <a [routerLink]="['/chat']">
+                <mat-icon>chat_bubble</mat-icon>
+                <span class="links_name">Chat</span>
+              </a>
+              <span class="tooltip">Chat</span>
+            </li>
+            <li>
+              <a [routerLink]="['/facilitylist']">
+                <mat-icon>event_seat</mat-icon>
+                <span class="links_name">facility list</span>
+              </a>
+              <span class="tooltip">facility list</span>
+            </li>
+          </div>
+          <div *ngSwitchCase="2">
+            <li>
+              <a [routerLink]="['/notificationList']">
+                <mat-icon>notifications</mat-icon>
+                <span class="links_name">Notifications</span>
+              </a>
+              <span class="tooltip">Notifications</span>
+            </li>
+            <li>
+              <a [routerLink]="['/statistic']">
+                <mat-icon>bar_chart</mat-icon>
+                <span class="links_name">Statistic</span>
+              </a>
+              <span class="tooltip">Statistic</span>
+            </li>
+            <li>
+              <a [routerLink]="['/adminController']">
+                <mat-icon>admin_panel_settings</mat-icon>
+                <span class="links_name">Controller</span>
+              </a>
+              <span class="tooltip">Controller</span>
+            </li>
+          </div>
+        </div>
+      </ng-template>
       <li class="profile close" *ngIf="this.UserAccount != null" #Control> <!-- open || close -->
         <div class="profile-details">
           <img [src]="this.UserAccount.ImagePath" alt="profileImg">

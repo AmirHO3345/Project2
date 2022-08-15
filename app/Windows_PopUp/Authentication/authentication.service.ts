@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {BehaviorSubject, Observable, Subject, tap} from "rxjs";
 import {UserModel} from "../../Data_Sharing/Model/user.model";
 import { RoomServiceComponent } from "src/app/Ahmad/roomservice.component";
+import {Router} from "@angular/router";
 
 interface AuthResponseData {
   user : {
@@ -34,7 +35,8 @@ export class AuthenticationService {
 
   static API_Location : string = "http://localhost/Laravel-Project-Api-Facility-Reservation/public/" ;
 
-  constructor(private HTTP : HttpClient,private roomser:RoomServiceComponent) {
+  constructor(private HTTP : HttpClient , private roomser:RoomServiceComponent ,
+              private route : Router) {
     this.Account = new BehaviorSubject<UserModel | null>(null);
     this.PopUpRegisterOpen = new Subject();
   }
@@ -47,11 +49,7 @@ export class AuthenticationService {
       password_c : Password ,
       rule : (Client_Type)? "0" : "1" ,
     })
-      .pipe(tap(Data_Response => {
-          console.log(Data_Response);
-          this.AuthenticationInit(Data_Response);
-      })
-    );
+      .pipe(tap(Data_Response => this.AuthenticationInit(Data_Response)));
   }
 
   Login(Email : string , Password : string , KeepAccount : boolean ) : Observable<AuthResponseData> {
@@ -66,6 +64,10 @@ export class AuthenticationService {
   Logout() {
     localStorage.removeItem("UserAccount");
     this.Account.next(null);
+    this.route.navigate(['/home'])
+      .then(() => {
+        window.location.reload();
+      });
   }
 
   AutoLogin() {

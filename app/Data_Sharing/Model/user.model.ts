@@ -55,7 +55,7 @@ export class UserModel {
       clientType : number ;
     } = JSON.parse(DataJson) ;
     return new UserModel(UserModelObject.id , UserModelObject.name , UserModelObject.token ,
-      Client[UserModelObject.clientType] , UserModelObject.path) ;
+      UserModelObject.clientType.toString() , UserModelObject.path) ;
   }
 
   public static Object2Json(DataObject : UserModel) : string {
