@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="hotel, bed and breakfast, accommodations, travel, motel">
+    <meta name="description" content="Albert - Hotel and Bed&amp;Breakfast">
+    <meta name="author" content="Ansonika">
+    <title>Albert - Hotel and Bed&amp;Breakfast</title>
+
+    <!-- Favicons-->
+    <!-- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png"> -->
+
+    <!-- GOOGLE WEB FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700" rel="stylesheet">
+
+    <!-- BASE CSS -->
+</head>
+<!-- 
+<div class="Fix" style="width: 135%;display: none;" >
+    <div class="Container_Image" style="width: 210%;height: 27%;">
+      <img [src]="this.Image_Array[this.Image_Number]" >
+      <div class="shadowRound"></div>
+    </div>
+        <div class="options">
+
+           
+        <div class="option active" *ngFor="let i of Image_Array let ii=index"
+         [style]="'--optionBackground:url(' + this.Image_Array[ii] + ');'"
+             (click)="this.ManualMove(Option ,ii)" #Option>
+          <div class="shadow"></div>
+          <div class="label">
+            <div class="icon">
+              <img>
+            </div>
+            <div class="info">
+              <div class="main">Blonkisoaz</div>
+              <div class="sub">Omuke trughte a otufta</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div> -->
+  <br><br><br><br>
+<body>
+    
+    <div class="layer"></div>
+    <!-- Mobile menu overlay mask -->
+    
+     <!-- Header ================================================== -->
+    
+    <!-- End Header =============================================== -->
+    
+    <!-- Set up your HTML -->
+<!-- <div class="carousel_in">
+      <div><img src="img/room_detail_1.jpg" alt=""><div class="caption"><h3>Fantastic bed room</h3></div></div>
+      <div><img src="img/room_detail_2.jpg" alt=""><div class="caption"><h3>Equiped bathroom</h3></div></div>
+      <div><img src="img/room_detail_3.jpg" alt=""><div class="caption"><h3>Equiped bathroom</h3></div></div>
+      <div><img src="img/room_detail_4.jpg" alt=""><div class="caption"><h3>Nice outdoor</h3></div></div>
+      <div><img src="img/room_detail_5.jpg" alt=""><div class="caption"><h3>Swimming pool</h3></div></div>
+    </div> -->
+    
+    
+    <h1 class="main_title_in">{{roomDet.name}}</h1>
+    <div class="container add_bottom_60">
+        
+        <div class="row">
+        	<div class="col-md-8" id="room_detail_desc">
+            <div id="single_room_feat">
+                <ul>
+                	<li *ngIf="roomDet.wifi"><i class="icon_set_1_icon-7"></i>Wifi</li>
+                    <li *ngIf="roomDet.coffee_machine"><i class="icon_set_1_icon-59"></i>Coffee Machine</li>
+                    <li *ngIf="roomDet.tv"><i class="icon_set_2_icon-116"></i>Plasma TV</li>
+                    <li *ngIf="roomDet.fridge">
+                            <mat-icon>kitchen</mat-icon>
+                  Fridge</li>
+                    <li><i class="icon_set_2_icon-106"></i>Safe box</li>
+                </ul>
+            </div>
+           
+         <div class="row">
+                <div class="col-md-3">
+                    <h3>Description</h3>
+                </div>
+                <div class="col-md-9">
+                    <p>
+                            {{roomDet.description}}
+                    </p>
+                    <h4>facility type</h4>
+                    <p>
+                            {{roomDet.type}}
+                    </p>
+                   
+                </div><!-- End col-md-9  -->
+            </div><!-- End row  -->
+
+          	<hr>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <h3>Reviews</h3>
+                    <button class="btn_1 add_bottom_15"
+                    (click)="showComment()" data-toggle="modal" >Leave a review</button>
+                </div>
+                <div class="col-md-9">
+                	<div id="score_detail"><span>7.5</span>Good <small>(Based on 34 reviews)</small></div><!-- End general_rating -->
+                    <div class="row" id="rating_summary">
+                    	<div class="col-md-6">
+                        	<ul>
+                            	<li>Position
+                                    <div class="rating">
+                                            {{roomDet.location}}
+                                    </div>
+                                </li>
+                                <li>Max_Presons
+                                <div class="rating">
+                                        {{roomDet.num_guest}}
+                                </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                        	<ul>
+                            	<li>Price
+                                <div class="rating">
+                                            {{roomDet.cost}}$
+                                    </div>
+                                </li>
+                                <li>Rating
+                                <div class="rating">
+                                    <ngb-rating [max]="5" [(rate)]=roomDet.rate [readonly]="true" ></ngb-rating>
+                                </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- End row -->
+                    
+                    <hr>
+
+                   
+                   <!-- /////////////////////////////////////////////////////////////////////////comments -->
+                   
+                       
+
+                        
+                        <!-- <div class="review_strip_single" 
+                        *ngFor="let comm of comments; let i=index" >
+                            <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800" 
+                            alt="" class="img-circle" style="width: 18%; height: 32%;">
+                            <small> - {{comments[i].created_at| date:'yyyy-MM-dd'}} -</small>
+                            <h4>{{comments[i].user.name}}</h4>
+                            <p>
+                                {{comments[i].comment}}
+                            </p>
+                            <div class="rating">
+                                <ngb-rating [max]="5" [(rate)]=comments[i].rate
+                                [readonly]="true" ></ngb-rating>
+                            </div>
+                        </div> -->
+                 
+                    <!-- /////////////////////////////////////////////////////////////////////////// -->
+                    
+                   
+                    
+                </div>
+            </div>  
+            <hr>
+            
+            </div><!-- End col -->
+            
+        <div class="col-md-4" id="sidebar" >
+            <div class="theiaStickySidebar">
+            	<div class="box_style_1">
+                    <div id="message-booking"></div>
+                    <form (ngSubmit)="onSubmitBook()" [formGroup]="facilityForm">
+                    <input name="room_type" id="room_type" [disabled]="true"
+                    type="hidden" value="Double room">	
+                    	<div class="row">
+                        	<div class="col-md-6 col-sm-6">
+                            	<div class="form-group">
+                                	<label>Arrival date</label>
+
+
+                    <input matInput [matDatepicker]="picker_Arrival" [disabled]="true"
+                     class="form-control" style="border-radius: 12px"
+                    placeholder="Arrival" ngModel formControlName="arrival"
+                           min="{{currentDate | date:'yyyy-MM-dd'}}" 
+                            required readonly >
+                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
+                    style="position: absolute;bottom: 0px;
+                    right: 0%;top:0%;margin-top: 16%;">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker_Arrival></mat-datepicker>
+   </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                            	<div class="form-group">
+                                	<label>Departure date</label>
+                                    
+                                    <input matInput [matDatepicker]="picker_Departure"
+                                     class="form-control"
+                                     style="border-radius: 12px"
+                                    placeholder="Departure" ngModel formControlName="departure"
+                                    min="{{getDateOut() | date:'yyyy-MM-dd'}}"
+                                   
+                                     readonly required>
+                             <mat-datepicker-toggle matSuffix [for]="picker_Departure"
+                             style="position: absolute;bottom: 0px;
+                             right: 0%;top:0%;margin-top: 16%;">
+                             </mat-datepicker-toggle>
+                             <mat-datepicker #picker_Departure></mat-datepicker>
+
+
+
+                                   <!-- <span class="input-icon"><i class="icon-calendar-7"></i></span> -->
+                               </div>
+                            </div>
+                        </div><!-- End row -->
+                        <div class="row">
+                        	<div class="col-md-6 col-sm-6 col-xs-6">
+                            	<div class="form-group">
+                                <!-- <label>Adults</label> -->
+                            	   
+
+                                <div id="container_3" style="text-align:center">
+                                  
+                                  </div>
+
+
+                                   </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                            	<div class="form-group">
+                                <!-- <label>Rooms</label> -->
+                                <div id="container_3" style="text-align:center;">
+                                  
+                                  </div>
+                               </div>
+                            </div>
+                        </div><!-- End row -->
+           				<div class="row">
+                        	
+                             
+                                   <div class="col-md-12 col-sm-12">
+                                   <div class="form-group">
+                                   <input type="submit" value="Book now" class="btn_full" [disabled]="true">
+                                   </div>
+                                   </div>
+
+                                   <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                    <input type="submit" value="view cost"
+                                     (click)="viewCost()"class="btn_full" [disabled]="true">
+                                    </div>
+                                    </div>
+                                  
+                             </div>
+                        </form>
+                            
+                        <hr>
+                        <a href="#0" class="btn_outline"> or Contact us</a>
+                        <a href="tel://004542344599" id="phone_2"><i class="icon_set_1_icon-91"></i>+45 423 445 99</a>
+                     
+                </div><!-- End box_style -->
+            </div><!-- End theiaStickySidebar -->
+            </div><!-- End col -->
+            
+        </div><!-- End row -->
+                
+            </div><!-- End container -->
+    
+
+    
+    <div id="dtBox"></div><!-- End datepicker -->
+   
+
+<div id="toTop"></div><!-- Back to top button -->
+
+<!-- Modal Review -->
+<div class="modal fade" id="myReview" tabindex="-1" role="dialog" aria-labelledby="myReviewLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myReviewLabel" style="font-weight:500;">Write your review</h4>
+			</div>
+			<div class="modal-body">
+				<div id="message-review">
+				</div>
+				<form method="post" action="assets/review.php" name="review" id="review">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input name="name_review" id="name_review" type="text" placeholder="Your name" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<input name="lastname_review" id="lastname_review" type="text" placeholder="Your last name" class="form-control">
+							</div>
+						</div>
+					</div>
+					<!-- End row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input name="email_review" id="email_review" type="email" placeholder="Your email" class="form-control">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<select class="form-control" name="room_type_review" id="room_type_review">
+									<option value="">Select room type</option>
+									<option value="Single room">Single Room</option>
+									<option value="Double Room">Double Room</option>
+									<option value="King double room">King Double Room</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- End row -->
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Position</label>
+								<select class="form-control" name="position_review" id="position_review">
+									<option value="">Please review</option>
+									<option value="Low">Low</option>
+									<option value="Sufficient">Sufficient</option>
+									<option value="Good">Good</option>
+									<option value="Excellent">Excellent</option>
+									<option value="Superb">Super</option>
+									<option value="Not rated">I don't know</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Comfort</label>
+								<select class="form-control" name="comfort_review" id="comfort_review">
+									<option value="">Please review</option>
+									<option value="Low">Low</option>
+									<option value="Sufficient">Sufficient</option>
+									<option value="Good">Good</option>
+									<option value="Excellent">Excellent</option>
+									<option value="Superb">Super</option>
+									<option value="Not rated">I don't know</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- End row -->
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Price</label>
+								<select class="form-control" name="price_review" id="price_review">
+									<option value="">Please review</option>
+									<option value="Low">Low</option>
+									<option value="Sufficient">Sufficient</option>
+									<option value="Good">Good</option>
+									<option value="Excellent">Excellent</option>
+									<option value="Superb">Super</option>
+									<option value="Not rated">I don't know</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Quality</label>
+								<select class="form-control" name="quality_review" id="quality_review">
+									<option value="">Please review</option>
+									<option value="Low">Low</option>
+									<option value="Sufficient">Sufficient</option>
+									<option value="Good">Good</option>
+									<option value="Excellent">Excellent</option>
+									<option value="Superb">Super</option>
+									<option value="Not rated">I don't know</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- End row -->
+					<div class="form-group">
+						<textarea name="review_text" id="review_text" class="form-control" style="height:100px" placeholder="Write your review"></textarea>
+					</div>
+					<div class="form-group">
+						<input type="text" id="verify_review" class=" form-control" placeholder="Are you human? 3 + 1 =">
+					</div>
+					<input type="submit" value="Submit" class="btn_1" id="submit-review">
+				</form>
+			</div>
+		</div>
+	</div>
+</div><!-- End Modal Review -->
+
+</body>
+</html>

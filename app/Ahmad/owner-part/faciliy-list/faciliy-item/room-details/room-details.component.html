@@ -175,7 +175,7 @@
                         <!-- <i class="icon_set_2_icon-111">  </i> -->
                             <mat-icon>kitchen</mat-icon>
                   Fridge</li>
-                    <li><i class="icon_set_2_icon-106"></i>Safe box</li>
+                    <li *ngIf="facilityowner.air_condition"><i class="icon_set_2_icon-106"></i>Air Condition</li>
                     <li>
                         <div class="tooltip_styled tooltip-effect-4">
                             <span class="tooltip-item" >
@@ -201,51 +201,7 @@
                     <p>
                             {{facilityowner.type}}
                     </p>
-                    <!-- <div class="row">
-                        <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>Coffee machine</li>
-                                <li>Wifi</li>
-                                <li>	Microwave</li>
-                                <li>Oven</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>Fridge</li>
-                                <li>Hairdryer</li>
-                                <li>Towels</li>
-                                <li>Toiletries</li>
-                            </ul>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>DVD player</li>
-                                <li>Air-conditioning</li>
-                                <li>Tv</li>
-                                <li>Freezer</li>
-                            </ul>
-                    </div>
-                    </div> -->
-                    <!-- End row  -->
-                    <!-- <h4>Room Prices</h4> -->
-                     <!-- start pricing table -->
-                        <!-- <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <td>Low (from 23/03 to 31/05)</td>
-                            <td>140$</td>
-                        </tr>
-                        <tr>
-                            <td>Middle (from 23/03 to 31/05)</td>
-                            <td>180$</td>
-                        </tr>
-                        <tr>
-                            <td>High (from 23/03 to 31/05)</td>
-                            <td>200$</td>
-                        </tr>
-                        </tbody>
-                        </table> -->
+             
                 </div><!-- End col-md-9  -->
             </div><!-- End row  -->
 
@@ -280,88 +236,70 @@
                                             {{facilityowner.cost}}$
                                     </div>
                                 </li>
-                               
+                               <li>Rating
+                                <div class="rating">
+                                    <ngb-rating [max]="5" [(rate)]=facilityowner.rate [readonly]="true" 
+                                    style="color:#F90;
+                                    font-size:16px;
+                                    font-size:14px;
+                                    margin-bottom:5px;
+                                    list-style:none;
+                                    margin:0 0 -5px 0;
+                                    padding:0;list-style:none;
+                                    margin:0 0 -5px 0;
+                                    padding:0;"></ngb-rating>
+                                  </div>
+                               </li>
                             </ul>
                         </div>
                     </div><!-- End row -->
                     
                     <hr>
-                   <!-- /////////////////////////////////////////////////////////////////////////comments -->
-                    <!-- <div class="review_strip_single" *ngFor="let comm of room.comments">
-                        <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800"
-                         alt="" class="img-circle" style="height: 60px;width: 60px;">
-                        <small>{{comm.dateofWritten | date:'yyyy-MM-dd'}} </small>
-                        <h4>{{comm.nameofUser}}</h4>
-                        <p>
-                            {{comm.strComment}}
-                        </p>
-                        <div class="rating">
-                            <ngb-rating [max]="5" [(rate)]=comm.ratingComment [readonly]="true" ></ngb-rating>
+                    <!-- <form (ngSubmit)="onSubmitcomm(f)" #f="ngForm">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Leave a comment</label>
+                            <input type="text" class="form-control" ngModel name="comment"
+                            id="examplecomment" placeholder="your comment">
+                          </div>
+                          <label for="exampleInputPassword1">put your rate</label>
+                          <div class="rating">
+                            <ngb-rating [max]="5" [(rate)]=rateFromUser
+                             [readonly]="false" style="font-size: 28px;" ></ngb-rating>
                         </div>
-                    </div> -->
+                          <button type="submit" class="btn_1 add_bottom_15">Submit</button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="submit" (click)="DeleteComment()" class="btn_1 add_bottom_15">Delete</button>
+                        </form> -->
+                   <!-- /////////////////////////////////////////////////////////////////////////comments -->
+                   <div class="review_strip_single" 
+                   *ngFor="let comm of comments; let i=index" >
+                       <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800" 
+                       alt="" class="img-circle" style="width: 18%; height: 32%;">
+                       <small> - {{comments[i].created_at| date:'yyyy-MM-dd'}} -</small>
+                       <h4>{{comments[i].user.name}}</h4>
+                       <p>
+                           {{comments[i].comment}}
+                       </p>
+                       <div class="rating">
+                           <ngb-rating [max]="5" [(rate)]=comments[i].rate
+                           [readonly]="true" ></ngb-rating>
+                       </div>
+                   </div>
                     <!-- /////////////////////////////////////////////////////////////////////////// -->
                     
-                    <!-- <div class="review_strip_single">
-                        <img src="img/avatar2.jpg" alt="" class="img-circle">
-                        <small> - 10 March 2015 -</small>
-                        <h4>Jhon Doe</h4>
-                        <p>
-                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-                        </p>
-                        <div class="rating">
-                            <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i>
-                        </div>
-                    </div>
-                    End review strip -->
-                    
-                   <!-- <div class="review_strip_single last">
-                        <img src="img/avatar3.jpg" alt="" class="img-circle">
-                        <small> - 10 March 2015 -</small>
-                        <h4>Jhon Doe</h4>
-                        <p>
-                             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-                        </p>
-                        <div class="rating">
-                            <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i>
-                        </div>
-                    </div> -->
-                    <!-- End review strip -->
+                  
                     
                 </div>
             </div>  
             <hr>
-            <div class="row">
-            <div class="col-md-3">
-                    <h3>Policies</h3>
-                </div>
-                <div class="col-md-9">
-                <ul id="policies">
-                    <li><i class="icon_set_1_icon-83"></i><h5>Check-in and check-out.</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-54"></i><h5>Cancellation</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-47"></i><h5>Smoking</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-35"></i><h5>Payments</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-13"></i><h5>Disable</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>                    
-                    </ul>
-                </div>
-                </div>
+            
             </div><!-- End col -->
             
         <div class="col-md-4" id="sidebar" >
             <div class="theiaStickySidebar">
             	<div class="box_style_1">
                     <div id="message-booking"></div>
-                    <form method="post" action="assets/check_avail.php"
-                     id="check_avail" autocomplete="off" >
+                    <form (ngSubmit)="onSubmitBook()" [formGroup]="facilityFormbook" >
                     <input name="room_type" id="room_type" 
                     type="hidden" value="Double room">	
                     	<div class="row">
@@ -372,7 +310,7 @@
 
                                     <input matInput [matDatepicker]="picker_Arrival"
                      class="form-control" style="border-radius: 12px"
-                           placeholder="Arrival" ngModel name="Arrival_D"
+                           placeholder="Arrival" ngModel formControlName="arrival"
                            min="{{currentDate | date:'yyyy-MM-dd'}}"
                             required readonly>
                     <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
@@ -380,21 +318,7 @@
                     right: 0%;top:0%;margin-top: 16%;">
                     </mat-datepicker-toggle>
                     <mat-datepicker #picker_Arrival></mat-datepicker>
-
-<!-- 
-
-                            	   	<input matInput [matDatepicker]="picker_Departure" 
-                        class="form-control" style="border-radius: 12px"
-                        placeholder="Arrival" ngModel name="datein" id="datein"
-                            readonly required>
-                    <mat-datepicker-toggle style="position: absolute;bottom: 0px;
-                    right: 0%;top:0%;margin-top: 16%;"
-                     matSuffix [for]="picker_Departure"></mat-datepicker-toggle>
-                    <mat-datepicker  #picker_Departure></mat-datepicker> -->
-
-
-                                   <!-- <span class="input-icon"><i class="icon-calendar-7"></i></span> -->
-                                   </div>
+ </div>
                             </div>
                             <div class="col-md-6 col-sm-6">
                             	<div class="form-group">
@@ -402,7 +326,7 @@
                                     
                                     <input matInput [matDatepicker]="picker_Departure" class="form-control"
                                      style="border-radius: 12px"
-                                    placeholder="Departure" ngModel name="Departure_D"
+                                    placeholder="Departure" ngModel formControlName="departure"
                                     min="{{getDateOut() | date:'yyyy-MM-dd'}}"
                                     (ngModelChange)="this.ChangeArrival($event)"
                                      readonly required>
@@ -414,72 +338,26 @@
 
 
 
-                                   <!-- <span class="input-icon"><i class="icon-calendar-7"></i></span> -->
                                </div>
                             </div>
                         </div><!-- End row -->
                         <div class="row">
                         	<div class="col-md-6 col-sm-6 col-xs-6">
                             	<div class="form-group">
-                                <label>Adults</label>
-                            	   
-
-                                <div id="container_3" style="text-align:center">
-                                    <!-- <label>Adults</label> -->
-                                    <div class="qty-buttons">
-                                      <input type="button" value="-" 
-                                      class="qtyminus" name="adults"
-                                       (click)="ChangeAdults(false)">
-                                      <input type="text" name="adults" id="adults" 
-                                      class="qty form-control"
-                                             [(ngModel)]="this.Adults" name="Adults"
-                                             [min]="this.Arrival.DateDetermine" 
-                                             [disabled]="!this.Arrival.IsActive"
-                                              required readonly>
-                                      <input type="button" value="+" class="qtyplus" 
-                                      name="adults" (click)="ChangeAdults(true)">
-                                    </div>
-                                  </div>
-
-
-                                   </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6">
-                            	<div class="form-group">
-                                <label>Rooms</label>
-                                <div id="container_3" style="text-align:center;">
-                                    <!-- <label style="color:white;">Rooms</label> -->
-                                    <div class="qty-buttons">
-                                      <input type="button" value="-" class="qtyminus" name="rooms"
-                                       (click)="ChangeRooms(false)">
-                                      <input type="text" name="rooms" id="rooms" class="qty form-control"
-                                             [(ngModel)]="this.Rooms" name="Rooms" required readonly>
-                                      <input type="button" value="+" class="qtyplus" 
-                                      name="rooms" (click)="ChangeRooms(true)">
-                                    </div>
-                                  </div>
-                               </div>
-                            </div>
-                        </div><!-- End row -->
-           				<div class="row">
-                        	
-                              <div class="col-md-12 col-sm-6">
-                                   <div class="form-group">
-                                	<label>Name</label>
-                            	 		<input type="text" class="form-control" name="name_booking" id="name_booking" placeholder="Name and Last name">
-                                   </div>
-                                   </div>
-                                   <div class="col-md-12 col-sm-6">
-                                   <div class="form-group">
-                                	<label>Email</label>
-                            	 		<input type="text" class="form-control" name="email_booking" id="email_booking" placeholder="Your email">
-                                   </div>
+                               
+                               
+                                </div>
                                    </div>
                                    <div class="col-md-12 col-sm-12">
                                    <div class="form-group">
-                                   <input type="submit" value="Book now" class="btn_full" id="submit-booking">
+                                   <input type="submit" value="Book now" 
+                                   class="btn_full" id="submit-booking">
                                    </div>
                                    </div>
+                                   
+                                  
+
+
                              </div>
                         </form>
                         <hr>

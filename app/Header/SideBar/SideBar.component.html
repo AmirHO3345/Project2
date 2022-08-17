@@ -12,7 +12,7 @@
               <span class="tooltip">Home</span>
             </li>
             <li>
-              <a href="#">
+              <a  [routerLink]="['/profile',myProfile]">
                 <mat-icon>person</mat-icon>
                 <span class="links_name">Profile</span>
               </a>
@@ -38,6 +38,13 @@
                 <span class="links_name">Reservation</span>
               </a>
               <span class="tooltip">Reservation</span>
+            </li>
+            <li>
+              <a [routerLink]="['/favorite']" (click)="getFavouriteList()">
+                <mat-icon>favorite</mat-icon>
+                <span class="links_name">Favorite</span>
+              </a>
+              <span class="tooltip">Favorite</span>
             </li>
           </div>
           <div *ngSwitchCase="1">
@@ -68,6 +75,13 @@
                 <span class="links_name">facility list</span>
               </a>
               <span class="tooltip">facility list</span>
+            </li>
+            <li>
+              <a  [routerLink]="['/profile',myProfile]">
+                <mat-icon>person</mat-icon>
+                <span class="links_name">Profile</span>
+              </a>
+              <span class="tooltip">Profile</span>
             </li>
           </div>
           <div *ngSwitchCase="2">

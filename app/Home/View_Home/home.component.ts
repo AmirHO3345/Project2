@@ -27,7 +27,7 @@ export class HomeComponent {
       "assets/Images/5.jpg"
     ] ;
     this.Image_Number = 0;
-    this.Mission_Move = setInterval(()=>this.AutoMove() , 3000);
+    this.Mission_Move = <number><unknown>setInterval(() => this.AutoMove(), 3000);
   }
 
   ManualMove(Image_Element : HTMLElement , Image_Number : number , Reset_Mission = true) {
@@ -41,7 +41,7 @@ export class HomeComponent {
     this.Render.removeClass(Current_Image , "active");
     this.Render.addClass(Next_Image , "active");
     if(Reset_Mission)
-      this.Mission_Move = setInterval(()=>this.AutoMove() , 3000);
+      this.Mission_Move = <number><unknown>setInterval(()=>this.AutoMove() , 3000);
   }
 
   private AutoMove() {

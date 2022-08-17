@@ -7,8 +7,11 @@ import { RoomDetailsComponent3 } from "./owner-part/faciliy-list/faciliy-item/ro
 import { FaciliyListComponent } from "./owner-part/faciliy-list/faciliy-list.component";
 import { ListOwnerComponent } from "./owner-part/list-owner/list-owner.component";
 import { RoomStartComponent } from "./room-details/room-start/room-start.component";
+import { RoomDetailsComponentAmir } from "./room-list/room-item/room-details copy/room-detailsamir.component";
 import { RoomDetailsComponent } from "./room-list/room-item/room-details/room-details.component";
 import { SearchComponent } from "./search/search.component";
+import { UserProfileComponent } from "./user-profile/user-profile.component";
+import { UserDetailsComponent } from "./user-profile/userdetails/userdatails.component";
 
 const appRoutes:Routes=[
     // { path:'',redirectTo:'/search',pathMatch:'full' },
@@ -22,7 +25,16 @@ const appRoutes:Routes=[
     { path:'facilitylist',component:ListOwnerComponent,children:[
         { path:'',component:RoomStartComponent },
         { path:':id',component:RoomDetailsComponent3 }
-    ]  }
+    ]  },{
+        path:'profile',component:UserProfileComponent
+    },{
+        path:'profile/:id',component:UserDetailsComponent
+    },
+    {
+        path:'roomdetails',component:SearchComponent
+    }, {
+        path:'roomdetails/:id',component:RoomDetailsComponentAmir
+    }
     //{ path:'room-detail',component:RoomStartComponent}
 
     // { path:'recipes',component:RecipesComponent,

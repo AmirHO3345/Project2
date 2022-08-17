@@ -31,7 +31,7 @@ const RouteApplication : Routes = [
       User : false , Owner : false , Admin : true
     } , canActivate : [AuthenticationGuard]} ,
   {path : "SomethingWrong" , component : Route404Component} ,
-  {path : "**" , redirectTo : "SomethingWrong"}
+  //{path : "**" , redirectTo : "SomethingWrong"}
 ]
 
 @NgModule({

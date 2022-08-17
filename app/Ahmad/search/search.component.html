@@ -79,7 +79,7 @@
              <input matInput [matDatepicker]="picker_Departure" class="form-control" 
                         min="{{getDateOut() | date:'yyyy-MM-dd'}}" [(ngModel)]="dateT"
                            placeholder="Departure" ngModel name="dateout" id="dateout"
-                            readonly required>
+                            readonly required >
                     <mat-datepicker-toggle 
                      matSuffix [for]="picker_Departure"></mat-datepicker-toggle>
                     <mat-datepicker  #picker_Departure></mat-datepicker>
@@ -107,7 +107,8 @@
                                         </div>
                                     </div>
                                     <div id="container_6" style="width:0%;">
-                                        <input type="submit" value="Check availability" class="btn_1" id="submit-booking">
+                                        <input type="submit" value="Check availability"
+                                         class="btn_1" id="submit-booking" >
                                     </div>
                                     <!-- <div id="container_6">
                                         <label>Email</label>
@@ -288,6 +289,8 @@
       <h2 class="htlfndr-search-result-title" *ngIf="!tag" >
           <span style="color:#F90;">{{getRoomNum()}}</span> results found</h2>
       <!-- Sorting navigation section -->
+
+      <app-loading-spinner *ngIf="isLoadingSpinner" style="margin-left: 50%;"></app-loading-spinner>
 
       <app-room-list *ngIf="!tag"></app-room-list>
 

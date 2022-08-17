@@ -26,9 +26,22 @@ export class RoomItemComponent implements OnInit {
    like=false;
     constructor(private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router){}
   check=true;
-    likeSwitch(){ 
+    likeSwitch(){
+       let id=this.index;
+       console.log(id);
       this.datastorage.getFavouriteList();
 
+      if(this.like&&!this.check){
+        // removeItem(){
+           this.router.navigate(['/search']); 
+           
+           console.log(this.roomSer.getRooms()[id].id);
+           this.datastorage.removeFromFavouriteList(this.roomSer.getRooms()[id].id);
+           this.roomSer.removeFavouriteItem(id);
+           //this.router.navigate(['/favorite']);
+         //  this.router.navigate(['/favourite']);
+      }
+       console.log(this.roomSer.getRooms()[id].id);
       this.router.navigate(['/search']);
       this.like=!this.like;
       if(this.like){
@@ -42,6 +55,7 @@ export class RoomItemComponent implements OnInit {
         }
         this.check=false;
 
+        
       }
       else {
         this.roomSer.removeFavouriteItem(this.roomSer.getIdFav());

@@ -189,8 +189,7 @@ export class ChatComponent implements OnInit , AfterViewInit , OnDestroy {
   }
 
   public GoProfile(ID : number) {
-    console.log(ID);
-    //this.Nav.navigate([]);
+    this.Nav.navigate(["/profile" , ID]);
   }
 
   ngOnDestroy(): void {

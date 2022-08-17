@@ -9,21 +9,13 @@
     <meta name="author" content="Ansonika">
     <title>Albert - Hotel and Bed&amp;Breakfast</title>
 
-    <!-- Favicons-->
-    <!-- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png"> -->
-
-    <!-- GOOGLE WEB FONT -->
+   
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700" rel="stylesheet">
 
-    <!-- BASE CSS -->
 </head>
 
 <div class="Fix" style="width: 135%;">
-    <div class="Container_Image" style="width: 210%;height: 27%;">
+    <div class="Container_Image" style="width: 210%;height: 42%;">
       <img [src]="this.Image_Array[this.Image_Number]" >
       <div class="shadowRound"></div>
     </div>
@@ -50,21 +42,7 @@
 <body>
     
     <div class="layer"></div>
-    <!-- Mobile menu overlay mask -->
-    
-     <!-- Header ================================================== -->
-    
-    <!-- End Header =============================================== -->
-    
-    <!-- Set up your HTML -->
-<!-- <div class="carousel_in">
-      <div><img src="img/room_detail_1.jpg" alt=""><div class="caption"><h3>Fantastic bed room</h3></div></div>
-      <div><img src="img/room_detail_2.jpg" alt=""><div class="caption"><h3>Equiped bathroom</h3></div></div>
-      <div><img src="img/room_detail_3.jpg" alt=""><div class="caption"><h3>Equiped bathroom</h3></div></div>
-      <div><img src="img/room_detail_4.jpg" alt=""><div class="caption"><h3>Nice outdoor</h3></div></div>
-      <div><img src="img/room_detail_5.jpg" alt=""><div class="caption"><h3>Swimming pool</h3></div></div>
-    </div> -->
-    
+
     
     <h1 class="main_title_in">{{room.name}}</h1>
     <div class="container add_bottom_60">
@@ -77,7 +55,6 @@
                     <li *ngIf="room.coffee_machine"><i class="icon_set_1_icon-59"></i>Coffee Machine</li>
                     <li *ngIf="room.tv"><i class="icon_set_2_icon-116"></i>Plasma TV</li>
                     <li *ngIf="room.fridge">
-                        <!-- <i class="icon_set_2_icon-111">  </i> -->
                             <mat-icon>kitchen</mat-icon>
                   Fridge</li>
                     <li><i class="icon_set_2_icon-106"></i>Safe box</li>
@@ -96,51 +73,7 @@
                     <p>
                             {{room.type}}
                     </p>
-                    <!-- <div class="row">
-                        <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>Coffee machine</li>
-                                <li>Wifi</li>
-                                <li>	Microwave</li>
-                                <li>Oven</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>Fridge</li>
-                                <li>Hairdryer</li>
-                                <li>Towels</li>
-                                <li>Toiletries</li>
-                            </ul>
-                    </div>
-                    <div class="col-md-4 col-sm-4">
-                    	 <ul class="list_ok">
-                                <li>DVD player</li>
-                                <li>Air-conditioning</li>
-                                <li>Tv</li>
-                                <li>Freezer</li>
-                            </ul>
-                    </div>
-                    </div> -->
-                    <!-- End row  -->
-                    <!-- <h4>Room Prices</h4> -->
-                     <!-- start pricing table -->
-                        <!-- <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <td>Low (from 23/03 to 31/05)</td>
-                            <td>140$</td>
-                        </tr>
-                        <tr>
-                            <td>Middle (from 23/03 to 31/05)</td>
-                            <td>180$</td>
-                        </tr>
-                        <tr>
-                            <td>High (from 23/03 to 31/05)</td>
-                            <td>200$</td>
-                        </tr>
-                        </tbody>
-                        </table> -->
+                   
                 </div><!-- End col-md-9  -->
             </div><!-- End row  -->
 
@@ -149,8 +82,8 @@
             <div class="row">
                 <div class="col-md-3">
                     <h3>Reviews</h3>
-                    <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" 
-                    data-target="#myReview">Leave a review</a>
+                    <button class="btn_1 add_bottom_15"
+                    (click)="showComment()" data-toggle="modal" >Leave a review</button>
                 </div>
                 <div class="col-md-9">
                 	<div id="score_detail"><span>7.5</span>Good <small>(Based on 34 reviews)</small></div><!-- End general_rating -->
@@ -193,35 +126,52 @@
                         <input type="text" class="form-control" ngModel name="comment"
                         id="examplecomment" placeholder="your comment">
                       </div>
-                      <!-- <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                      </div> -->
                       <label for="exampleInputPassword1">put your rate</label>
                       <div class="rating">
                         <ngb-rating [max]="5" [(rate)]=rateFromUser
                          [readonly]="false" style="font-size: 28px;" ></ngb-rating>
                     </div>
                       <button type="submit" class="btn_1 add_bottom_15">Submit</button>
-                      
-
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <button type="submit" (click)="DeleteComment()" class="btn_1 add_bottom_15">Delete</button>
                     </form>
+
+
+
+               
                    <!-- /////////////////////////////////////////////////////////////////////////comments -->
-                    <!-- <div class="review_strip_single" *ngFor="let comm of room.comments">
-                        <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800"
+                   
+                        <!-- <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800"
                          alt="" class="img-circle" style="height: 60px;width: 60px;">
-                        <small>{{comm.dateofWritten | date:'yyyy-MM-dd'}} </small>
-                        <h4>{{comm.nameofUser}}</h4>
+                        <small>{{comments[0].created_at| date:'yyyy-MM-dd'}} </small>
+                        <h4>Jhon Doe</h4>
                         <p>
-                            {{comm.strComment}}
+                            {{comments[0].comment}}
                         </p>
                         <div class="rating">
-                            <ngb-rating [max]="5" [(rate)]=comm.ratingComment [readonly]="true" ></ngb-rating>
+                            <ngb-rating [max]="5" [(rate)]=comments[0].rate
+                            [readonly]="true" ></ngb-rating>
+                        </div> -->
+
+                        
+                        <div class="review_strip_single" 
+                        *ngFor="let comm of comments; let i=index" >
+                            <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800" 
+                            alt="" class="img-circle" style="width: 18%; height: 32%;">
+                            <small> - {{comments[i].created_at| date:'yyyy-MM-dd'}} -</small>
+                            <h4>{{comments[i].user.name}}</h4>
+                            <p>
+                                {{comments[i].comment}}
+                            </p>
+                            <div class="rating">
+                                <ngb-rating [max]="5" [(rate)]=comments[i].rate
+                                [readonly]="true" ></ngb-rating>
+                            </div>
                         </div>
-                    </div> -->
+                 
                     <!-- /////////////////////////////////////////////////////////////////////////// -->
                     
-                     <div class="review_strip_single">
+                     <!-- <div class="review_strip_single">
                         <img src="img/avatar2.jpg" alt="" class="img-circle">
                         <small> - 10 March 2015 -</small>
                         <h4>Jhon Doe</h4>
@@ -231,10 +181,10 @@
                         <div class="rating">
                             <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i>
                         </div>
-                    </div>
+                    </div> -->
                    <!-- End review strip -->
                     
-                   <div class="review_strip_single last">
+                   <!-- <div class="review_strip_single last">
                         <img src="img/avatar3.jpg" alt="" class="img-circle">
                         <small> - 10 March 2015 -</small>
                         <h4>Jhon Doe</h4>
@@ -244,36 +194,13 @@
                         <div class="rating">
                             <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star-empty"></i><i class="icon-star-empty"></i>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- End review strip -->
                     
                 </div>
             </div>  
             <hr>
-            <div class="row">
-            <div class="col-md-3">
-                    <h3>Policies</h3>
-                </div>
-                <div class="col-md-9">
-                <ul id="policies">
-                    <li><i class="icon_set_1_icon-83"></i><h5>Check-in and check-out.</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-54"></i><h5>Cancellation</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-47"></i><h5>Smoking</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-35"></i><h5>Payments</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>
-                    <li><i class="icon_set_1_icon-13"></i><h5>Disable</h5>
-                    <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>                    
-                    </ul>
-                </div>
-                </div>
+           
             </div><!-- End col -->
             
         <div class="col-md-4" id="sidebar" >
@@ -289,10 +216,9 @@
                                 	<label>Arrival date</label>
 
 
-                                    <input matInput [matDatepicker]="picker_Arrival"
-
+                    <input matInput [matDatepicker]="picker_Arrival"
                      class="form-control" style="border-radius: 12px"
-                           placeholder="Arrival" ngModel formControlName="arrival"
+                    placeholder="Arrival" ngModel formControlName="arrival"
                            min="{{currentDate | date:'yyyy-MM-dd'}}" 
                             required readonly >
                     <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
@@ -342,7 +268,7 @@
                         <div class="row">
                         	<div class="col-md-6 col-sm-6 col-xs-6">
                             	<div class="form-group">
-                                <label>Adults</label>
+                                <!-- <label>Adults</label> -->
                             	   
 
                                 <div id="container_3" style="text-align:center">
@@ -367,7 +293,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-6">
                             	<div class="form-group">
-                                <label>Rooms</label>
+                                <!-- <label>Rooms</label> -->
                                 <div id="container_3" style="text-align:center;">
                                     <!-- <label style="color:white;">Rooms</label> -->
                                     <!-- <div class="qty-buttons">
@@ -384,10 +310,11 @@
                         </div><!-- End row -->
            				<div class="row">
                         	
-                              <div class="col-md-12 col-sm-6">
+                              <!-- <div class="col-md-12 col-sm-6">
                                    <div class="form-group">
                                 	<label>Name</label>
-                            	 		<input type="text" class="form-control" name="name_booking" id="name_booking" placeholder="Name and Last name">
+                            	 		<input type="text" class="form-control" name="name_booking"
+                                          id="name_booking" placeholder="Name and Last name">
                                    </div>
                                    </div>
                                    <div class="col-md-12 col-sm-6">
@@ -396,19 +323,53 @@
                             	 		<input type="text" class="form-control" name="email_booking" 
                                          id="email_booking" placeholder="Your email">
                                    </div>
-                                   </div>
+                                   </div> -->
                                    <div class="col-md-12 col-sm-12">
                                    <div class="form-group">
-                                   <input type="submit" value="Book now" class="btn_full"
-                                    >
+                                   <input type="submit" value="Book now" class="btn_full">
                                    </div>
                                    </div>
+
+                                   <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                    <input type="submit" value="view cost"
+                                     (click)="viewCost()"class="btn_full">
+                                    </div>
+                                    </div>
+                                  
                              </div>
                         </form>
+                        <!-- <div class="col-md-12 col-sm-12">
+                            <div class="form-group">
+                            <input type="button" value="Cancel Book"
+                             (click)="cancelBook()"class="btn_full">
+                            </div>
+                            </div> -->
+                            
                         <hr>
-                        <a href="#0" class="btn_outline"> or Contact us</a>
-                        <a href="tel://004542344599" id="phone_2"><i class="icon_set_1_icon-91"></i>+45 423 445 99</a>
-                     
+                        <a  class="btn_outline" (click)="switchMesseage()"> or Contact us</a>
+                        <br><br>
+                        <!-- <a href="tel://004542344599" id="phone_2"><i class="icon_set_1_icon-91"></i>+45 423 445 99</a> -->
+                        <form (ngSubmit)="onSubmitMesseage()" [formGroup]="FormMes" *ngIf="showMesseage"> 
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Messeage</label>
+                              <input type="text" class="form-control" 
+                               placeholder="write a messeage" formControlName="messeage">
+                            </div>
+                            <button type="submit" class="btn_1">Send</button>
+                            <br>
+                            
+                          </form>
+                          <a  class="btn_outline" (click)="switchReport()">Report this facility</a>
+
+                          <form (ngSubmit)="onSubmitReport()" [formGroup]="FormRep" *ngIf="switchreport"> 
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Report</label>
+                              <input type="text" class="form-control" 
+                               placeholder="reason of report"  formControlName="report">
+                            </div>
+                            <button type="submit" class="btn_1">Send</button><br>
+                          </form>
                 </div><!-- End box_style -->
             </div><!-- End theiaStickySidebar -->
             </div><!-- End col -->

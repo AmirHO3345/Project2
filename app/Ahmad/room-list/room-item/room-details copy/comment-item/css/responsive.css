@@ -1,0 +1,30 @@
+
+@media (max-width: 991px) {
+  #single_room_feat ul{margin-bottom:10px;}
+}
+
+@media (max-width: 768px) {
+  #single_room_feat ul li i{font-size:28px;}
+}
+
+@media (max-width: 767px) {
+
+  .add_bottom_60 {
+    margin-bottom:30px ;
+  }
+
+  #single_room_feat ul{
+    display:block;
+    margin-bottom:10px;
+  }
+
+  #single_room_feat ul li{
+    display: inline-block;
+    width:auto;
+    font-size:11px;
+  }
+}
+
+@media (max-width: 480px) {
+  #single_room_feat ul li i{font-size:21px;}
+}

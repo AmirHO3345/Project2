@@ -1,0 +1,220 @@
+
+	<!-- Start of main content -->
+	
+	<div class="container">
+		<!-- <div id="htlfndr-edit-card">
+			<div class="htlfndr-content-card">
+				<div class="htlfndr-card-title clearfix">
+					<a class="glyphicon glyphicon-remove pull-right" href="#"  data-dismiss="modal"></a>
+					<h2 class="pull-left">Edit Card</h2> <span> (Visa XXXX XXXX XXXX 1234)</span>
+				</div>
+				<form id="htlfndr-contact-form" method="post">
+					<h4>Card  Number</h4>
+					<input id="htlfndr-edit-credit-card" class="htlfndr-input " type="text" name="htlfndr-number-card" placeholder="XXXX XXXX XXXX XXXX">
+					<div class="htlfndr-info-card row">
+						<div class="col-md-9 col-sm-9 htlfndr-card-name">
+							<h4>Cardholder Name</h4>
+							<input id="htlfndr-name-card" class="htlfndr-input" type="text" name="htlfndr-name-card" placeholder="John Brown">
+						</div>
+						<div class="col-md-3 col-sm-3 htlfndr-card-valid">
+							<h4>Valid Thru</h4>
+							<input id="htlfndr-valid-card" class="htlfndr-input" type="text" name="htlfndr-valid-card" placeholder="mm/yy">
+						</div>
+					</div>
+					<input type="submit" value="Save edit">
+				</form>
+			</div>
+		</div>
+		<div id="htlfndr-add-card">
+			<div class="htlfndr-content-card">
+				<div class="htlfndr-card-title clearfix">
+					<a class="glyphicon glyphicon-remove pull-right" href="#"  data-dismiss="modal"></a>
+					<h2 class="pull-left">Add Card</h2>
+				</div>
+				<form id="htlfndr-contact-form" method="post">
+					<h4>Card  Number</h4>
+					<input id="htlfndr-add-credit-card" class="htlfndr-input " type="text" name="htlfndr-number-card" placeholder="XXXX XXXX XXXX XXXX">
+					<div class="htlfndr-info-card row">	
+						<div class="col-md-9 col-sm-9 htlfndr-card-name">
+							<h4>Cardholder Name</h4>
+							<input id="htlfndr-new-name-card" class="htlfndr-input" type="text" name="htlfndr-new-name-card" placeholder="John Brown">
+						</div>
+						<div class="col-md-3 col-sm-3 htlfndr-card-valid">
+							<h4>Valid Thru</h4>
+							<input id="htlfndr-new-valid-card" class="htlfndr-input" type="text" name="htlfndr-new-valid-card" placeholder="mm/yy">
+						</div>
+					</div>
+					<input type="submit" value="Save edit">
+				</form>
+			</div>
+		</div> -->
+		
+		<main id="htlfndr-main-content" role="main">
+			<div class="row htlfndr-user-tabs htlfndr-credit-card-page" style="margin-top: 8%;">
+				
+	<app-loading-spinner *ngIf="isLoadingspinner"
+	style="margin-left: 30%;margin-top: 16%;"></app-loading-spinner>
+				<div class="htlfndr-user-person-navigation-wrapper col-sm-4 col-md-3">
+					
+					<div class="htlfndr-user-person-navigation">
+						
+						<div class="htlfndr-user-avatar">
+							<img src="https://static.xx.fbcdn.net/assets/?revision=816167972411634&name=desktop-workplace-your-profile-icon&density=1" alt="user avatar"/>
+						</div>
+						<h3 class="htlfndr-user-name"> {{user.user.name}}</h3>
+                       
+                      
+						<h6 class="htlfndr-user-membership">member since may 2012</h6>
+						
+						<ul role="tablist" style="margin-left: 17%;">
+							<button class="btn_1" style="width:73%;">
+							<a style="color: white;" (click)="personaiInfo()">
+								<i style="color: white;">
+
+                            </i> personal info</a>
+							<!-- <li><a href="#htlfndr-user-tab-2"><i class="fa fa-clock-o"></i> booking history</a></li>
+							<li><a href="#htlfndr-user-tab-3"><i class="fa fa-credit-card"></i> credit cards</a></li>
+							<li><a href="#htlfndr-user-tab-4"><i class="fa fa-heart-o"></i> wishlist</a></li> -->
+							</button>
+							<br><br>
+                            <button class="btn_1" style="width:73%"><a style="color: white;" (click)="settIngs()"><i class="fa fa-wrench"></i>
+                                 settings</a></button>
+						</ul>
+					</div><!-- .htlfndr-user-person-navigation -->
+				</div><!-- .htlfndr-user-person-navigation-wrapper -->
+				<div class="htlfndr-user-panel col-sm-8 col-md-9 htlfndr-info-page" 
+                *ngIf="personalInfo&&!settings">
+					<div id="htlfndr-user-tab-1" class="htlfndr-description-table">
+						<!-- .row.htlfndr-counters -->
+						<table class="htlfndr-personal-info-table"
+                        >
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">name:</th>
+								<td>{{user.user.name}}</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">e-mail:</th>
+								<td>{{user.user.email}}</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">phone number:</th>
+								<td>{{user.user.profile.phone}}</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">gender:</th>
+								<td>{{user.user.profile.gender}}</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">age:</th>
+								<td>{{user.user.profile.age}}</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row" style="color:#ed5434">Balance:</th>
+								<td>{{user.user.amount}}</td>
+							</tr>
+							<!-- <tr>
+								<th class="htlfndr-scope-row">state/ province/ region:</th>
+								<td>london</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row">postal code:</th>
+								<td>69106</td>
+							</tr>
+							<tr>
+								<th class="htlfndr-scope-row">country:</th>
+								<td>United Kingdom</td>
+							</tr> -->
+						</table>
+					</div><!-- #htlfndr-user-tab-1 -->
+				</div>
+				
+
+				
+				
+
+				<div class="htlfndr-user-panel col-md-9 col-sm-8 htlfndr-setting-page"
+                 id="htlfndr-user-tab-5" *ngIf="!personalInfo&&settings" >
+					<div class="htlfndr-setting">
+					
+						<h2>Change <b>Personal Infomation</b></h2>
+						<form  class="htlfndr-form-setting" id="htlfndr-settings-form" 
+						(ngSubmit)="onSubmit(f)" #f="ngForm">
+							<div class="row">
+								<div class="col-md-5 htlfndr-form-setting-cols">
+									<label for="settings-name" style="color:#ed5434;font-weight: 430;">Name</label><br>
+									<input id="settings-name" class="htlfndr-input" type="text"
+									ngModel name="name" placeholder="{{user.user.name}}"><br>
+									<label for="settings-phone" class="" style="color:#ed5434;font-weight: 430;">Phone number</label><br>
+									<input id="settings-phone" class="htlfndr-input" 
+									type="text" ngModel name="phone"
+									 placeholder="{{user.user.profile.phone}}"><br>
+									<label for="settings-adress" class="" style="color:#ed5434;font-weight: 430;">age</label><br>
+									<input id="settings-adress" class="htlfndr-input" 
+									type="text" name="age" ngModel
+									placeholder="{{user.user.profile.age}}"><br>
+									<!-- <label for="settings-state" 
+									class="">State/Province/Region</label><br>
+									<input id="settings-state" 
+									class="htlfndr-input" type="text"
+									 name="settings-state" placeholder="London"><br>
+									<label for="settings-country" class="">Country</label><br>
+									<input id="settings-country" class="htlfndr-input"
+									 type="text" name="settings-country" 
+									 placeholder="United Kingdom"><br> -->
+								</div>
+								<div class="col-md-5 htlfndr-form-setting-cols">
+									<label for="settings-email" class="" style="color:#ed5434;font-weight: 430;">E-mail</label><br>
+									<input id="settings-email" class="htlfndr-input" 
+									type="text" ngModel name="email" placeholder="{{user.user.email}}"><br>
+									<label for="settings-subject" class="" style="color:#ed5434;font-weight: 430;">gender</label><br>
+									<input id="settings-subject" class="htlfndr-input" 
+									type="text" name="gender" ngModel
+									placeholder="{{user.user.profile.gender}}"><br>
+									<!--<label for="settings-city" class="">City</label><br>
+									 <input id="settings-city" class="htlfndr-input" type="text"
+									 name="settings-city" placeholder="London"><br>
+									<label for="settings-code" class="">Postal Code</label><br>
+									<input id="settings-code" class="htlfndr-input" 
+									type="text" name="settings-code" placeholder="69106"><br> -->
+								</div>
+							</div>
+							<input type="submit" value="Save changes" class="btn_1">						
+						</form>
+						<h2>Change <b>Password</b></h2>
+						<form  class="htlfndr-change-setting" id="htlfndr-settings-pass"
+						(ngSubmit)="onSubmitPass()" [formGroup]="passForm" >
+							<div class="row">
+								<div class="col-md-5 htlfndr-form-setting-cols">
+									<!-- <label for="settings-cur-pass" class="">Current Password</label><br>
+									<input id="settings-cur-pass"
+									 class="htlfndr-input" type="text" 
+									 name="settings-cur-pass" ><br> -->
+									<label for="password" class="">New Password</label><br>
+									<input id="password" class="htlfndr-input" 
+									 type="text" formControlName="password" ><br>
+									<!-- <label for="settings-new-pass-again"
+									 class="">New Password Again</label><br>
+									<input id="settings-new-pass-again"
+									 class="htlfndr-input" type="text" 
+									 name="settings-new-pass-again" ><br> -->
+									
+								</div>
+								<div class="col-md-5 htlfndr-form-setting-cols">
+								</div>
+							</div>
+							<input type="submit" 
+							 value="Save password" class="btn_1">						
+						</form>
+						
+					</div><!--.htlfndr-setting -->
+				</div><!-- .htlfndr-user-tabs-5 -->
+			</div> <!-- .row -->
+		</main><!-- #htlfndr-main-content -->
+	</div><!-- .container -->
+	<!-- End of main content -->
+
+	<!-- Start of the Footer -->
+	
+<!-- .htlfndr-wrapper -->
+
+

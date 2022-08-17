@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common'
 import {Router} from "@angular/router";
 import { SearchComponent } from 'src/app/Ahmad/search/search.component';
 import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
+import { DataStoragrService } from 'src/app/Ahmad/DataStorageService';
 
 @Component({
   selector: 'app-search-part',
@@ -25,7 +26,7 @@ export class SearchPartComponent {
 
   @ViewChild("Part") DataForm !: NgForm ;
 
-  constructor(private ProcessDate : DatePipe ,private Route : Router,private roomser:RoomServiceComponent) {
+  constructor(private datastorage:DataStoragrService,private ProcessDate : DatePipe ,private Route : Router,private roomser:RoomServiceComponent) {
     this.Adults = 1 ;
     this.Arrival = new Date() ;
 
@@ -59,6 +60,7 @@ export class SearchPartComponent {
   }
 
   onSubmit() : void {
+    this.datastorage.showMyProfile();
     this.check=false;
     if(this.DataForm.invalid)
       return ;

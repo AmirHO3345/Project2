@@ -5,6 +5,7 @@ import {UserModel} from "../../Data_Sharing/Model/user.model";
 import { RoomServiceComponent } from "src/app/Ahmad/roomservice.component";
 import {Router} from "@angular/router";
 
+
 interface AuthResponseData {
   user : {
       name: string ,
@@ -33,8 +34,8 @@ export class AuthenticationService {
 
   PopUpRegisterOpen : Subject<any>;
 
-  static API_Location : string = "http://192.168.43.55:8000/";
 
+  static API_Location : string = "http://192.168.43.55:8000/";
   constructor(private HTTP : HttpClient , private roomser:RoomServiceComponent ,
               private route : Router) {
     this.Account = new BehaviorSubject<UserModel | null>(null);
@@ -84,6 +85,10 @@ export class AuthenticationService {
       Information.user.rule , ImagePath);
 
       console.log(User.GetToken());
+      console.log(User.ID);
+
+      this.roomser.setIDUser(User.ID);
+    //  this.datastorage.showOtherProfile(User.ID);
 
       this.roomser.setToken(User.GetToken());
     if(KeepAccount)

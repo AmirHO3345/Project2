@@ -65,7 +65,20 @@
                         <p>
                             {{facilityOwner.type}}
                         </p>
+                        <div class="rating">
+                            <ngb-rating [max]="5" [(rate)]=facilityOwner.rate [readonly]="true" 
+                            style="color:#F90;
+                            font-size:16px;
+	                        font-size:14px;
+                            margin-bottom:5px;
+                            list-style:none;
+	                        margin:0 0 -5px 0;
+                        	padding:0;list-style:none;
+                        	margin:0 0 -5px 0;
+                        	padding:0;"></ngb-rating>
+                          </div>
                           <ul>
+                              
                         	<li>
                             <div class="tooltip_styled tooltip-effect-4">
                             	<span class="tooltip-item" *ngIf="facilityOwner.wifi"><i class="icon_set_1_icon-7"></i></span>
@@ -93,13 +106,13 @@
                                         <div class="tooltip-content">Fridge</div>
                                 </div>
                                   </li>
-                                  <!-- <li>
+                                  <li>
                                     <div class="tooltip_styled tooltip-effect-4">
                                         <span class="tooltip-item" >
-                                            <i>  <mat-icon>delete_outline</mat-icon></i> </span>
-                                            <div class="tooltip-content">Delete Facility</div>
+                                            <i class="icon_set_2_icon-106"></i> </span>
+                                            <div class="tooltip-content">Air condition</div>
                                     </div>
-                                      </li> -->
+                                      </li>
                         </ul>
                         <div class="price">from <strong>${{facilityOwner.cost}}</strong> /night
                             <small>Breakafst included</small>

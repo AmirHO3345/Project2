@@ -96,7 +96,7 @@ export class ReservationListComponent implements OnInit{
   }
 
   OnDetails(Item : ReservationModel) {
-    this.route.navigate(['room-detail/' , Item.IdReservation]);
+    this.route.navigate(['/roomdetails' , Item.IdReservation]);
   }
 
   OpenDialog(Item : ReservationModel) {

@@ -1,13 +1,16 @@
+import { DatePipe } from '@angular/common';
 import {  Component, ElementRef, Input, OnDestroy, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { DataStoragrService, FacilityDetails, FacilityDetailsowner } from 'src/app/Ahmad/DataStorageService';
+import { DataStoragrService, FacilityDetails, FacilityDetailsowner, reviews } from 'src/app/Ahmad/DataStorageService';
 import { ListfavsComponent } from 'src/app/Ahmad/favourite-list/listfavs/listfavs.component';
 import { Images } from 'src/app/Ahmad/ImagesOfroom.model';
 import { Room } from 'src/app/Ahmad/room.model';
 import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
 import { SearchComponent } from 'src/app/Ahmad/search/search.component';
 import { FacilityDetailsOwner } from 'src/app/Ahmad/user-profile/FacilityOwner.model';
+import { UserModel } from 'src/app/Data_Sharing/Model/user.model';
+import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/authentication.service';
 import { ListOwnerComponent } from '../../../list-owner/list-owner.component';
 @Component({
   selector: 'app-room-details',
@@ -38,10 +41,13 @@ check=false;
  id!:number;
 
  facilityForm!:FormGroup;
+ facilityFormbook!:FormGroup;
+
  Adults !: number ;
  Rooms !: number ;
  Arrival : {IsActive : boolean , DateDetermine : Date} ;
  @ViewChild("Part") DataForm !: NgForm ;
+ AccountUser : UserModel | null
 
 
 qwer!:string[];
@@ -51,10 +57,13 @@ currentDate=new Date();
   Image_Array : string[] ;
   Image_Number : number ;
   Mission_Move : number | null ;
+  comments:reviews[]=[] ;
 
-constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
+constructor(private ProcessDate:DatePipe,private Render : Renderer2,private roomSer:RoomServiceComponent,
   private route:ActivatedRoute,private router:Router,private listowr:ListOwnerComponent
-  ,private datastorage:DataStoragrService) {
+  ,private datastorage:DataStoragrService,private AuthService : AuthenticationService) {
+    this.AccountUser = null ;
+
     //for(let i=0;i<this.roomSer.getImages(1).length;i++)
     //this.Image_Array = [this.roomSer.getImages(0)[0],this.roomSer.getImages(1)[1]];
   // this.Current_Image_Num = 1;
@@ -66,6 +75,7 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
       DateDetermine : new Date()
     }
     this.Image_Array = [];
+    
    /* this.Image_Array = [
       'https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg',
       'https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg',
@@ -75,7 +85,7 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
 */
 
     this.Image_Number = 0;
-    this.Mission_Move = setInterval(()=>this.AutoMove() , 3000);
+    this.Mission_Move = <number><unknown>setInterval(()=>this.AutoMove() , 3000);
 }
 
 removeItem(){
@@ -83,7 +93,15 @@ removeItem(){
   this.roomSer.removeFacilityOwnerItem(this.id);
   this.router.navigate(['../'],{relativeTo:this.route});
 }
-  ngOnInit() {
+  ngOnInit() {let arrival='';
+  let depture='';
+  this.facilityFormbook=new FormGroup({
+    'arrival':new FormControl(arrival),
+    'departure':new FormControl(depture)
+  })
+    this.AuthService.Account.subscribe(Value => {
+      this.AccountUser = Value ;
+    });
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];
@@ -97,7 +115,7 @@ removeItem(){
       for(let i=0;i<this.roomSer.getFacilityOwner()[this.id].photos.length;i++){
        // this.Image_Array.push('https://cf.bstatic.com/xdata/images/hotel/max1280x900/348233595.jpg?k=af53dfa9cd5aa0e1bb0771ed660b3bd197706e03e99f086c2a09ec3035af993c&o=&hp=1');
         //this.Image_Array.push('C:/Users/Ahm/Pictures/qwer.jpg');
-        this.Image_Array.push('http://192.168.137.247:8000/'+this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
+        this.Image_Array.push('http://192.168.43.55:8000/'+this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
         console.log(this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
         console.log(qwer);
         qwer++;
@@ -112,6 +130,7 @@ removeItem(){
      this.initForm();
     }
     );
+    
   }
  
 getDateOut(){
@@ -130,6 +149,83 @@ getDateOut(){
 //   },5000)
 // }
 
+
+onSubmitBook(){
+  if(this.AccountUser==null){
+    alert('please login to continue');
+  }
+  else {
+    this.send();
+  }
+}
+check2=false;
+send(){
+  let Arrival=this.facilityFormbook.value['arrival'];
+  let Depture=this.facilityFormbook.value['departure'];
+
+  
+let dateFr="default";
+let dateToo="default";
+  let dateFrom:Date;
+  let dateTo:Date;  
+
+  
+  console.log(Arrival);
+  console.log(Depture);
+  dateFrom= new Date(Date.parse(Arrival));  
+  dateTo=new Date(Date.parse(Depture));  
+
+  
+  console.log(dateFr);
+  console.log(dateToo);
+  
+    try{
+      if(dateFrom!=undefined && dateTo!=undefined){
+       dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd");
+       dateToo = <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd");
+        if(!this.check2){
+          console.log("qwer");
+          this.datastorage.bookNowOwner(dateFr,dateToo,this.roomSer.getFacilityOwner()[this.id].id);
+      }
+    }
+    }
+    catch(Exception){
+  
+      if(dateFr=="default"||dateToo=="default"){
+        alert('please set a valid date');
+      }
+      else if(!this.check2){
+        console.log(this.id);
+        console.log(dateFr);
+        console.log(dateToo);
+        this.datastorage.bookNowOwner(dateFr,dateToo,this.roomSer.getFacilityOwner()[this.id].id);
+      }
+      
+    }
+  
+  
+  console.log(dateFr);
+  console.log(dateToo);
+  // let options = {
+  //   headers:new HttpHeaders({"Authorization":this.roomSer.getToken()})
+  // };
+  // //console.log(id_F);
+  // return this.http
+  // .post(`${DataStoragrService.API_Location}api/bookings/booking`,
+  // {
+  //   id_facility:this.roomSer.getRooms()[this.id].id,
+  //   start_date:dateFr,
+  //   end_date:dateToo
+  // },
+  //  options
+  // )
+  // .subscribe((res) => {} , (err) => {
+  //   console.log(err);
+  //     this.error=err.error['facility']
+  //     console.log(this.error);
+    
+  // });
+}
 
 ChangeArrival(CurrentDate : Date ) : void {
   if(this.DataForm.form.value['Departure_D'] != undefined)
@@ -256,11 +352,11 @@ facilityLocation='';
         'rooms':new FormControl(this.facilityRoomNumber),
         'adults':new FormControl(this.facilityAdultNumber),
         'cost':new FormControl(this.facilityPrice),
-        'wifi':new FormControl(this.wifi),
-        'tv':new FormControl(this.tv),
-        'coffee_machine':new FormControl(this.coffee),
-        'air_condition':new FormControl(this.cond),
-        'fridge':new FormControl(this.fridge)
+        // 'wifi':new FormControl(this.wifi),
+        // 'tv':new FormControl(this.tv),
+        // 'coffee_machine':new FormControl(this.coffee),
+        // 'air_condition':new FormControl(this.cond),
+        // 'fridge':new FormControl(this.fridge)
        // 'type':new FormControl(facilityPrice),
        // 'ingredients':recipeIngredient
        // 'ingredients':recipeIngredient
@@ -371,7 +467,7 @@ checkSwitch(){
     this.Render.removeClass(Current_Image , "active");
     this.Render.addClass(Next_Image , "active");
     if(Reset_Mission)
-      this.Mission_Move = setInterval(()=>this.AutoMove() , 3000);
+      this.Mission_Move =<number><unknown>setInterval(()=>this.AutoMove() , 3000);
   }
 
   private AutoMove() {
@@ -382,5 +478,4 @@ checkSwitch(){
       Next_Number = this.Image_Number + 1;
     this.ManualMove(this.Element_Images.get(Next_Number)?.nativeElement , Next_Number , false);
   }
-
 }

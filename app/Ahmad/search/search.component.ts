@@ -8,6 +8,7 @@ import { RoomServiceComponent } from '../roomservice.component';
 import { SearchPartComponent } from 'src/app/Home/Search/search-part.component';
 import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/authentication.service';
 import { UserModel } from 'src/app/Data_Sharing/Model/user.model';
+import { arrow } from '@popperjs/core';
 
 @Component({
   selector: 'app-search',
@@ -101,25 +102,29 @@ export class SearchComponent implements OnInit {
 
   DateNow() : Date {
     return new Date();
-  }
-
+  } 
+  
+  isLoadingSpinner=false;
   ngOnInit(): void {
-   
-
+    this.isLoadingSpinner=true;
+   let type:string[]=[];
+   type.push("default");
     if(!this.roomService.getCheck()){
-      
+      this.isLoadingSpinner=true;
 this.datastorage.SearchingData
-("default","default","default",0,1000000,0,"default",0,0,
+("default","default","default",0,1000000,0,type,0,0,
   0,0,0,"=",0,0,0,1);
+  
     }
     else {this.roomService.setCheck(false);
       this.default=this.location;
       this.dateF=this.Arriv!;
       this.dateT=this.Depture!;
       this.datastorage.SearchingData
-(this.location,this.Arriv!,this.Depture!,0,1000000,0,"default",0,0,
+(this.location,this.Arriv!,this.Depture!,0,1000000,0,type,0,0,
   0,0,0,"=",0,0,0,1);
     }
+    this.isLoadingSpinner=false;
 
   }
   getCurrentRating(){
@@ -219,8 +224,8 @@ console.log(pos.toFixed(0));
 console.log(max);*/
 let curposition=pos.toFixed(0);
 let maxx=max.toFixed(0);
-console.log(curposition);
-console.log(maxx);
+// console.log(curposition);
+// console.log(maxx);
 let maxxx= +maxx;
 //maxxx-=200;
 let currpos= +curposition;
@@ -271,7 +276,7 @@ location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
   cost1F=0;
   costF2=1000000;
   rateF=0;
-  typeF="default";
+  type:string[]=[];
   wifiF=0;
   coffeeF=0;
   tvF=0;
@@ -298,7 +303,8 @@ location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
     let cost1=this.minValue;
     let cost2=this.maxValue;
     let rate=this.currentRate;
-    let type="default";
+    let type:string[]=[];
+    type.push("default");
     let wifi=0;
     let coffe=0;
     let tv=0;
@@ -312,9 +318,9 @@ location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
     if(this.checkAir_cond)air_conditioning=1;
     if(this.checkTV)tv=1;
     if(this.checkFridge)fridge=1;
-    if(this.checkChalet)type="chalet";
-    else if(this.checkResort)type="resort";
-    else if(this.checkHostel)type="hostel";
+    if(this.checkChalet)type.push("chalet");
+   if(this.checkResort)type.push("resort");
+   if(this.checkHostel)type.push("hostel");
     if(val.rooms>1){
       roomNum=val.rooms;
       adultNum=val.adults;
@@ -378,7 +384,7 @@ this.dateF2=dateToo;
 this.cost1F=cost1;
 this.costF2=cost2;
 this.rateF=rate;
-this.typeF=type;
+this.type=type;
 this.wifiF=wifi;
 this.coffeeF=coffe;
 this.tvF=tv;
@@ -393,12 +399,15 @@ if(dateFr==undefined||dateToo==undefined){
   dateToo="default";
 }
 console.log("dsfdsf");
-console.log(dateFr+"         "+dateToo)
+console.log(dateFr+"         "+dateToo);
+this.isLoadingSpinner=true;
+console.log(this.isLoadingSpinner);
 this.datastorage.SearchingData
 (location,dateFr,dateToo,cost1,cost2,rate,type,wifi,coffe,
   tv,fridge,air_conditioning,op,roomNum,adultNum,bestRate,1);
-
-
+  
+  this.isLoadingSpinner=false;
+  console.log(this.isLoadingSpinner);
 
   //console.log(this.datastorage.fetchSearchingData());
 //this.datastorage.SearchingData("1","chalet",0,200,500,2,1,0);
@@ -429,12 +438,12 @@ this.datastorage.SearchingData
  
 
 LoadMore(){
-
+  this.isLoadingSpinner=true;
 this.datastorage.SearchingData
-(this.locF,this.dateF1,this.dateF2,this.cost1F,this.costF2,this.rateF,this.typeF
+(this.locF,this.dateF1,this.dateF2,this.cost1F,this.costF2,this.rateF,this.type
   ,this.wifiF,this.coffeeF,
 this.tvF,this.fridgeF,this.air_conditioningF,this.opF,this.roomNumF,this.adultNumF,this.bestRateF,0);
-
+ this.isLoadingSpinner=false;
 
 }
 

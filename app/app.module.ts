@@ -71,6 +71,10 @@ import {MatTableModule} from "@angular/material/table";
 import {ControlAdminComponent} from "./Admin/Control Customer/ControlAdmin.component";
 import {Route404Component} from "./Route404/route404.component";
 import {ChartComponent} from "./Admin/Statistic/Chart/Chart.component";
+import { LoadingSpinnerComponent } from './Ahmad/user-profile/loading-spinner.component.ts/loading-spinner.component';
+import { RoomDetailsComponentAmir } from './Ahmad/room-list/room-item/room-details copy/room-detailsamir.component';
+import { UserDetailsComponent } from './Ahmad/user-profile/userdetails/userdatails.component';
+import { PusherService } from './Ahmad/pusher.service';
 
 
 
@@ -110,7 +114,7 @@ import {ChartComponent} from "./Admin/Statistic/Chart/Chart.component";
     FaciliyItemComponent,
     FaciliyListComponent,
     ListOwnerComponent,
-
+    UserDetailsComponent,
     RoomDetailsComponent3 ,
     ScrollTrackDirective ,
     ReservationListComponent,
@@ -122,7 +126,9 @@ import {ChartComponent} from "./Admin/Statistic/Chart/Chart.component";
     FaciliyItemComponentAdd ,
     ControlAdminComponent ,
     Route404Component ,
-    ChartComponent
+    ChartComponent ,
+    LoadingSpinnerComponent,
+    RoomDetailsComponentAmir
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     ReactiveFormsModule,
@@ -136,7 +142,7 @@ import {ChartComponent} from "./Admin/Statistic/Chart/Chart.component";
     , MatNativeDateModule, MatInputModule , MatMenuModule , MatDialogModule , MatProgressSpinnerModule ,
     MatPaginatorModule , MatTableModule
   ],
-  providers: [AuthenticationService , RoomServiceComponent , DatePipe],
+  providers: [AuthenticationService , RoomServiceComponent , DatePipe,PusherService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

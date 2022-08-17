@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
 import {SideBarComponent} from "./SideBar/SideBar.component";
 import {AuthenticationService} from "../Windows_PopUp/Authentication/authentication.service";
 import {UserModel} from "../Data_Sharing/Model/user.model";
@@ -7,6 +7,8 @@ import {ActivationEnd, Router} from "@angular/router";
 import {HomeComponent} from "../Home/View_Home/home.component";
 import {NotificationComponent} from "../Notification/notification.component";
 import {MessageComponent} from "../Message/message.component";
+import { DataStoragrService } from '../Ahmad/DataStorageService';
+import { RoomServiceComponent } from '../Ahmad/roomservice.component';
 
 @Component({
   selector: 'app-header',
@@ -32,7 +34,7 @@ export class HeaderComponent implements OnInit{
   }
   @HostListener('window:scroll', ['$event']) onWindowScroll() {}
 
-  constructor(private Render : Renderer2 , private AuthenticationInfo : AuthenticationService ,
+  constructor(private datastorage:DataStoragrService,private roomser:RoomServiceComponent,private Render : Renderer2 , private AuthenticationInfo : AuthenticationService ,
               private RouteVariable : Router) {
     this.ActiveSide = false ;
     this.IsSideBarProcess = false ;
@@ -41,7 +43,7 @@ export class HeaderComponent implements OnInit{
     this.ActiveIconMessage = true ;
     this.ActiveIconNotification = true ;
   }
-
+  
   ngOnInit(): void {
     this.AuthenticationInfo.Account.subscribe((Data) => {
       if(this.IsAccountExist != Data)

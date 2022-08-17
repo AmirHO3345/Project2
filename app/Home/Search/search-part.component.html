@@ -17,10 +17,12 @@
                 <div id="group_1">
                   <div id="container_1">
                     <label style="margin-left:5px">Arrival date</label>
-                    <input matInput [matDatepicker]="picker_Arrival" class="form-control" style="border-radius: 12px"
+                    <input matInput [matDatepicker]="picker_Arrival" class="form-control"
+                     style="border-radius: 12px"
                            placeholder="DD/MM/YY" ngModel name="Arrival_D"
                            [min]="this.DateNow()" (ngModelChange)="this.ChangeArrival($event)" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" *ngIf="!Part.form.value['Arrival_D']"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
+                    *ngIf="!Part.form.value['Arrival_D']"></mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix (click)="this.ClearDate('Arrival_D')"
                                            *ngIf="Part.form.value['Arrival_D']">
                       <mat-icon matDatepickerToggleIcon>clear</mat-icon>
@@ -29,10 +31,13 @@
                   </div>
                   <div id="container_2">
                     <label style="margin-left:5px">Departure date</label>
-                    <input matInput [matDatepicker]="picker_Departure" class="form-control" style="border-radius: 12px"
+                    <input matInput [matDatepicker]="picker_Departure" class="form-control"
+                     style="border-radius: 12px"
                            placeholder="DD/MM/YY" ngModel name="Departure_D"
-                           [min]="this.Arrival" [disabled]="!Part.form.value['Arrival_D']" readonly [required]="Part.form.value['Arrival_D']">
-                    <mat-datepicker-toggle matSuffix [for]="picker_Departure" *ngIf="!Part.form.value['Departure_D']"></mat-datepicker-toggle>
+                           [min]="this.Arrival" [disabled]="!Part.form.value['Arrival_D']"
+                            readonly [required]="Part.form.value['Arrival_D']">
+                    <mat-datepicker-toggle matSuffix [for]="picker_Departure" 
+                    *ngIf="!Part.form.value['Departure_D']"></mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix (click)="this.ClearDate('Departure_D')"
                                            *ngIf="Part.form.value['Departure_D']">
                       <mat-icon matDatepickerToggleIcon>clear</mat-icon>

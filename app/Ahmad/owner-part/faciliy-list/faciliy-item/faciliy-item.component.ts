@@ -30,7 +30,7 @@ export class FaciliyItemComponent implements OnInit {
   @Output() facilityOwnerSelected =new EventEmitter<void>();
   constructor(private roomSer:RoomServiceComponent,private router:Router,
     private faclist:FaciliyListComponent,private route:ActivatedRoute) { }
-    staticPath='http://192.168.137.247:8000/';
+    staticPath='http://192.168.43.55:8000/';
   facilityOwnerNum=this.roomSer.getLenghtFacilityOwner();
   facilityOwners:FacilityDetailsowner[]=this.roomSer.getFacilityOwner();
   facilityOwnersAdd:FacilityDetailsOwner[]=this.roomSer.getFacilityOwnerAdd();
