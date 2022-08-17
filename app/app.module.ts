@@ -69,6 +69,8 @@ import {StatisticComponent} from "./Admin/Statistic/statistic.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {ControlAdminComponent} from "./Admin/Control Customer/ControlAdmin.component";
+import {Route404Component} from "./Route404/route404.component";
+import {ChartComponent} from "./Admin/Statistic/Chart/Chart.component";
 
 
 
@@ -118,7 +120,9 @@ import {ControlAdminComponent} from "./Admin/Control Customer/ControlAdmin.compo
     NotificationIconComponent ,
     StatisticComponent ,
     FaciliyItemComponentAdd ,
-    ControlAdminComponent
+    ControlAdminComponent ,
+    Route404Component ,
+    ChartComponent
   ],
   imports: [RouteApplicationModule , AppRoutingModule,
     ReactiveFormsModule,

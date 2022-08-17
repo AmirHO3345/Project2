@@ -31,7 +31,7 @@ export class AuthenticationComponent implements PopUp_Child{
     this.Pattern_List = [
       '^([a-zA-Z0-9@*# ]{8,15})$' , /* Password */
       '(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$' , /* UserName */
-    ]
+    ] ;
   }
 
   /////////////////////////// For Template /////////////////////////////

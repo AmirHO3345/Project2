@@ -95,7 +95,7 @@ export class NotificationService {
         this.UserAccount = Value ;
         this.GetUnReadNotification().subscribe(ValueUnRead => {
           this.UnReadNotification = ValueUnRead.count ;
-          //this.InitialPusher(Value.ID);
+          this.InitialPusher(Value.ID);
           this.SendUpdate(ServiceAvailable.Available , false);
         });
       } else {
@@ -126,7 +126,7 @@ export class NotificationService {
         }
       },
     }) ;
-    this.UserChannel = this.PusherProcess.subscribe(`User.Notify.${User_ID}`);
+    this.UserChannel = this.PusherProcess.subscribe(`private-User.Notify.${User_ID}`);
     this.UserChannel.bind(`Illuminate\\Notifications\\Events\\BroadcastNotificationCreated`
       , (DataResponse : PusherResponse) => {
       let Info = this.ConvertFormat(DataResponse.Notify_type , DataResponse.id , DataResponse.created_at ,

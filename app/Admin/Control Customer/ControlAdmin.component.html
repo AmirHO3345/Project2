@@ -266,13 +266,13 @@
                     <div class="form-group col-md-5">
                       <label>Name</label>
                       <input type="text" class="form-control" placeholder="Name"
-                             ngModel name="CustomerName" required
+                             ngModel name="CustomerName" required [pattern]="this.Pattern_List[1]"
                       >
                     </div>
                     <div class="form-group col-md-5">
                       <label>Email</label>
                       <input type="email" class="form-control" placeholder="Email"
-                             ngModel name="Add_Email" required email
+                             ngModel name="Add_Email" email required
                       >
                     </div>
                   </div>
@@ -280,7 +280,7 @@
                     <div class="form-group col-md-5">
                       <label>Password</label>
                       <input type="password" class="form-control" placeholder="Password"
-                             ngModel name="Add_Password" required #Pass
+                             ngModel name="Add_Password" [pattern]="this.Pattern_List[0]" required #Pass
                       >
                     </div>
                     <div class="form-group col-md-5">
@@ -301,9 +301,17 @@
                         <option selected>Admin</option>
                       </select>
                     </div>
+                    <div class="col-md-3"
+                         style="margin-top: 42px;color:red ;"
+                    >
+                      <p>{{this.MessageError}}</p>
+                    </div>
                   </div>
                   <div class="form-row" style="justify-content : space-around;">
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="submit"
+                            class="btn btn-primary"
+                            [disabled]="Add.form.invalid"
+                    >Sign in</button>
                   </div>
                 </form>
               </div>

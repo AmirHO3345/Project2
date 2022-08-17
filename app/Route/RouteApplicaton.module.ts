@@ -7,18 +7,31 @@ import {ReservationListComponent} from "../ReservationList/ReservationList.compo
 import {NotificationComponent} from "../Notification/notification.component";
 import {StatisticComponent} from "../Admin/Statistic/statistic.component";
 import {ControlAdminComponent} from "../Admin/Control Customer/ControlAdmin.component";
+import {Route404Component} from "../Route404/route404.component";
+import {AuthenticationGuard} from "../Windows_PopUp/Authentication/Authentication.guard";
 
 const RouteApplication : Routes = [
   {path : "" , redirectTo : "home" , pathMatch : "full"} ,
   {path : "home" , component : HomeComponent} ,
   {path : "chat" , component : MessageComponent , children : [
       {path : ":id" , component : ChatComponent}
-    ]} ,
-  {path : "notificationList" , component : NotificationComponent} ,
-  {path : "reservationList" , component : ReservationListComponent} ,
-  {path : "statistic" , component : StatisticComponent} ,
-  {path : "adminController" , component : ControlAdminComponent}
-  //{path : "**" , redirectTo : "SomethingWrong"}
+    ] , data : {
+      User : true , Owner : true , Admin : false
+    } ,  canActivate : [AuthenticationGuard]} ,
+  {path : "notificationList" , component : NotificationComponent , data : {
+      User : true , Owner : true , Admin : true
+    } ,  canActivate : [AuthenticationGuard]} ,
+  {path : "reservationList" , component : ReservationListComponent , data : {
+      User : true , Owner : false , Admin : false
+    }, canActivate : [AuthenticationGuard]} ,
+  {path : "statistic" , component : StatisticComponent , data : {
+      User : false , Owner : false , Admin : true
+    } , canActivate : [AuthenticationGuard]} ,
+  {path : "adminController" , component : ControlAdminComponent , data : {
+      User : false , Owner : false , Admin : true
+    } , canActivate : [AuthenticationGuard]} ,
+  {path : "SomethingWrong" , component : Route404Component} ,
+  {path : "**" , redirectTo : "SomethingWrong"}
 ]
 
 @NgModule({

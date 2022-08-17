@@ -7,6 +7,7 @@ import {FormControl, NgForm} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {FacilityInfo, FacilityStatisticModel} from "../../Data_Sharing/Model/FacilitiesStatistic.model";
 import {forkJoin, Observable} from "rxjs";
+import {AuthErrorData} from "../../Windows_PopUp/Authentication/authentication.service";
 
 interface ColumnTableCustomer {
   ID : number ;
@@ -66,10 +67,17 @@ export class ControlAdminComponent implements AfterViewInit{
       IsSearchData : boolean
     }
   } ;
+  Pattern_List : string[] ;
   IsServerAvailable : boolean ;
+  MessageError : string ;
 
   constructor(private AdminServer : AdminService) {
     this.IsServerAvailable = false ;
+    this.MessageError = "" ;
+    this.Pattern_List = [
+      '^([a-zA-Z0-9@*# ]{8,15})$' , /* Password */
+      '(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$' , /* UserName */
+    ] ;
     let DummyCustomerData : ColumnTableCustomer = {
       ID : 1 ,
       CustomerName : 'string' ,
@@ -339,42 +347,52 @@ export class ControlAdminComponent implements AfterViewInit{
 
   public AddCustomer(DataForm : NgForm) {
     if (DataForm.valid) {
-      let Name = (<FormControl>DataForm.form.get("CustomerName")).value ;
-      let Email = (<FormControl>DataForm.form.get("Add_Email")).value ;
-      let Pass = (<FormControl>DataForm.form.get("Add_Password")).value ;
-      let Type = (<FormControl>DataForm.form.get("Add_Type")).value ;
+      this.MessageError = "" ;
+      let Name = (<FormControl>DataForm.form.get("CustomerName")).value;
+      let Email = (<FormControl>DataForm.form.get("Add_Email")).value;
+      let Pass = (<FormControl>DataForm.form.get("Add_Password")).value;
+      let Type = (<FormControl>DataForm.form.get("Add_Type")).value;
       switch (Type) {
         case "User" :
-          Type = 0 ;
+          Type = 0;
           break;
         case "Owner" :
-          Type = 1 ;
+          Type = 1;
           break;
         case "Admin" :
-          Type = 2 ;
+          Type = 2;
           break;
       }
-      this.AdminServer.AddCustomer(Name , Email , Pass , Type).subscribe(() => {
+      this.AdminServer.AddCustomer(Name, Email, Pass, Type).subscribe(() => {
         DataForm.resetForm();
-        if(Type == 0) {
-          if(!this.PageInfo.PageInfoUser.IsSearchData) {
-            this.AdminServer.FetchCustomerList(0 , this.PageInfo.PageInfoUser.CurrentPage)
+        if (Type == 0) {
+          if (!this.PageInfo.PageInfoUser.IsSearchData) {
+            this.AdminServer.FetchCustomerList(0, this.PageInfo.PageInfoUser.CurrentPage)
               .subscribe(Value => {
-                this.PageInfo.PageInfoUser = Value.PageInfo ;
-                this.PaginatorUser.length = this.PageInfo.PageInfoUser.TotalPage * 10 ;
-                this.TableMatData.TableUser.data = this.Customer2Table(Value.Result) ;
+                this.PageInfo.PageInfoUser = Value.PageInfo;
+                this.PaginatorUser.length = this.PageInfo.PageInfoUser.TotalPage * 10;
+                this.TableMatData.TableUser.data = this.Customer2Table(Value.Result);
               });
           }
-        } else if(Type == 1) {
-          if(!this.PageInfo.PageInfoOwner.IsSearchData) {
-            this.AdminServer.FetchCustomerList(1 , this.PageInfo.PageInfoOwner.CurrentPage)
+        } else if (Type == 1) {
+          if (!this.PageInfo.PageInfoOwner.IsSearchData) {
+            this.AdminServer.FetchCustomerList(1, this.PageInfo.PageInfoOwner.CurrentPage)
               .subscribe(Value => {
-                this.PageInfo.PageInfoOwner = Value.PageInfo ;
-                this.PaginatorOwner.length = this.PageInfo.PageInfoOwner.TotalPage * 10 ;
-                this.TableMatData.TableOwner.data = this.Customer2Table(Value.Result) ;
+                this.PageInfo.PageInfoOwner = Value.PageInfo;
+                this.PaginatorOwner.length = this.PageInfo.PageInfoOwner.TotalPage * 10;
+                this.TableMatData.TableOwner.data = this.Customer2Table(Value.Result);
               });
           }
         }
+      } , (ErrorValue : HttpErrorResponse) => {
+        let ErrorData : AuthErrorData = ErrorValue.error ;
+        let Error_Type !: keyof typeof ErrorData.Error ;
+        for (const ErrorKey in ErrorData.Error)
+          if(ErrorData.Error[<keyof typeof ErrorData.Error> ErrorKey] != undefined) {
+            Error_Type = <keyof typeof ErrorData.Error> ErrorKey ;
+            this.MessageError = (<string[]>ErrorData.Error[Error_Type])[0] ;
+            break;
+          }
       });
     }
   }
