@@ -18,7 +18,7 @@ interface ResponseRooms {
   url_first_page : string ;
   url_last_page : string ;
   url_next_page : string ;
-} 
+}
 
 
 
@@ -43,7 +43,7 @@ interface ResponseBooking {
   "booking": {
     "id_user": number ,
     "id_facility": number ,
-    "cost": number , 
+    "cost": number ,
     "start_date": string,
     "end_date": string,
     "created_at": string,
@@ -64,7 +64,7 @@ export interface FacilityDetails {
 	name : string ;
 	num_guest : number;
 	num_room : number ;
-	photos : Images[];//{id_photo : number , path_photo : string}[];
+	photos : {id_photo : number , path_photo : string}[];
 	rate : number ;
 	tv : number ;
 	type : string;
@@ -146,7 +146,7 @@ export interface Error{
 }
 interface responseFav{
   message:string;
-  
+
 }
 
 interface cost{
@@ -218,7 +218,7 @@ export interface OtherProfile{
 
 @Injectable({providedIn:'root'})
 export class DataStoragrService{
-  
+
 
 
 
@@ -286,7 +286,7 @@ export class DataStoragrService{
           queryParams = queryParams.append("tv",tv);
           queryParams = queryParams.append("fridge",fridge);
           queryParams = queryParams.append("air_condition",air_conditioning);
-          
+
         }
         if(bestRate){
           queryParams = queryParams.append("bestrate",bestRate);
@@ -310,7 +310,7 @@ export class DataStoragrService{
            ).subscribe(
             data => {
                console.log(data);
-               if(data.Error!=null)alert(data.Error);else 
+               if(data.Error!=null)alert(data.Error);else
                if(this.id==1)
                  {this.roomservice.setRooms(data.facilities);this.id++;}
                  else {
@@ -350,7 +350,7 @@ addToFavouriteList(){
   console.log(body);
      return this.http
       .post<responseFav>(`${DataStoragrService.API_Location}api/favorite/toggle`,
-      {id_facility:body}, 
+      {id_facility:body},
        options
       )
       .subscribe((res) => {
@@ -371,7 +371,7 @@ removeFromFavouriteList(id:number){
        options
       )
       .subscribe((res) => {
-        
+
         console.log(res);
         alert(res.message);
       });
@@ -407,7 +407,7 @@ storeFacilityOwner(aircond:number,name:string,loc:string,desc:string,img:string
       coffee_machine:"1",
       fridge:"0",
       tv:"1"
-    }, 
+    },
      options
     )
     .subscribe((res) => console.log(res));
@@ -503,7 +503,7 @@ bookNow(startDate:string,endDate:string,id_F:number){
       this.roomservice.setbooking(data);
     }
  });
- 
+
 }
 
 cancelBook(id_booking:number,id_facility:number){
@@ -520,7 +520,7 @@ cancelBook(id_booking:number,id_facility:number){
   ).subscribe(data => {
     try{
       console.log(data.message);
-      if(data.message==undefined)alert('you are not booking');else 
+      if(data.message==undefined)alert('you are not booking');else
       // if(data.Error.facility!=null)
        alert(data.message);
       // else if(data.Error.user!=null)
@@ -537,7 +537,7 @@ cancelBook(id_booking:number,id_facility:number){
  });
 }
 viewCost(id_fac:number,startDate:string,endDate:string){
- 
+
   let queryParams = new HttpParams();
    queryParams = queryParams.append("id_facility",id_fac);;
   queryParams = queryParams.append("start_date",startDate);
@@ -630,8 +630,8 @@ deleteComment(idComm:number|null,idfac:number){
     alert(data.message);
     console.log(data);
     // try{
-      
-    //   if(data.message==undefined)alert('you are not booking');else 
+
+    //   if(data.message==undefined)alert('you are not booking');else
     //   // if(data.Error.facility!=null)
     //    alert(data.message);
     //   // else if(data.Error.user!=null)
@@ -667,7 +667,7 @@ showMyProfile(){
 showOtherProfile(id_user:number){
   let queryParams = new HttpParams();
    queryParams = queryParams.append("id_user",id_user);
-   
+
   return this.http.get<OtherProfile>
   (`${DataStoragrService.API_Location}api/profile/other`,
   {
@@ -730,11 +730,10 @@ showfacility(id:number){
     headers:new HttpHeaders({"Authorization":this.accou})
   };
   console.log(id);
-  
+
   let queryParams = new HttpParams();
    queryParams = queryParams.append("id",id);
-  return this.http.get<resroomDet>(`${DataStoragrService.API_Location}api/facility/show/`+id,options
-  )
+  return this.http.get<resroomDet>(`${DataStoragrService.API_Location}api/facility/show/`+id)
   .subscribe((res)=>{
     console.log(res);
     this.roomservice.setroomDet(res.Data);
@@ -772,7 +771,7 @@ bookNowOwner(startDate:string,endDate:string,id_F:number){
       this.roomservice.setbooking(data);
     }
  });
- 
+
 }
 
 
@@ -785,8 +784,8 @@ sendReport(id:number,report:string){
   return this.http
       .post(`${DataStoragrService.API_Location}api/report/add`,
       {
-        id_facility:93,
-        report:"report"
+        id_facility:id,
+        report:report
       },
        options
       )

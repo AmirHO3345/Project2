@@ -7,7 +7,7 @@
     <meta name="description" content="Albert - Hotel and Bed&amp;Breakfast">
     <meta name="author" content="Ansonika">
     <title>Albert - Hotel and Bed&amp;Breakfast</title>
-    
+
     <!-- Favicons-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
@@ -31,32 +31,32 @@
 </head>
 
 
-    
+
     <!-- Mobile menu overlay mask -->
-    
+
     <!-- <div id="preloader">
         <div data-loader="circle-side"></div>
     </div> -->
-    
+
     <!-- End Preload -->
-    
+
      <!-- Header ================================================== -->
-    
+
     <!-- End Header =============================================== -->
-    
+
     <!-- SubHeader =============================================== -->
-    
-   
+
+
     <!-- End SubHeader ============================================ -->
 
         <div class="container margin_60"  *ngIf="favouriteNum>0">
     	<div class="row">
  			<div class="col-lg-9 col-md-8">
             	<div class="row"  [routerLink]="[index]" routerLinkActive="active" >
-                
+
                 	<div class="room_desc clearfix" >
                 	<div class="col-md-7">
-                    	<figure><img src="https://pix10.agoda.net/hotelImages/5547513/-1/555ac3a73a392de501fd0a0b50d8fdff.jpg?ca=7&ce=1&s=1024x768"
+                    	<figure><img src={{staticPath+favourite.photos[0].path_photo}}
                              width="70%" alt="" class="img-responsive"></figure>
                     </div>
                     <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">
@@ -100,7 +100,7 @@
                             <small>Breakafst included</small></div>
                     </div>
                     </div>
-                </div><!-- End row room -->  
+                </div><!-- End row room -->
             </div>
                                     <div class="tooltip_styled tooltip-effect-4">
                                         <span class="tooltip-item" >
@@ -110,10 +110,10 @@
                                     </div>
 
 
-        </div><!-- End row -->        
-   
-    
-    
+        </div><!-- End row -->
 
 
-        
+
+
+
+

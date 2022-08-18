@@ -15,26 +15,26 @@ import { UserDetailsComponent } from "./user-profile/userdetails/userdatails.com
 
 const appRoutes:Routes=[
     // { path:'',redirectTo:'/search',pathMatch:'full' },
-    { path:'search',component:SearchComponent,children:[
-        { path:'',component:RoomStartComponent },
-        { path:':id',component:RoomDetailsComponent }
-    ]},{ path:'favorite',component:ListfavsComponent,children:[
-        { path:'',component:RoomStartComponent },
-        { path:':id',component:RoomDetailsComponent2 }
-    ]  },
-    { path:'facilitylist',component:ListOwnerComponent,children:[
-        { path:'',component:RoomStartComponent },
-        { path:':id',component:RoomDetailsComponent3 }
-    ]  },{
-        path:'profile',component:UserProfileComponent
-    },{
-        path:'profile/:id',component:UserDetailsComponent
-    },
-    {
-        path:'roomdetails',component:SearchComponent
-    }, {
-        path:'roomdetails/:id',component:RoomDetailsComponentAmir
-    }
+    // { path:'search',component:SearchComponent,children:[
+    //     { path:'',component:RoomStartComponent },
+    //     { path:':id',component:RoomDetailsComponent }
+    // ]},{ path:'favorite',component:ListfavsComponent,children:[
+    //     { path:'',component:RoomStartComponent },
+    //     { path:':id',component:RoomDetailsComponent2 }
+    // ]  },
+    // { path:'facilitylist',component:ListOwnerComponent,children:[
+    //     { path:'',component:RoomStartComponent },
+    //     { path:':id',component:RoomDetailsComponent3 }
+    // ]  },{
+    //     path:'profile',component:UserProfileComponent
+    // },{
+    //     path:'profile/:id',component:UserDetailsComponent
+    // },
+    // {
+    //     path:'roomdetails',component:SearchComponent
+    // }, {
+    //     path:'roomdetails/:id',component:RoomDetailsComponentAmir
+    // }
     //{ path:'room-detail',component:RoomStartComponent}
 
     // { path:'recipes',component:RecipesComponent,

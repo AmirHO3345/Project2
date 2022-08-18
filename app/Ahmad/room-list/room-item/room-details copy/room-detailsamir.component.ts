@@ -25,7 +25,7 @@ import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/auth
 })
 export class RoomDetailsComponentAmir implements OnInit/* ,OnChanges,AfterViewInit,AfterViewChecked */ {
 
- 
+
  room!:FacilityDetails;
  favourite!:FacilityDetails;
  id!:number;
@@ -63,8 +63,8 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,priv
 }
 comments:reviews[]=[] ;
 bookNow(){
-  
-  
+
+
 }
 facilityForm!:FormGroup;
 private initForm(){
@@ -89,22 +89,22 @@ send(){
   let Arrival=this.facilityForm.value['arrival'];
   let Depture=this.facilityForm.value['departure'];
 
-  
+
 let dateFr="default";
 let dateToo="default";
   let dateFrom:Date;
-  let dateTo:Date;  
+  let dateTo:Date;
 
-  
+
   console.log(Arrival);
   console.log(Depture);
-  dateFrom= new Date(Date.parse(Arrival));  
-  dateTo=new Date(Date.parse(Depture));  
+  dateFrom= new Date(Date.parse(Arrival));
+  dateTo=new Date(Date.parse(Depture));
 
-  
+
   console.log(dateFr);
   console.log(dateToo);
-  
+
     try{
       if(dateFrom!=undefined && dateTo!=undefined){
         dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd");
@@ -115,7 +115,7 @@ let dateToo="default";
     }
     }
     catch(Exception){
-  
+
       if(dateFr=="default"||dateToo=="default"){
         alert('please set a valid date');
       }
@@ -125,15 +125,15 @@ let dateToo="default";
         console.log(dateToo);
         this.datastorage.bookNow(dateFr,dateToo,this.roomSer.getRooms()[this.id].id);
       }
-      
+
     }
     if(this.check2){
-      
+
       this.datastorage.viewCost(this.roomSer.getRooms()[this.id].id,dateFr,dateToo);
       this.check2=false;
     }
-  
-  
+
+
   console.log(dateFr);
   console.log(dateToo);
 }
@@ -175,7 +175,7 @@ this.AuthService.Account.subscribe(Value => {
   //await new Promise(resolve => setTimeout(resolve, 7000));
   //console.log(this.roomSer.getroomDet());
   //this.roomSer.setroomDet(this.roomSer.getRooms()[93]);
-  await new Promise(resolve => setTimeout(resolve, 15000));
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   this.roomDet=this.roomSer.getroomDet();
   //await new Promise(resolve => setTimeout(resolve, 7000));
@@ -192,11 +192,11 @@ this.AuthService.Account.subscribe(Value => {
       this.Image_Array.push("https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/getty-7.jpg");
       this.Image_Array.push("https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg");
       this.Image_Array.push("https://cdn.businesstraveller.com/wp-content/uploads/fly-images/1024133/TT-Four-Season-916x516.jpg");
-  
+
   //  this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
      // this.comments=this.roomSer.getReviews();
-     
-     
+
+
   }
   show=false;
   showComment(){
@@ -208,7 +208,7 @@ this.AuthService.Account.subscribe(Value => {
   }
 
 getDateOut(){
-  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
+  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1));
    return  nextDays;
  }
 
@@ -273,16 +273,16 @@ onSubmit(ngform:NgForm){
     if(idrev==null){
       alert('you are not commented');return;
     }
-   
+
 
     this.datastorage.deleteComment(idrev,this.roomSer.getRooms()[this.id].id);
 
   }
-  
+
 
   this.deleteCheck=false;
   this.check=true;
-  
+
 }
 deleteCheck=false;
 DeleteComment(){

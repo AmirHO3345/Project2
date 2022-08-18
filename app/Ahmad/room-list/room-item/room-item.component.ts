@@ -4,6 +4,8 @@ import { DataStoragrService, FacilityDetails } from '../../DataStorageService';
 import { Room } from '../../room.model';
 import { RoomServiceComponent } from '../../roomservice.component';
 import { RoomListComponent } from '../room-list.component';
+import {UserModel} from "../../../Data_Sharing/Model/user.model";
+import {AuthenticationService} from "../../../Windows_PopUp/Authentication/authentication.service";
 
 @Component({
   selector: 'app-room-item',
@@ -24,7 +26,11 @@ export class RoomItemComponent implements OnInit {
    @Input() index!:number;
    @Output() roomSelected =new EventEmitter<void>();
    like=false;
-    constructor(private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router){}
+   AccountUser:UserModel|null;
+    constructor(private AuthService:AuthenticationService,private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router){
+      this.AccountUser=null;
+    }
+  staticPath='http://192.168.43.55:8000/';
   check=true;
     likeSwitch(){
        let id=this.index;
@@ -32,9 +38,12 @@ export class RoomItemComponent implements OnInit {
       this.datastorage.getFavouriteList();
 
       if(this.like&&!this.check){
+        if(this.AccountUser==null){
+          alert('please login to continue');return;
+        }
         // removeItem(){
-           this.router.navigate(['/search']); 
-           
+           this.router.navigate(['/search']);
+
            console.log(this.roomSer.getRooms()[id].id);
            this.datastorage.removeFromFavouriteList(this.roomSer.getRooms()[id].id);
            this.roomSer.removeFavouriteItem(id);
@@ -55,7 +64,7 @@ export class RoomItemComponent implements OnInit {
         }
         this.check=false;
 
-        
+
       }
       else {
         this.roomSer.removeFavouriteItem(this.roomSer.getIdFav());
@@ -66,7 +75,7 @@ export class RoomItemComponent implements OnInit {
 
 
     }
-    
+
 
 
 
@@ -79,5 +88,12 @@ GoToDetailsRoomPage(){
   //this.router.navigateByUrl('/room-details');
 
 }
-ngOnInit(){}
+ngOnInit(){
+      console.log(this.staticPath+this.room.photos[0].path_photo)
+      this.AuthService.Account.subscribe(
+        Value=>{
+          this.AccountUser=Value;
+        }
+      );
+}
 }

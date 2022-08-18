@@ -24,12 +24,12 @@
 
 <div class="Fix" >
     <div class="Container_Image" >
-      <img [src]="this.Image_Array[this.Image_Number]" >
+      <img [src]="staticPath+this.Image_Array[this.Image_Number]" >
       <div class="shadowRound"></div>
     </div>
         <div class="options">
 
-           
+
         <div class="option active" *ngFor="let i of Image_Array let ii=index"
          [style]="'--optionBackground:url(' + this.Image_Array[ii] + ');'"
              (click)="this.ManualMove(Option ,ii)" #Option>
@@ -46,12 +46,12 @@
         </div>
       </div>
   </div>
-    
+
    <br><br><br><br>
-    
+
     <h1 class="main_title_in">{{favourite.name}}</h1>
     <div class="container add_bottom_60">
-        
+
         <div class="row">
         	<div class="col-md-8" id="room_detail_desc">
             <div id="single_room_feat">
@@ -66,7 +66,7 @@
                     <li><i class="icon_set_2_icon-106"></i>Safe box</li>
                 </ul>
             </div>
-           
+
          <div class="row">
                 <div class="col-md-3">
                     <h3>Description</h3>
@@ -128,7 +128,7 @@
             </div><!-- End row  -->
 
           	<hr>
-            
+
             <div class="row">
                 <div class="col-md-3">
                     <h3>Reviews</h3>
@@ -166,7 +166,7 @@
                             </ul>
                         </div>
                     </div><!-- End row -->
-                    
+
                     <hr>
                    <!-- /////////////////////////////////////////////////////////////////////////comments -->
                     <!-- <div class="review_strip_single" *ngFor="let comm of room.comments">
@@ -182,7 +182,7 @@
                         </div>
                     </div> -->
                     <!-- /////////////////////////////////////////////////////////////////////////// -->
-                    
+
                     <!-- <div class="review_strip_single">
                         <img src="img/avatar2.jpg" alt="" class="img-circle">
                         <small> - 10 March 2015 -</small>
@@ -195,7 +195,7 @@
                         </div>
                     </div>
                     End review strip -->
-                    
+
                    <!-- <div class="review_strip_single last">
                         <img src="img/avatar3.jpg" alt="" class="img-circle">
                         <small> - 10 March 2015 -</small>
@@ -208,9 +208,9 @@
                         </div>
                     </div> -->
                     <!-- End review strip -->
-                    
+
                 </div>
-            </div>  
+            </div>
             <hr>
             <div class="row">
             <div class="col-md-3">
@@ -232,20 +232,20 @@
                     </li>
                     <li><i class="icon_set_1_icon-13"></i><h5>Disable</h5>
                     <p>Usu habeo equidem sanctus no. Suas summo id sed, erat erant oporteat cu pri. In eum omnes molestie. Sed ad debet scaevola, ne mel lorem legendos. Unum etiam cum te, an elit assueverit vix, falli aliquam complectitur ex ius.</p>
-                    </li>                    
+                    </li>
                     </ul>
                 </div>
                 </div>
             </div><!-- End col -->
-            
+
         <div class="col-md-4" id="sidebar" >
             <div class="theiaStickySidebar">
             	<div class="box_style_1">
                     <div id="message-booking"></div>
                     <form method="post" action="assets/check_avail.php"
                      id="check_avail" autocomplete="off" >
-                    <input name="room_type" id="room_type" 
-                    type="hidden" value="Double room">	
+                    <input name="room_type" id="room_type"
+                    type="hidden" value="Double room">
                     	<div class="row">
                         	<div class="col-md-6 col-sm-6">
                             	<div class="form-group">
@@ -257,15 +257,15 @@
                            placeholder="Arrival" ngModel name="Arrival_D"
                            min="{{currentDate | date:'yyyy-MM-dd'}}"
                             required readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
+                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival"
                     style="position: absolute;bottom: 0px;
                     right: 0%;top:0%;margin-top: 16%;">
                     </mat-datepicker-toggle>
                     <mat-datepicker #picker_Arrival></mat-datepicker>
 
-<!-- 
+<!--
 
-                            	   	<input matInput [matDatepicker]="picker_Departure" 
+                            	   	<input matInput [matDatepicker]="picker_Departure"
                         class="form-control" style="border-radius: 12px"
                         placeholder="Arrival" ngModel name="datein" id="datein"
                             readonly required>
@@ -281,7 +281,7 @@
                             <div class="col-md-6 col-sm-6">
                             	<div class="form-group">
                                 	<label>Departure date</label>
-                                    
+
                                     <input matInput [matDatepicker]="picker_Departure" class="form-control"
                                      style="border-radius: 12px"
                                     placeholder="Departure" ngModel name="Departure_D"
@@ -304,21 +304,21 @@
                         	<div class="col-md-6 col-sm-6 col-xs-6">
                             	<div class="form-group">
                                 <label>Adults</label>
-                            	   
+
 
                                 <div id="container_3" style="text-align:center">
                                     <!-- <label>Adults</label> -->
                                     <div class="qty-buttons">
-                                      <input type="button" value="-" 
+                                      <input type="button" value="-"
                                       class="qtyminus" name="adults"
                                        (click)="ChangeAdults(false)">
-                                      <input type="text" name="adults" id="adults" 
+                                      <input type="text" name="adults" id="adults"
                                       class="qty form-control"
                                              [(ngModel)]="this.Adults" name="Adults"
-                                             [min]="this.Arrival.DateDetermine" 
+                                             [min]="this.Arrival.DateDetermine"
                                              [disabled]="!this.Arrival.IsActive"
                                               required readonly>
-                                      <input type="button" value="+" class="qtyplus" 
+                                      <input type="button" value="+" class="qtyplus"
                                       name="adults" (click)="ChangeAdults(true)">
                                     </div>
                                   </div>
@@ -336,7 +336,7 @@
                                        (click)="ChangeRooms(false)">
                                       <input type="text" name="rooms" id="rooms" class="qty form-control"
                                              [(ngModel)]="this.Rooms" name="Rooms" required readonly>
-                                      <input type="button" value="+" class="qtyplus" 
+                                      <input type="button" value="+" class="qtyplus"
                                       name="rooms" (click)="ChangeRooms(true)">
                                     </div>
                                   </div>
@@ -344,7 +344,7 @@
                             </div>
                         </div><!-- End row -->
            				<div class="row">
-                        	
+
                               <div class="col-md-12 col-sm-6">
                                    <div class="form-group">
                                 	<label>Name</label>
@@ -367,19 +367,19 @@
                         <hr>
                         <a href="#0" class="btn_outline"> or Contact us</a>
                         <a href="tel://004542344599" id="phone_2"><i class="icon_set_1_icon-91"></i>+45 423 445 99</a>
-                     
+
                 </div><!-- End box_style -->
             </div><!-- End theiaStickySidebar -->
             </div><!-- End col -->
-            
-        </div><!-- End row -->
-                
-            </div><!-- End container -->
-    
 
-    
+        </div><!-- End row -->
+
+            </div><!-- End container -->
+
+
+
     <div id="dtBox"></div><!-- End datepicker -->
-   
+
 
 <div id="toTop"></div><!-- Back to top button -->
 

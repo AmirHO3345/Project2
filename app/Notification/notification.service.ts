@@ -36,7 +36,7 @@ interface NotificationResponse {
         url : string ,
         type : string ,
         body : {
-          id_booking : number
+          id_booking : number ,
         }
       } | []
     } ,
@@ -147,6 +147,7 @@ export class NotificationService {
   private ConvertFormat(Notify_type : string , IdNotification : string , CreateDate : string ,
                         ReadDate : string | null , Header : string , Body : string ,
                         FacilityID ?: number) {
+    console.log(Notify_type);
     let NotificationType !: NotificationTypes ;
     let Facility !: {FacilityID : number};
     switch (Notify_type) {
@@ -170,7 +171,7 @@ export class NotificationService {
       case 'Delete facility' :
         NotificationType = NotificationTypes.DeleteFacility ;
         break ;
-      case 'Comment' :
+      case 'Comment facility' :
         NotificationType = NotificationTypes.CommentFacility ;
         if(FacilityID != undefined)
           Facility = {
@@ -200,11 +201,12 @@ export class NotificationService {
       headers : new HttpHeaders({"Authorization" : (<UserModel>this.UserAccount).GetToken()}) ,
       params : Params ,
     }).pipe(take(1) , map(Value => {
+          console.log(Value);
           let NotificationBundle : NotificationModel[] = [] ;
           Value.Notifications.forEach(NotifyPart => {
             let DataFacilityID !: number ;
             if(!(NotifyPart.data.data instanceof (Array)) && NotifyPart.data.data != undefined)
-              DataFacilityID = NotifyPart.data.data.body.id_booking
+              DataFacilityID = NotifyPart.data.data.body.id_booking ;
             let Info = this.ConvertFormat(NotifyPart.data.Notify_type , NotifyPart.id , NotifyPart.created_at ,
               NotifyPart.read_at , NotifyPart.data.header , NotifyPart.data.body ,
               DataFacilityID);

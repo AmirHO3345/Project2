@@ -1,3 +1,4 @@
+import {AuthenticationService} from "../../Windows_PopUp/Authentication/authentication.service";
 
 export class ReservationModel {
 
@@ -24,7 +25,7 @@ export class ReservationModel {
     this.IdReservation = IDRe ;
     this.IdRoom = IDRo ;
     this.RoomName = RN ;
-    this.ImagePath = IP ;
+    this.ImagePath = AuthenticationService.API_Location + IP ;
     this.DateFrom = DF ;
     this.DateTo = DT ;
     this.Cost = C ;

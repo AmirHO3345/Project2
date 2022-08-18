@@ -21,7 +21,7 @@ import { SearchComponent } from 'src/app/Ahmad/search/search.component';
 })
 export class RoomDetailsComponent2 implements OnInit   {
 
- 
+
 // @ViewChild('Image_Move') Image_View !: ElementRef ;
 // Current_Image_Num : number ;
 // Mission_Move !: number ;
@@ -67,7 +67,10 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
     this.Image_Number = 0;
     this.Mission_Move = <number><unknown>setInterval(()=>this.AutoMove() , 3000);
 }
+staticPath='http://192.168.43.55:8000/';
+
   ngOnInit() {
+
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];
@@ -79,20 +82,20 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
       this.favourite=this.roomSer.getFavouriteId(this.id);
 
       for(let i=0;i<this.roomSer.getfavouriteFacilities()[this.id].photos.length;i++){
-        this.Image_Array.push(this.roomSer.getRooms()[this.id].photos[i].url);
-        console.log(this.roomSer.getRooms()[this.id].photos[i].url);
+        this.Image_Array.push(this.staticPath+this.roomSer.getfavouriteFacilities()[this.id].photos[i].path_photo);
+        console.log(this.roomSer.getfavouriteFacilities()[this.id].photos[i].path_photo);
       }
-      this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
+      /*this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
       this.Image_Array.push("https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/getty-7.jpg");
       this.Image_Array.push("https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg");
       this.Image_Array.push("https://cdn.businesstraveller.com/wp-content/uploads/fly-images/1024133/TT-Four-Season-916x516.jpg");
-
+*/
     }
     );
   }
- 
+
 getDateOut(){
-  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
+  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1));
    return  nextDays;//this.currentDate.setDate( this.currentDate.getDate() + 1 );
  }
 

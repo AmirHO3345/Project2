@@ -84,9 +84,10 @@ export class NotificationComponent implements OnInit , AfterViewInit ,  OnDestro
   }
 
   OnDetails(NotificationItem : NotificationModel) {
-    if(!NotificationItem.RouteDirection.IsThere)
-      return ;
-    this.route.navigate(['room-detail/' , NotificationItem.RouteDirection.FacilityID]);
+    // console.log(NotificationItem);
+    // if(!NotificationItem.RouteDirection.IsThere)
+    //   return ;
+    // this.route.navigate(['/roomdetails' , NotificationItem.RouteDirection.FacilityID]);
   }
 
   ngOnDestroy(): void {

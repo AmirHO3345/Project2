@@ -30,6 +30,6 @@ export class ContentComponent implements OnInit {
   }
 
   OnDetails(NotificationItem : Room_InformationModel) {
-    this.route.navigate(['room-detail/' , NotificationItem.Facility_ID]);
+    this.route.navigate(['/roomdetails' , NotificationItem.Facility_ID]);
   }
 }

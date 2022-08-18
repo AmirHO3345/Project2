@@ -63,6 +63,7 @@ export class ReservationListService {
             , Item.name, Item.path_photo, new Date(Item.start_date)
             , new Date(Item.end_date), Item.cost , new Date(Item.created_at)));
         });
+        console.log(Temp);
         this.TotalPage = Value.total_pages ;
         this.TotalItem = Value.total_items ;
         this.Page = Page ;

@@ -24,16 +24,17 @@ export class FavouritePageComponent implements OnInit {
   @Input() index!:number;
   @Output() favouriteSelected =new EventEmitter<void>();
   constructor(private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router,private route:ActivatedRoute) { }
+  staticPath='http://192.168.43.55:8000/';
 
   favouriteNum=this.roomSer.getLenghtfavouriteFacilities();
   favouritesFacilities:FacilityDetails[]=this.roomSer.getfavouriteFacilities();
   removeItem(){
-    this.router.navigate(['/favorite']); 
+    this.router.navigate(['/favorite']);
     let id=this.index;
     console.log(this.roomSer.getfavouriteFacilities()[id].id);
     this.datastorage.removeFromFavouriteList(this.roomSer.getfavouriteFacilities()[id].id);
     this.roomSer.removeFavouriteItem(id);
-    //this.router.navigate(['/favorite']); 
+    //this.router.navigate(['/favorite']);
   //  this.router.navigate(['/favourite']);
   }
 

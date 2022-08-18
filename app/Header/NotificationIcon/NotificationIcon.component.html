@@ -8,6 +8,7 @@
   <div class="Notification Box_Container" scrollTrack #Scroller='ScrollTracking'>
     <div *ngFor="let Item of this.Notifications"
          [class]="(Item.IsReading) ? 'Sample' : 'Sample New'"
+         (click)="this.OnDetails(Item)"
     >
       <div class="Image-wrapper">
         <div class="Image">

@@ -7,7 +7,7 @@
     <meta name="description" content="Albert - Hotel and Bed&amp;Breakfast">
     <meta name="author" content="Ansonika">
     <title>Albert - Hotel and Bed&amp;Breakfast</title>
-    
+
     <!-- Favicons-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
@@ -31,35 +31,35 @@
 </head>
 
 
-    
+
     <!-- Mobile menu overlay mask -->
-    
+
     <!-- <div id="preloader">
         <div data-loader="circle-side"></div>
     </div> -->
-    
+
     <!-- End Preload -->
-    
+
      <!-- Header ================================================== -->
-    
+
     <!-- End Header =============================================== -->
-    
+
     <!-- SubHeader =============================================== -->
-    
-   
+
+
     <!-- End SubHeader ============================================ -->
 
         <div class="container margin_60"  >
     	<div class="row" style="width: 100%;">
  			<div class="col-lg-9 col-md-8" style="width: 68%;">
             	<div class="row"  style="height: 113%;">
-                
-                	<div class="room_desc clearfix" style="width: 100%;" 
+
+                	<div class="room_desc clearfix" style="width: 100%;"
                      [routerLink]="[index]" routerLinkActive="active">
-                   
+
                 	<div class="col-md-7">
                     	<figure>
-                            <img src="https://pix10.agoda.net/hotelImages/5547513/-1/555ac3a73a392de501fd0a0b50d8fdff.jpg?ca=7&ce=1&s=1024x768"
+                            <img src="{{staticPath+room.photos[0].path_photo}}"
                              style="width: 70%;" alt="" class="img-responsive"></figure>
                     </div>
                     <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">
@@ -68,7 +68,7 @@
                             {{room.type}}
                         </p>
                         <div class="rating">
-                            <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true" 
+                            <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true"
                             style="color:#F90;
                             font-size:16px;
 	                        font-size:14px;
@@ -115,11 +115,11 @@
                             <small>Breakafst included</small></div>
                     </div>
                     </div>
-                </div><!-- End row room -->  
-               
-                
-                 
-                
+                </div><!-- End row room -->
+
+
+
+
             </div>
 
             <div class="tooltip_styled tooltip-effect-4" *ngIf="!like else infolike">
@@ -135,13 +135,13 @@
                                     <div class="tooltip-content">remove from favourites</div>
                             </div>
                         </ng-template>
-                
-         
-            
-        </div><!-- End row -->        
-   
-    
-    
 
 
-        
+
+        </div><!-- End row -->
+
+
+
+
+
+

@@ -25,7 +25,7 @@ import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/auth
 })
 export class RoomDetailsComponent implements OnInit/* ,OnChanges,AfterViewInit,AfterViewChecked */ {
 
- 
+
 // @ViewChild('Image_Move') Image_View !: ElementRef ;
 // Current_Image_Num : number ;
 // Mission_Move !: number ;
@@ -68,6 +68,13 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent
       DateDetermine : new Date()
     }
     this.Image_Array = [];
+    console.log(this.roomSer.getRooms());
+  /*for(let i=0;i<this.roomSer.getRooms()[this.id].photos.length;i++){
+    this.Image_Array.push('http://192.168.43.55:8000/'+this.roomSer.getRooms()[this.id].photos[i].path_photo);
+    console.log(this.roomSer.getRooms()[this.id].photos[i].path_photo);
+    //console.log(qwer);
+   // qwer++;
+  }
    /* this.Image_Array = [
       'https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg',
       'https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg',
@@ -83,7 +90,7 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent
 //comments!:reviews[];
 comments:reviews[]=[] ;
   // ngAfterViewChecked(): void {
-    
+
   //   console.log('ngAfterViewChecked');
   // }
   // ngAfterViewInit(): void {
@@ -93,8 +100,8 @@ comments:reviews[]=[] ;
   //   console.log('ngOnChanges');
   // }
 bookNow(){
-  
-  
+
+
 }
 facilityForm!:FormGroup;
 FormMes!:FormGroup;
@@ -122,22 +129,22 @@ send(){
   let Arrival=this.facilityForm.value['arrival'];
   let Depture=this.facilityForm.value['departure'];
 
-  
+
 let dateFr="default";
 let dateToo="default";
   let dateFrom:Date;
-  let dateTo:Date;  
+  let dateTo:Date;
 
-  
+
   console.log(Arrival);
   console.log(Depture);
-  dateFrom= new Date(Date.parse(Arrival));  
-  dateTo=new Date(Date.parse(Depture));  
+  dateFrom= new Date(Date.parse(Arrival));
+  dateTo=new Date(Date.parse(Depture));
 
-  
+
   console.log(dateFr);
   console.log(dateToo);
-  
+
     try{
       if(dateFrom!=undefined && dateTo!=undefined){
         dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd");
@@ -148,7 +155,7 @@ let dateToo="default";
     }
     }
     catch(Exception){
-  
+
       if(dateFr=="default"||dateToo=="default"){
         alert('please set a valid date');
       }
@@ -158,15 +165,15 @@ let dateToo="default";
         console.log(dateToo);
         this.datastorage.bookNow(dateFr,dateToo,this.roomSer.getRooms()[this.id].id);
       }
-      
+
     }
     if(this.check2){
-      
+
       this.datastorage.viewCost(this.roomSer.getRooms()[this.id].id,dateFr,dateToo);
       this.check2=false;
     }
-  
-  
+
+
   console.log(dateFr);
   console.log(dateToo);
   // let options = {
@@ -186,7 +193,7 @@ let dateToo="default";
   //   console.log(err);
   //     this.error=err.error['facility']
   //     console.log(this.error);
-    
+
   // });
 }
 
@@ -202,13 +209,14 @@ switchReport(){
     this.switchreport=!this.switchreport;
 }
 onSubmitReport(){
-  
+
   let Arrival:string =this.FormRep.value['report'];
+  console.log(this.roomSer.getRooms()[this.id].id);
   this.datastorage.sendReport(this.roomSer.getRooms()[this.id].id,Arrival);
   console.log(Arrival);
 }
 onSubmitMesseage(){
-  
+
   let Arrival=this.FormMes.value['messeage'];
   console.log(Arrival);
   this.ChatProcess.SendMessage(this.roomSer.getRooms()[this.id].id_user, Arrival)
@@ -239,7 +247,7 @@ viewCost(){
     'messeage':new FormControl(mes)});
     this.FormRep=new FormGroup({
       'report':new FormControl(report)});
-  
+
     this.show=false;
     this.comments=[];
     // const channel = this.pusher.init('roomservice');
@@ -260,28 +268,30 @@ this.AuthService.Account.subscribe(Value => {
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];
-      
+     let staticPath='http://192.168.43.55:8000/';
+
       console.log("idididi: "+this.id);
-      console.log(this.roomSer.getRooms()[this.id].id);
+      console.log(this.roomSer.getRooms()[this.id]);
       this.search.tag=true;
       this.room=this.roomSer.getRoomId(this.id);
       //this.favourite=this.roomSer.getFavouriteId(this.id);
       for(let i=0;i<this.roomSer.getRooms()[this.id].photos.length;i++){
-        this.Image_Array.push(this.roomSer.getRooms()[this.id].photos[i].url);
-        console.log(this.roomSer.getRooms()[this.id].photos[i].url);
+        this.Image_Array.push(staticPath+this.roomSer.getRooms()[this.id].photos[i].path_photo);
+        console.log(this.roomSer.getRooms()[this.id].photos[i].path_photo);
       }
-      this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
+     /* this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
       this.Image_Array.push("https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/getty-7.jpg");
       this.Image_Array.push("https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg");
       this.Image_Array.push("https://cdn.businesstraveller.com/wp-content/uploads/fly-images/1024133/TT-Four-Season-916x516.jpg");
+    */
     }
     );
     this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
     await new Promise(resolve => setTimeout(resolve, 7000));
       this.comments=this.roomSer.getReviews();
       await new Promise(resolve => setTimeout(resolve, 7000));
-     
-     
+
+
   }
   show=false;
   showComment(){
@@ -294,7 +304,7 @@ this.AuthService.Account.subscribe(Value => {
 
 getDateOut(){
   //console.log(this.currentDate)
-  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
+  var nextDays = new Date(new Date().setDate(new Date().getDate() + 1));
    return  nextDays;//this.currentDate.setDate( this.currentDate.getDate() + 1 );
  }
 // ngAfterViewInit(): void {
@@ -381,7 +391,7 @@ rateFromUser=0;
     await new Promise(resolve => setTimeout(resolve, 7000));
     this.datastorage.setComment(this.roomSer.getRooms()[this.id].id,comm);
     await new Promise(resolve => setTimeout(resolve, 7000));
-    
+
     this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
     await new Promise(resolve => setTimeout(resolve, 7000));
       this.comments=this.roomSer.getReviews();
@@ -401,10 +411,10 @@ rateFromUser=0;
     if(idrev==null){
       alert('you are not commented');return;
     }
-   
+
 
     this.datastorage.deleteComment(idrev,this.roomSer.getRooms()[this.id].id);
-    
+
     await new Promise(resolve => setTimeout(resolve, 7000));
     this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
     await new Promise(resolve => setTimeout(resolve, 7000));
@@ -412,11 +422,11 @@ rateFromUser=0;
 
 
   }
-  
+
 
   this.deleteCheck=false;
   this.check=true;
-  
+
   //ngform.onReset();
 }
 deleteCheck=false;

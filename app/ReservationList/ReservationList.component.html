@@ -1,7 +1,7 @@
 <div class="Fix">
   <p>&nbsp</p>
   <ul>
-    <li class="booking-card" [style]="'background-image: url(' + Item.ImagePath + ')'" *ngFor="let Item of this.ReservationItem">
+    <li class="booking-card" *ngFor="let Item of this.ReservationItem" [style]="'background-image: url(' + Item.ImagePath + ')'">
       <div class="informations-container">
         <h2 class="title">{{Item.RoomName}}</h2>
         <p class="sub-title">Booked for {{Item.ReservationsDay()}} days</p>
