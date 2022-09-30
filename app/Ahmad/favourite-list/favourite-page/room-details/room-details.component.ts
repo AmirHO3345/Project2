@@ -67,10 +67,9 @@ constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,
     this.Image_Number = 0;
     this.Mission_Move = <number><unknown>setInterval(()=>this.AutoMove() , 3000);
 }
-staticPath='http://192.168.43.55:8000/';
+staticPath='http://127.0.0.1:8000/';
 
   ngOnInit() {
-
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];

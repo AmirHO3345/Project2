@@ -140,19 +140,19 @@
     
     
         <div class="form-group" >
-            <input type="checkbox" formControlName="wifi"  (click)="checkingWIFI()"> &nbsp; &nbsp; &nbsp;<label for="wifi">WI-FI</label>
+            <input type="checkbox"   (click)="checkingWIFI()"> &nbsp; &nbsp; &nbsp;<label for="wifi">WI-FI</label>
         </div>
         <div class="form-group">
-            <input type="checkbox" formControlName="tv"  (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
+            <input type="checkbox"   (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
         </div>
         <div class="form-group">
-            <input type="checkbox" formControlName="fridge"  (click)="checkingFridge()"> &nbsp; &nbsp; &nbsp;<label for="fridge">Fridge</label>
+            <input type="checkbox"  (click)="checkingFridge()"> &nbsp; &nbsp; &nbsp;<label for="fridge">Fridge</label>
         </div>
         <div class="form-group">
-            <input type="checkbox" formControlName="air_condition"  (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
+            <input type="checkbox"   (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
         </div>
         <div class="form-group">
-            <input type="checkbox" formControlName="coffee_machine"  (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
+            <input type="checkbox"   (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
         </div>
     
       </form>
@@ -273,7 +273,7 @@
                    <!-- /////////////////////////////////////////////////////////////////////////comments -->
                    <div class="review_strip_single" 
                    *ngFor="let comm of comments; let i=index" >
-                       <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800" 
+                       <img src={{staticPath+comments[i].user.path_photo}}
                        alt="" class="img-circle" style="width: 18%; height: 32%;">
                        <small> - {{comments[i].created_at| date:'yyyy-MM-dd'}} -</small>
                        <h4>{{comments[i].user.name}}</h4>
@@ -307,13 +307,14 @@
                             	<div class="form-group">
                                 	<label>Arrival date</label>
 
-
+ <!-- min="{{currentDate | date:'yyyy-MM-dd'}}" -->
                                     <input matInput [matDatepicker]="picker_Arrival"
+                                    [matDatepickerFilter]="myHolidayFilter"
                      class="form-control" style="border-radius: 12px"
                            placeholder="Arrival" ngModel formControlName="arrival"
-                           min="{{currentDate | date:'yyyy-MM-dd'}}"
+                          
                             required readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
+                    <mat-datepicker-toggle (click)="LoadbokkListMore()" matSuffix [for]="picker_Arrival" 
                     style="position: absolute;bottom: 0px;
                     right: 0%;top:0%;margin-top: 16%;">
                     </mat-datepicker-toggle>
@@ -323,14 +324,15 @@
                             <div class="col-md-6 col-sm-6">
                             	<div class="form-group">
                                 	<label>Departure date</label>
-                                    
+                                     <!-- min="{{getDateOut() | date:'yyyy-MM-dd'}}" -->
                                     <input matInput [matDatepicker]="picker_Departure" class="form-control"
                                      style="border-radius: 12px"
+                                     [matDatepickerFilter]="myHolidayFilter"
                                     placeholder="Departure" ngModel formControlName="departure"
-                                    min="{{getDateOut() | date:'yyyy-MM-dd'}}"
+                                   
                                     (ngModelChange)="this.ChangeArrival($event)"
                                      readonly required>
-                             <mat-datepicker-toggle matSuffix [for]="picker_Departure"
+                             <mat-datepicker-toggle (click)="LoadbokkListMore()" matSuffix [for]="picker_Departure"
                              style="position: absolute;bottom: 0px;
                              right: 0%;top:0%;margin-top: 16%;">
                              </mat-datepicker-toggle>

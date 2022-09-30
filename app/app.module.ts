@@ -75,8 +75,8 @@ import { LoadingSpinnerComponent } from './Ahmad/user-profile/loading-spinner.co
 import { RoomDetailsComponentAmir } from './Ahmad/room-list/room-item/room-details copy/room-detailsamir.component';
 import { UserDetailsComponent } from './Ahmad/user-profile/userdetails/userdatails.component';
 import { PusherService } from './Ahmad/pusher.service';
-
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatSelect, matSelectAnimations, MatSelectChange, MatSelectModule} from "@angular/material/select";
 
 //import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
@@ -128,9 +128,11 @@ import { PusherService } from './Ahmad/pusher.service';
     Route404Component ,
     ChartComponent ,
     LoadingSpinnerComponent,
-    RoomDetailsComponentAmir
+    RoomDetailsComponentAmir,
+ // NgxMatSelectModule
+    
   ],
-  imports: [RouteApplicationModule , AppRoutingModule,
+  imports: [RouteApplicationModule , AppRoutingModule,MatSelectModule,MatCheckboxModule,
     ReactiveFormsModule,
     BrowserModule,
     FormsModule,

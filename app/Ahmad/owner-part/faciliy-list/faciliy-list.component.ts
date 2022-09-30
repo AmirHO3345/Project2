@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AfterViewChecked, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -42,7 +43,7 @@ export class FaciliyListComponent implements OnInit,OnDestroy {
 
 
   lessonForm!:FormGroup;
-  constructor(private datastorage:DataStoragrService,private fb:FormBuilder,private roomService:RoomServiceComponent,private listown:ListOwnerComponent,private router:Router,private route:ActivatedRoute){}
+  constructor(private http:HttpClient,private datastorage:DataStoragrService,private fb:FormBuilder,private roomService:RoomServiceComponent,private listown:ListOwnerComponent,private router:Router,private route:ActivatedRoute){}
  // checkk=this.lisyfav.check;
 
 get lesson(){
@@ -57,32 +58,50 @@ get lesson(){
  }
 
  private fbb!: FormBuilder;
-
+ images : string[] = [];
  private initForm(){
    let facilityName='';
    let desc='';
    let loc='';
-   let type='Chalet';
+   let type='chalet';
    let roomNum=1;
    let adultNum=1;
    let price=1;
    let imagesPath=new FormArray([]);
    this.facilityForm=new FormGroup({
      'name':new FormControl(facilityName,Validators.required),
+     'photo_list': new FormControl([], [Validators.required]),
      'description':new FormControl(desc,Validators.required),
       'location':new FormControl(loc,Validators.required),
       'type':new FormControl(type,Validators.required),
-      'rooms':new FormControl(roomNum,Validators.required),
-      'adults':new FormControl(adultNum,Validators.required),
-      'cost':new FormControl(price,Validators.required),
-      'imagepath':imagesPath
+      'num_room':new FormControl(roomNum,Validators.required),
+      'num_guest':new FormControl(adultNum,Validators.required),
+      'cost':new FormControl(price,Validators.required)
+      
    })
  }
  
  get registerFormControl() {
   return this.facilityForm.controls;
 }
-
+onFileChange(event:any) {
+  if (event.target.files && event.target.files[0]) {
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+              var reader = new FileReader();
+  
+              reader.onload = (event:any) => {
+                console.log(event.target.result);
+                 this.images.push(event.target.result);
+                 this.facilityForm.patchValue({
+                  photo_list: this.images
+                 });
+              }
+ 
+              reader.readAsDataURL(event.target.files[i]);
+      }
+  }
+}
 
 
   EditMode=this.roomService.getEditItem();
@@ -179,7 +198,7 @@ loc!:string;
 //     let facilityimagePath='';
 //     let facilitydescription='';
 //     let facilityLocation='';
-//     let facilitytype='';
+//     let facilitytype=''; 
 //     let facilityRoomNumber=0;
 //     let facilityAdultNumber=0;
 //     let facilityPrice=0;
@@ -290,7 +309,17 @@ onChange(event: any) {
 
 submitted = false;
 
-   onSubmit()
+
+ Images: any;
+ multipleImages=[];
+ selectMultipleImages(event:any){
+    if(event.target.files.length>0){
+      console.log(event);
+      this.multipleImages=event.target.files;
+      //this.Images=file;
+    }
+ }
+   async onSubmit()
 {
   this.submitted = true;
   this.loading = !this.loading;
@@ -298,47 +327,129 @@ submitted = false;
   if (this.facilityForm.valid) {
     alert('Form Submitted succesfully!!!\n Check the values in browser console.');
     console.table(this.facilityForm.value);
-    let wifi=0;
-    let coffe=0;
-    let tv=0;
-    let fridge=0;
-    let air_conditioning=0;
-    if(this.checkWIFI)wifi=1;
-    if(this.checkCoffee)coffe=1;
-    if(this.checkAir_cond)air_conditioning=1;
-    if(this.checkTV)tv=1;
-    if(this.checkFridge)fridge=1;
+    let wifi="0";
+    let coffe="0";
+    let tv="0";
+    let fridge="0";
+    let air_conditioning="0";
+    if(this.checkWIFI)wifi="1";
+    if(this.checkCoffee)coffe="1";
+    if(this.checkAir_cond)air_conditioning="1";
+    if(this.checkTV)tv="1";
+    if(this.checkFridge)fridge="1";
+    
     // console.log(this.selectedFile);
     // const fd = new FormData();
     // fd.append('image',this.selectedFile,this.selectedFile.name);
     //console.log(fd);
+
+    let fd = new FormData();
+    let fileData:FormData[]=[];
+    // for(let i=0;i<this.selectedFiles.length;i++){
+    //  fd.append('photo_list[]',this.selectedFiles[i],this.selectedFiles[i].name);
+    //  console.log(fd);
+    //  fileData.push(fd);
+    // }
+    for (let i = 0; i <this.selectedFiles.length; i++) {
+     fd.append('photo_list['+i+']',this.selectedFiles[i],this.selectedFiles[i].name);
+     fileData.push(fd);
+    }
+    
+    //fd.append('photo_list[]',this.selectedFiles[0],this.selectedFiles[0].name);
+    //console.log(fd);
+    //console.log(fileData[2]);
             const newfacility=new FacilityDetailsOwner(air_conditioning,
               this.facilityForm.value['name'],
               this.facilityForm.value['location'],
               this.facilityForm.value['description'],
-              this.facilityForm.value['imagepath'],
-              this.facilityForm.value['cost'],
+              
+              123,
               this.facilityForm.value['type'],
-              this.facilityForm.value['adults'],
-              this.facilityForm.value['rooms'],wifi,coffe,fridge,tv);
+              this.facilityForm.value['num_guest'],
+              this.facilityForm.value['num_room'],wifi,coffe,fridge,tv);
             this.check=!this.check;
             console.log(newfacility);
-            this.roomService.onAddFacilityOwner(newfacility);
-            this.datastorage.getOwnerFacility();
-            console.log('length: '+this.roomService.getFacilityOwnerAdd().length);
-
-            this.datastorage.storeFacilityOwner(newfacility.air_condition
-              ,newfacility.name,newfacility.location,newfacility.description,this.url,
-              newfacility.cost,newfacility.type,newfacility.num_guest,newfacility.num_room,
-              newfacility.wifi,newfacility.coffee_machine,newfacility.fridge,newfacility.tv);
-            console.log("kljljl");
+            this.datastorage.storeFacilityOwner(air_conditioning,this.facilityForm.value['name'],
+            this.facilityForm.value['location'],
+            this.facilityForm.value['description'],fd,
+            this.facilityForm.value['cost'],
+              this.facilityForm.value['type'],
+              this.facilityForm.value['num_guest'],
+              this.facilityForm.value['num_room'],wifi,coffe,fridge,tv);
+              await new Promise(resolve => setTimeout(resolve, 2000));
+              this.roomService.getFacilityOwner();
+      /*    
+       console.log(this.facilityForm.value);
+       let queryParams = new HttpParams();
+       queryParams = queryParams.append("air_condition","1");
+       queryParams = queryParams.append("name","loc");
+       queryParams = queryParams.append("location","loc");
+       queryParams = queryParams.append("description","loc");
+       queryParams = queryParams.append("cost",123);
+       queryParams = queryParams.append("type","chalet");
+       queryParams = queryParams.append("num_guest",3);
+       queryParams = queryParams.append("num_room",5);
+       queryParams = queryParams.append("wifi","1");
+       queryParams = queryParams.append("fridge","1");
+       queryParams = queryParams.append("tv","1");
+       queryParams = queryParams.append("coffee_machine","0");
+       
+          this.http
+         .post(`${DataStoragrService.API_Location}api/facility/store`,
+          fd,
+          {
+            headers:new HttpHeaders({"Authorization":"Bearer 499|9fQ98W2oC1N0UTvvlcBISeudLPVSeJSn2woCqBUJ"})
+           ,params:queryParams
+          }
+         )
+         .subscribe((res) => console.log(res));*/
+     //    let q=this.facilityForm.value;
+       //console.log(this.facilityForm.value);
+         
            this.initForm();
            this.submitted=false;
   } 
 
  }
   
+
+  selectedFile!:File;
+ onfileSelected(event: any){
+   this.selectedFile=<File>event.target.files[0];
+ }
+
  
+ selectedFiles:File[]=[];
+ onfilesSelected(event: any){
+   for(let i=0;i<event.target.files.length;i++){
+    this.selectedFiles.push(<File>event.target.files[i]);
+   }
 
 
+
+
+   //this.selectedFile=<File>event.target.files[0];
+ }
+
+ 
+  qwerNew(){
+    let options = {
+      headers:new HttpHeaders({"Authorization":"Bearer 499|9fQ98W2oC1N0UTvvlcBISeudLPVSeJSn2woCqBUJ"})
+   };
+    //console.log(this.urll);
+    //console.log(this.myForm.value);
+   const fd = new FormData();
+   fd.append('path_photo',this.selectedFile,this.selectedFile.name);
+   console.log(fd);
+    return this.http
+        .post(`${DataStoragrService.API_Location}api/profile/update`,
+        fd,
+         options
+        )
+        .subscribe((res) => {
+          console.log(res);
+          alert('your information submitted successfully');
+        //  alert(res.message);
+        });
+  }
 }

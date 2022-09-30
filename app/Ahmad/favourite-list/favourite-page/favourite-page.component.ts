@@ -24,7 +24,6 @@ export class FavouritePageComponent implements OnInit {
   @Input() index!:number;
   @Output() favouriteSelected =new EventEmitter<void>();
   constructor(private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router,private route:ActivatedRoute) { }
-  staticPath='http://192.168.43.55:8000/';
 
   favouriteNum=this.roomSer.getLenghtfavouriteFacilities();
   favouritesFacilities:FacilityDetails[]=this.roomSer.getfavouriteFacilities();
@@ -37,7 +36,12 @@ export class FavouritePageComponent implements OnInit {
     //this.router.navigate(['/favorite']);
   //  this.router.navigate(['/favourite']);
   }
-
+  staticPath=`${DataStoragrService.API_Location}`;
+  giveMeIdFac(){
+    console.log(this.roomSer.getfavouriteFacilities()[this.index].id);
+    let id=this.roomSer.getfavouriteFacilities()[this.index].id;
+    this.router.navigate(['/roomdetails' , id]);
+  }
 
   ngOnInit(): void {
   }

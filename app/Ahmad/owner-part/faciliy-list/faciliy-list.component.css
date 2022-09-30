@@ -1,0 +1,113 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  td {
+    padding-right: 8px;
+  }
+
+  :host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
+
+
+
+
+
+a.btn_2, .btn_2{
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color:#fff;
+	background: rgb(179, 174, 174);
+	cursor: pointer;
+	padding: 7px 15px;
+	display: inline-block;
+	outline: none;
+	font-size:13px;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-weight:500;
+}
+a.btn_2:hover, .btn_2:hover{
+	background: #333;
+}
+
+a.btn_2_outline, .btn_2_outline{
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color:rgb(179, 174, 174);
+	border:2px solid rgb(179, 174, 174);
+	cursor: pointer;
+	padding: 7px 15px;
+	display: inline-block;
+	outline: none;
+	font-size:13px;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-weight:500;
+}
+a.btn_2_outline:hover, .btn_2_outline:hover{
+background: #333;
+border:2px solid #333;
+color:#fff;
+}
+
+a.btn_2.white, .btn_2.white  {background: rgb(179, 174, 174); color:#fff;}
+a.btn_2.white:hover, .btn_2.white a:hover, .btn_2.white:hover  {background: #fff; color:rgb(179, 174, 174) !important;}
+
+
+#container_7 .btn_2{
+	font-size:16px;
+}
+#container_7 .btn_2:hover{
+	color:rgb(179, 174, 174);
+	background-color:#fff;
+}

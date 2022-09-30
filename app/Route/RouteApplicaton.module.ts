@@ -52,7 +52,7 @@ const RouteApplication : Routes = [
       { path:':id',component:RoomDetailsComponent }
     ]},{ path:'favorite',component:ListfavsComponent,children:[
       { path:'',component:RoomStartComponent },
-      { path:':id',component:RoomDetailsComponent2 }]
+      { path:':id',component:RoomDetailsComponent }]
     , data : { User : true , Owner : false , Admin : false} , canActivate : [AuthenticationGuard]},
   { path:'facilitylist',component:ListOwnerComponent,children:[
       { path:'',component:RoomStartComponent },
@@ -67,7 +67,7 @@ const RouteApplication : Routes = [
   {
     path:'roomdetails',component:SearchComponent
   }, {
-    path:'roomdetails/:id',component:RoomDetailsComponentAmir
+    path:'roomdetails/:id',component:RoomDetailsComponent
   },
 
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FacilityDetailsowner } from 'src/app/Ahmad/DataStorageService';
+import { DataStoragrService, FacilityDetailsowner } from 'src/app/Ahmad/DataStorageService';
 import { Room } from 'src/app/Ahmad/room.model';
 import { RoomServiceComponent } from 'src/app/Ahmad/roomservice.component';
 import { FacilityDetailsOwner } from 'src/app/Ahmad/user-profile/FacilityOwner.model';
@@ -28,9 +28,10 @@ export class FaciliyItemComponent implements OnInit {
 
   @Input() index!:number;
   @Output() facilityOwnerSelected =new EventEmitter<void>();
-  constructor(private roomSer:RoomServiceComponent,private router:Router,
+  constructor(private roomSer:RoomServiceComponent,private router:Router,private datastorage:DataStoragrService,
     private faclist:FaciliyListComponent,private route:ActivatedRoute) { }
-    staticPath='http://192.168.43.55:8000/';
+    staticPath=`${DataStoragrService.API_Location}`;
+
   facilityOwnerNum=this.roomSer.getLenghtFacilityOwner();
   facilityOwners:FacilityDetailsowner[]=this.roomSer.getFacilityOwner();
   facilityOwnersAdd:FacilityDetailsOwner[]=this.roomSer.getFacilityOwnerAdd();
@@ -55,9 +56,14 @@ export class FaciliyItemComponent implements OnInit {
 
   }
 
+  giveMeIdFac(){
+    console.log(this.roomSer.getFacilityOwner()[this.index].id);
+    let id=this.roomSer.getFacilityOwner()[this.index].id;
+    this.router.navigate(['/facilitylist' , id]);
+  }
 
   ngOnInit(): void {
-   
+   console.log(this.staticPath+this.facilityOwner.photos[0].path_photo);
   }
   @HostListener("window:scroll", []) onWindowScroll() {
     this.scrollFunction();

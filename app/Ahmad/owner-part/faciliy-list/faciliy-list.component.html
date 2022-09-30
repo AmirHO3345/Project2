@@ -1,7 +1,7 @@
 <section class="parallax-window" id="short" data-parallax="scroll">
     <img src="http://www.ansonika.com/albert/img/sub_header_short.jpg" width="100%">
     <div id="subheader">
-        <h1>Your favourite Facilities</h1>
+        <h1>Your Facilities you can delete,add and edit</h1>
 </div><!-- End subheader -->
 </section><!-- End section -->
 
@@ -102,10 +102,101 @@
     </div>
 
   </form> -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    
 
   <span class="text-danger" *ngIf="(submitted)">some Field is Empty</span>
 
-  <form class="myForm" (ngSubmit)="onSubmit()" [formGroup]="facilityForm">
+  <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="facilityForm">
+    <!-- <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Company (disabled)</mat-label>
+      <input matInput disabled value="Google">
+    </mat-form-field> -->
+  
+    <table class="example-full-width" cellspacing="0" style="width: 132%;"><tr>
+      <td><mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Facility name</mat-label>
+        <input matInput  formControlName="name" >
+      </mat-form-field></td>
+      <td>
+          <!-- <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Long Last Name </mat-label>
+        <input matInput>
+      </mat-form-field> -->
+       
+       <mat-form-field appearance="fill" class="example-full-width" >
+        <mat-label>type of facility</mat-label>
+        <select matNativeControl  formControlName="type" >
+          <option value="hostel">hostel</option>
+          <option value="farmer">farmer</option>
+          <option value="chalet">chalet</option>
+        </select>
+      </mat-form-field>
+
+    </td>
+   
+   
+    </tr>
+
+</table>
+  
+    <p style="width: 131%;">
+      <!-- <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Address</mat-label>
+        <textarea matInput placeholder="Ex. 100 Main St">1600 Amphitheatre Pkwy</textarea>
+      </mat-form-field> -->
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Location</mat-label>
+        <textarea matInput  formControlName="location" ></textarea>
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Descripe your facility</mat-label>
+        <textarea matInput  formControlName="description" ></textarea>
+      </mat-form-field>
+    </p>
+  
+    <div class="example-container">
+      <table><tr><td>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Adult Num</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="1"  formControlName="num_guest" >
+        <!-- <span matPrefix>$&nbsp;</span> -->
+        <!-- <span matSuffix>.00</span> -->
+      </mat-form-field></td><td><mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>Room Num</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="1" formControlName="num_room" >
+        <!-- <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span> -->
+      </mat-form-field></td><td>
+      <mat-form-field appearance="fill" floatLabel="always">
+        <mat-label>cost per day</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="1" formControlName="cost" >
+        <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span>
+      </mat-form-field></td>
+    </tr></table>
+    <label  class="btn_2" style="margin-bottom: 1%;width: 130%;">
+      <i class="fa fa-image" >&nbsp;&nbsp;</i> Add photos<input type="file" multiple 
+       formControlName="photo_list" (change)="onfilesSelected($event)"
+      style="display: none;" name="image">
+      </label>
+    </div>
+    <section class="example-section" style="margin-left: 13%;">
+      <mat-checkbox class="example-margin" (click)="checkingWIFI()">WI-FI</mat-checkbox>
+      <mat-checkbox class="example-margin" (click)="checkingTV()">TV</mat-checkbox>&nbsp;
+      <mat-checkbox class="example-margin" (click)="checkingAir_cond()">Air_Condition</mat-checkbox>&nbsp;
+      <mat-checkbox class="example-margin" (click)="checkingFridge()">Fridge</mat-checkbox>&nbsp;
+      <mat-checkbox class="example-margin" (click)="checkingCoffee()">Coffee Machine</mat-checkbox>
+
+    </section>
+   
+    
+    <button type="submit" class="btn btn-success" >Save</button>&nbsp;
+    <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
+  </form>
+
+  <!-- <form class="myForm" (ngSubmit)="onSubmit()" [formGroup]="facilityForm">
     <div class="form-group" style="width: 83%;display:inline-block;">
                <button type="submit" class="btn btn-success" >Save</button>&nbsp;
                 <button type="button" class="btn btn-danger" (click)="checkSwitch()">Cancel</button>
@@ -118,27 +209,43 @@
   <br>
 
   <br>
-    <div class="form-group" style="width: 83%;display:inline-block;">
-        <label for="imagepath">Image URL</label> 
-        <div class="col-xs-12" formArrayName="imagepath">
+    <div class="form-group" style="width: 83%;display:inline-block;"> -->
+        <!-- <label for="imagepath">Image URL</label>  -->
+        <!-- <div class="col-xs-12" formArrayName="imagepath">
         <div *ngFor="let rec of controls let i =index"
-         [formGroupName]="i">
-        <input type="text" class="form-control"   formControlName="url"
-          placeholder="Image URL">
-          <img [src]="url" style="display: none;">
-          <button class="btn btn-danger"style="width: 40px;margin-top:20px;" 
-                     (click)="onDeleteIngredient(i)">X</button>
-        </div>
-    </div>
-        <button type="button" class="btn_1" (click)="onAddImage()">Add More</button>
-    </div>
+         [formGroupName]="i"> -->
+        <!-- <input type="file" class="form-control"  multiple
+        (change)="selectMultipleImages($event)"  
+          placeholder="Image URL"> -->
 
-   
-   
-     
+          <!-- <input
+            formControlName="photo_list"
+            id="file"
+            type="file"
+            class="form-control"
+            multiple=""
+            (change)="onfilesSelected($event)"> -->
+            <!-- <img *ngFor='let url of images'  [src]="url" height="150" width="200px" style="margin: 3px;"> -->
+            <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"/>
+            <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            
+            <label  class="btn_1" style="margin-left: 17%; margin-bottom: 9%;width: 61%;">
+            <i class="fa fa-image">&nbsp;&nbsp;</i> Add photos<input type="file" 
+            (change)="onfilesSelected($event)"
+            style="display: none;" name="image">
+            </label> -->
+
+          <!-- <img [src]="url" style="display: none;"> -->
+          <!-- <button class="btn btn-danger"style="width: 40px;margin-top:20px;" 
+                     (click)="onDeleteIngredient(i)">X</button> -->
+        <!-- </div>
+    </div> -->
+        <!-- <button type="button" class="btn_1" (click)="onAddImage()">Add More</button> -->
+    <!-- </div>
     <div class="form-group">
       <label for="description" >Description</label>
-      <textarea class="form-control" id="description" placeholder="decribe your facility"  formControlName="description" 
+      <textarea class="form-control" id="description" placeholder="decribe your facility"
+        formControlName="description" 
        rows="3" style="width: 83%;"></textarea>
     </div>
     <div class="form-group" style="width: 40%;display:inline-block;">
@@ -148,22 +255,22 @@
     </div> &nbsp;&nbsp; &nbsp; &nbsp;
     <div class="form-group" style="width: 40%;display:inline-block;">
         <label for="type">Type</label><br>
-        <select id="type" style="width: 100%;" ngModel="Chalet" formControlName="type"> 
-            <option>Chalet</option>
-            <option>Farmer</option>
-            <option>Hostel</option>
+        <select id="type" style="width: 100%;" ngModel="chalet" formControlName="type"> 
+            <option>chalet</option>
+            <option>farmer</option>
+            <option>hostel</option>
           </select>
     </div>
     
     <div class="form-group" style="width: 40%;display:inline-block;">
         <label for="rooms" >Room Number</label>
-        <input type="number" id="rooms" ngModel="1" formControlName="rooms" 
+        <input type="number" id="rooms" ngModel="1" formControlName="num_room" 
         placeholder="The number of rooms in your facility"
          class="form-control">
     </div> &nbsp;&nbsp; &nbsp; &nbsp;
     <div class="form-group" style="width: 40%;display:inline-block;">
         <label for="adults" >Adult Number</label>
-        <input type="number" id="adults" ngModel="1" formControlName="adults"
+        <input type="number" id="adults" ngModel="1" formControlName="num_guest"
          placeholder="The number of adults in your facility"
          class="form-control">
     </div>
@@ -183,19 +290,19 @@
         <input type="checkbox"   (click)="checkingWIFI()"> &nbsp; &nbsp; &nbsp;<label for="wifi">WI-FI</label>
     </div>
     <div class="form-group">
-        <input type="checkbox"   (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
+        <input type="checkbox" (click)="checkingTV()"> &nbsp; &nbsp; &nbsp; <label for="TV">TV</label>
     </div>
     <div class="form-group">
         <input type="checkbox"   (click)="checkingFridge()"> &nbsp; &nbsp; &nbsp;<label for="fridge">Fridge</label>
     </div>
     <div class="form-group">
-        <input type="checkbox"   (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
+        <input type="checkbox"  (click)="checkingAir_cond()"> &nbsp; &nbsp; &nbsp; <label for="air_condition">Air_Condition</label>
     </div>
     <div class="form-group">
         <input type="checkbox"  (click)="checkingCoffee()"> &nbsp; &nbsp; &nbsp; <label for="coffee_machine">Coffee Machine</label>
     </div>
 
-  </form>
+  </form> -->
 
 
 
@@ -217,6 +324,32 @@
 (onfacilityOwnersSelectedAdd)="onfacilityOwnersSelectedAdd(facEl)"
 ></app-faciliy-itemAdd> -->
 
+<!-- <form [formGroup]="myForm" (ngSubmit)="qwerNew()">
+          
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input
+            formControlName="name"
+            id="name"
+            type="text"
+            class="form-control">
+    </div>
+    
+    <div class="form-group">
+        <label for="file">File</label>
+        <input
+            formControlName="file"
+            id="file"
+            type="file"
+            class="form-control"
+            multiple=""
+            (change)="onFileChangeNew($event)">
+    </div>
+    
+    <img *ngFor='let i of images'  [src]="i" height="150" width="200px" style="margin: 3px;"> <br/>
+        
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form> -->
 
 <!-- 
 <app-faciliy-item
@@ -225,3 +358,4 @@
 [index]="i"
 (onfacilityOwnersSelectedAdd)="onfacilityOwnersSelectedAdd(facEl)"
 ></app-faciliy-item> -->
+

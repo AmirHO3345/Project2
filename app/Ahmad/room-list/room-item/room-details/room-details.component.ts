@@ -2,7 +2,8 @@ import { DatePipe } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { DateFilterFn } from '@angular/material/datepicker';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DataStoragrService, FacilityDetails, reviews } from 'src/app/Ahmad/DataStorageService';
 import { PusherService } from 'src/app/Ahmad/pusher.service';
 import { Room } from 'src/app/Ahmad/room.model';
@@ -41,19 +42,21 @@ export class RoomDetailsComponent implements OnInit/* ,OnChanges,AfterViewInit,A
 
  currentRate=0;
 
+ booked:any;
 
  @ViewChildren('Option' , {read : ElementRef}) Element_Images !: QueryList<ElementRef> ;
  Image_Array : string[] ;
  Image_Number : number ;
  Mission_Move !: number | null ;
  AccountUser : UserModel | null
-
+ roomDet!:FacilityDetails;
 qwer!:string[];
 showMesseage=false;
 currentDate=new Date();
-constructor(private Render : Renderer2,private roomSer:RoomServiceComponent
+currDate=<string>this.ProcessDate.transform(this.currentDate , "yyyy-MM-dd");
+constructor(private Render : Renderer2,private roomSer:RoomServiceComponent,private router:Router
   ,private ProcessDate:DatePipe, public ChatProcess : MessageService ,
-  private route:ActivatedRoute,private search:SearchComponent,private datastorage:DataStoragrService ,
+  private route:ActivatedRoute/*,private search:SearchComponent*/,private datastorage:DataStoragrService ,
   private AuthService : AuthenticationService) {
     this.check2=false;
     //for(let i=0;i<this.roomSer.getImages(1).length;i++)
@@ -117,6 +120,7 @@ private initForm(){
 }
 error!:string;
 onSubmitBook(){
+  
   if(this.AccountUser==null){
     alert('please login to continue');
   }
@@ -150,7 +154,7 @@ let dateToo="default";
         dateFr = <string>this.ProcessDate.transform(dateFrom , "yyyy-MM-dd");
         dateToo = <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd");
         if(!this.check2){
-          this.datastorage.bookNow(dateFr,dateToo,this.roomSer.getRooms()[this.id].id);
+          this.datastorage.bookNow(dateFr,dateToo,this.user.id);
       }
     }
     }
@@ -160,17 +164,22 @@ let dateToo="default";
         alert('please set a valid date');
       }
       else if(!this.check2){
-        console.log(this.id);
+        console.log(this.user.id);
         console.log(dateFr);
         console.log(dateToo);
-        this.datastorage.bookNow(dateFr,dateToo,this.roomSer.getRooms()[this.id].id);
+        this.datastorage.bookNow(dateFr,dateToo,this.user.id);
+        console.log("loadding");
+        this.LoadbokkListMore();
       }
 
     }
     if(this.check2){
 
-      this.datastorage.viewCost(this.roomSer.getRooms()[this.id].id,dateFr,dateToo);
-      this.check2=false;
+     
+      this.datastorage.viewCost(this.user.id,dateFr,dateToo);
+     
+      this.check2=false; 
+
     }
 
 
@@ -204,6 +213,53 @@ let dateToo="default";
 //   // this.datastorage.cancelBook(this.roomSer.getbooking().booking.id
 //   // ,this.roomSer.getbooking().booking.id_facility);
 // }
+
+
+
+myHolidayDates:Date[] = [
+  // new Date("12/1/2022"),
+  // new Date("12/20/2022"),
+  // new Date("12/17/2022"),
+  // new Date("12/25/2022"),
+  // new Date("12/4/2022"),
+  // new Date("12/7/2022"),
+  // new Date("12/12/2022"),
+  // new Date("12/11/2022"),
+  // new Date("12/26/2022"),
+  // new Date("12/25/2022")
+];
+
+
+//////////////////////////////////
+myFilter = (d: Date | null): boolean => {
+  const day = (d || new Date()).getDay();
+  // Prevent Saturday and Sunday from being selected.
+  return day !== 0 && day !== 6;
+};
+//////////////////////////////////
+
+
+
+
+rangeFilter(date: Date): boolean {
+  let currentDate: Date = new Date();
+  let includeDatesWithinNextTwentyDays: boolean =
+   date.valueOf() < (currentDate.valueOf() + 20*60*60*1000*24);
+  return includeDatesWithinNextTwentyDays;
+}
+myHolidayFilter = (d: Date | null): boolean =>
+{
+
+
+ const time=(d || new Date()).getTime();
+
+  
+
+  
+ return !this.myHolidayDates.find(x=>x.getTime()==time);
+
+    }
+// myHolidayFilter 
 switchreport=false;
 switchReport(){
     this.switchreport=!this.switchreport;
@@ -211,25 +267,26 @@ switchReport(){
 onSubmitReport(){
 
   let Arrival:string =this.FormRep.value['report'];
-  console.log(this.roomSer.getRooms()[this.id].id);
-  this.datastorage.sendReport(this.roomSer.getRooms()[this.id].id,Arrival);
+  console.log(this.user.id);
+  this.datastorage.sendReport(this.user.id,Arrival);
   console.log(Arrival);
 }
 onSubmitMesseage(){
 
   let Arrival=this.FormMes.value['messeage'];
   console.log(Arrival);
-  this.ChatProcess.SendMessage(this.roomSer.getRooms()[this.id].id_user, Arrival)
+  this.ChatProcess.SendMessage(this.roomDet.id_user, Arrival)
   .subscribe(Value => {
     console.log(Value) ;
   });
+  this.router.navigate(['/chat' , this.roomDet.id_user]);
 
 }
 switchMesseage(){
   this.showMesseage=!this.showMesseage;
 }
 
-
+user!:{id:number};
 viewCost(){
   this.check2=true;
   //this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
@@ -238,8 +295,9 @@ viewCost(){
   showError(messeage:string){
 
   }
-
   async ngOnInit() {
+    
+console.log(this.myHolidayDates);
     this.initForm();
     let mes='';
   let report='';
@@ -265,32 +323,86 @@ viewCost(){
 this.AuthService.Account.subscribe(Value => {
   this.AccountUser = Value ;
 });
+
+this.user={
+  id:this.route.snapshot.params['id'],
+//  name:this.route.snapshot.params['name']
+};
+this.datastorage.showfacility(this.user.id);
+console.log(this.user.id);
+  let arr:string[]=[];
+  arr.push("default");
+  this.datastorage.showfacility(this.user.id);
+  await new Promise(resolve => setTimeout(resolve, 25000));
+
+  this.roomDet=this.roomSer.getroomDet();
+  console.log(this.roomDet);
+  for(let i=0;i<this.roomDet.photos.length;i++){
+    this.Image_Array.push(this.staticPath+this.roomDet.photos[i].path_photo);
+    console.log(this.staticPath+this.roomDet.photos[i].path_photo);
+  }
     this.route.params.subscribe(
     (params:Params)=>{
-      this.id= +params['id'];
-     let staticPath='http://192.168.43.55:8000/';
+      this.id= +params['id']; }  );
+    // let staticPath='http://127.0.0.1:8000/';
 
-      console.log("idididi: "+this.id);
-      console.log(this.roomSer.getRooms()[this.id]);
-      this.search.tag=true;
-      this.room=this.roomSer.getRoomId(this.id);
-      //this.favourite=this.roomSer.getFavouriteId(this.id);
-      for(let i=0;i<this.roomSer.getRooms()[this.id].photos.length;i++){
-        this.Image_Array.push(staticPath+this.roomSer.getRooms()[this.id].photos[i].path_photo);
-        console.log(this.roomSer.getRooms()[this.id].photos[i].path_photo);
-      }
-     /* this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
-      this.Image_Array.push("https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/getty-7.jpg");
-      this.Image_Array.push("https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg");
-      this.Image_Array.push("https://cdn.businesstraveller.com/wp-content/uploads/fly-images/1024133/TT-Four-Season-916x516.jpg");
-    */
-    }
-    );
-    this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
+      // console.log("idididi: "+this.id);
+      // console.log(this.roomSer.getRooms()[this.id]);
+      // //this.search.tag=true;
+      // this.room=this.roomSer.getRoomId(this.id);
+      // //this.favourite=this.roomSer.getFavouriteId(this.id);
+      
+     /* */
+    //  this.Image_Array.push("https://img1.10bestmedia.com/Images/Photos/137390/downtown-hotels-overview_55_660x440_201404221801.jpg");
+    //   this.Image_Array.push("https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/getty-7.jpg");
+    //   this.Image_Array.push("https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg");
+    //   this.Image_Array.push("https://cdn.businesstraveller.com/wp-content/uploads/fly-images/1024133/TT-Four-Season-916x516.jpg");
+    
+   
+  
+    this.datastorage.getComments(this.user.id);
     await new Promise(resolve => setTimeout(resolve, 7000));
       this.comments=this.roomSer.getReviews();
       await new Promise(resolve => setTimeout(resolve, 7000));
 
+
+      this.datastorage.getBookings(this.user.id);
+       await new Promise(resolve => setTimeout(resolve, 10000));
+    //  this.roomSer.getbookingList();
+      let start='';let endDate='';
+      let book=this.roomSer.getbookingList();
+      for (let i=0;i<book.length;i++){
+        let str=book[i].start_date;
+         start=<string>this.ProcessDate.transform(str , "MM-dd-yyyy");
+        console.log(start);
+       // 
+        let end=book[i].end_date;
+         endDate=<string>this.ProcessDate.transform(end , "MM-dd-yyyy");
+        console.log(endDate);
+       // this.myHolidayDates.push(new Date(endDate));
+        var startD=Date.parse(start);
+        var endD=Date.parse(endDate);
+        startD-=86400000;
+        endD-=86400000;
+        this.myHolidayDates.push(new Date(<string>this.ProcessDate.transform(new Date(startD) ,"MM-dd-yyyy")));
+        while(1){
+          startD+=86400000;
+          var numdate=new Date(startD);
+          var startDD=<string>this.ProcessDate.transform(numdate , "MM-dd-yyyy");
+          if(startDD==endDate)break;
+          this.myHolidayDates.push(new Date(startDD));
+          console.log(startDD);
+          if(startD>=endD)break;
+        }
+      }
+       // var dd = Date.parse("10-23-2020");
+      //  console.log(dd);
+      //  dd+=86400000;
+       // var numdate=new Date(dd);
+    
+       // console.log(numdate);
+    
+        
 
   }
   show=false;
@@ -299,7 +411,7 @@ this.AuthService.Account.subscribe(Value => {
     this.show=!this.show;
   }
   getroomid(){
-    return this.id;
+    return this.user.id;
   }
 
 getDateOut(){
@@ -387,12 +499,12 @@ rateFromUser=0;
     if(this.rateFromUser==0){
       alert('please put a rate');return;
     }
-    this.datastorage.setRate(this.roomSer.getRooms()[this.id].id,this.rateFromUser);
+    this.datastorage.setRate(this.user.id,this.rateFromUser);
     await new Promise(resolve => setTimeout(resolve, 7000));
-    this.datastorage.setComment(this.roomSer.getRooms()[this.id].id,comm);
+    this.datastorage.setComment(this.user.id,comm);
     await new Promise(resolve => setTimeout(resolve, 7000));
 
-    this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
+    this.datastorage.getComments(this.user.id);
     await new Promise(resolve => setTimeout(resolve, 7000));
       this.comments=this.roomSer.getReviews();
       await new Promise(resolve => setTimeout(resolve, 7000));
@@ -413,10 +525,10 @@ rateFromUser=0;
     }
 
 
-    this.datastorage.deleteComment(idrev,this.roomSer.getRooms()[this.id].id);
+    this.datastorage.deleteComment(idrev,this.user.id);
 
     await new Promise(resolve => setTimeout(resolve, 7000));
-    this.datastorage.getComments(this.roomSer.getRooms()[this.id].id);
+    this.datastorage.getComments(this.user.id);
     await new Promise(resolve => setTimeout(resolve, 7000));
     this.comments=this.roomSer.getReviews();
 
@@ -440,17 +552,50 @@ DeleteComment(){
 
 }
 
-
-
-
-
-
-ngOnDestroy(): void {
-  // clearInterval(this.Mission_Move);
-  this.search.tag=false;
-  this.comments=[];
+  async LoadbokkListMore(){
+  this.datastorage.getBookings(this.user.id);
+  await new Promise(resolve => setTimeout(resolve, 10000));
+//  this.roomSer.getbookingList();
+ let start='';let endDate='';
+ let book=this.roomSer.getbookingList();
+ for (let i=0;i<book.length;i++){
+   let str=book[i].start_date;
+    start=<string>this.ProcessDate.transform(str , "MM-dd-yyyy");
+   console.log(start);
+  // 
+   let end=book[i].end_date;
+    endDate=<string>this.ProcessDate.transform(end , "MM-dd-yyyy");
+   console.log(endDate);
+  // this.myHolidayDates.push(new Date(endDate));
+   var startD=Date.parse(start);
+   var endD=Date.parse(endDate);
+    startD-=86400000;
+    endD-=86400000;
+   this.myHolidayDates.push(new Date(<string>this.ProcessDate.transform(new Date(startD) ,"MM-dd-yyyy")));
+   while(1){
+     startD+=86400000;
+     var numdate=new Date(startD);
+     var startDD=<string>this.ProcessDate.transform(numdate , "MM-dd-yyyy");
+     this.myHolidayDates.push(new Date(startDD));
+     if(startDD==endDate)break;
+     console.log(startDD);
+     if(startD>=endD)break;
+   }
+ }
 }
 
 
+staticPath=`${DataStoragrService.API_Location}`;
+
+ngOnDestroy(): void {
+  // clearInterval(this.Mission_Move);
+ // this.search.tag=false;
+  this.comments=[];
+}
+
+GoToProfile(id:number){
+  console.log(id);
+  this.router.navigate(['/profile' , id]);
+}
 
 }

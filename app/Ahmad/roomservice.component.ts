@@ -4,7 +4,7 @@ import { MessageModel } from '../Data_Sharing/Model/Message.model';
 import { UserModel } from '../Data_Sharing/Model/user.model';
 import { SearchPartComponent } from '../Home/Search/search-part.component';
 import { AuthenticationService } from '../Windows_PopUp/Authentication/authentication.service';
-import { addFavourite2, bookList, Error, FacilityDetails, FacilityDetailsowner, idFavo, MyProfile, OtherProfile, reviews } from './DataStorageService';
+import { addFavourite2, bookingList, bookList, Error, FacilityDetails, FacilityDetailsowner, idFavo, MyProfile, OtherProfile, reviews } from './DataStorageService';
 import { Images } from './ImagesOfroom.model';
 import { Comment } from './room-list/room-item/room-details/comment.model';
 import { Room } from './room.model';
@@ -319,11 +319,11 @@ getCheckOwnerID(){
     return this.booking;
   }
 
-  private bookList !:bookList[];
-  setbookingList(bookList:bookList[]){
-    this.bookList=bookList;
-    console.log(this.bookList);
-  }
+  // private bookList !:bookList[];
+  // setbookingList(bookList:bookList[]){
+  //   this.bookList=bookList;
+  //   console.log(this.bookList);
+  // }
 
   private reviews !:reviews[];
   private reviewsChanged =new Subject<reviews[]>();
@@ -373,6 +373,23 @@ getCheckOwnerID(){
    }
    getroomDet(){
      return this.roomDet;
+   }
+   private BookList:bookingList[]=[];
+   setbookingList(id:bookingList[]){
+     this.BookList=id;
+     console.log(this.BookList);
+   }
+
+   getbookingList(){
+    //console.log(this.BookList);
+     return this.BookList;
+   }
+
+   AddbookingList(room:bookingList[]){
+      for(let i=0;i<room.length;i++){
+        this.BookList.push(room[i]);
+      //  this.roomChanged.next(this.rooms.slice());
+      }
    }
 
 }

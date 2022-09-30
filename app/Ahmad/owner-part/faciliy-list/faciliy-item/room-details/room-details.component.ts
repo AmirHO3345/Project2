@@ -34,8 +34,9 @@ export class RoomDetailsComponent3 implements OnInit   {
 // Image_Array !: string[] ;
  room!:FacilityDetails;
  favourite!:FacilityDetails;
- facilityowner!:FacilityDetailsowner;
+ facilityowner!:FacilityDetails;
  facilityOwner!:FacilityDetailsOwner;
+ user!:{id:number};
 
 check=false;
  id!:number;
@@ -76,24 +77,24 @@ constructor(private ProcessDate:DatePipe,private Render : Renderer2,private room
     }
     this.Image_Array = [];
     
-   /* this.Image_Array = [
-      'https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg',
-      'https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg',
-      "https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg" ,
-      "https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg" ,
-      "https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg"] ;
-*/
+  //  this.Image_Array = [
+  //     'https://66.media.tumblr.com/6fb397d822f4f9f4596dff2085b18f2e/tumblr_nzsvb4p6xS1qho82wo1_1280.jpg',
+  //     'https://66.media.tumblr.com/8b69cdde47aa952e4176b4200052abf4/tumblr_o51p7mFFF21qho82wo1_1280.jpg',
+  //     "https://66.media.tumblr.com/5af3f8303456e376ceda1517553ba786/tumblr_o4986gakjh1qho82wo1_1280.jpg" ,
+  //     "https://66.media.tumblr.com/5516a22e0cdacaa85311ec3f8fd1e9ef/tumblr_o45jwvdsL11qho82wo1_1280.jpg" ,
+  //     "https://66.media.tumblr.com/f19901f50b79604839ca761cd6d74748/tumblr_o65rohhkQL1qho82wo1_1280.jpg"] ;
+
 
     this.Image_Number = 0;
     this.Mission_Move = <number><unknown>setInterval(()=>this.AutoMove() , 3000);
 }
 
 removeItem(){
-  this.datastorage.removeOwnerFacility(this.roomSer.getFacilityOwner()[this.id].id); 
+  this.datastorage.removeOwnerFacility(this.user.id); 
   this.roomSer.removeFacilityOwnerItem(this.id);
   this.router.navigate(['../'],{relativeTo:this.route});
 }
-  ngOnInit() {let arrival='';
+  async ngOnInit() {let arrival='';
   let depture='';
   this.facilityFormbook=new FormGroup({
     'arrival':new FormControl(arrival),
@@ -102,6 +103,30 @@ removeItem(){
     this.AuthService.Account.subscribe(Value => {
       this.AccountUser = Value ;
     });
+    this.listowr.checkdet=true;
+this.user={
+  id:this.route.snapshot.params['id'],
+//  name:this.route.snapshot.params['name']
+};
+
+this.datastorage.showfacility(this.user.id);
+console.log(this.user.id);
+  let arr:string[]=[];
+  arr.push("default");
+  this.datastorage.showfacility(this.user.id);
+  await new Promise(resolve => setTimeout(resolve, 25000));
+
+  this.facilityowner=this.roomSer.getroomDet();
+  console.log(this.facilityowner);
+  this.initForm();
+  for(let i=0;i<this.facilityowner.photos.length;i++){
+    // this.Image_Array.push('https://cf.bstatic.com/xdata/images/hotel/max1280x900/348233595.jpg?k=af53dfa9cd5aa0e1bb0771ed660b3bd197706e03e99f086c2a09ec3035af993c&o=&hp=1');
+     //this.Image_Array.push('C:/Users/Ahm/Pictures/qwer.jpg');
+     this.Image_Array.push(this.staticPath+this.facilityowner.photos[i].path_photo);
+     console.log(this.facilityowner.photos[i].path_photo);
+    
+   }
+  
     this.route.params.subscribe(
     (params:Params)=>{
       this.id= +params['id'];
@@ -110,12 +135,12 @@ removeItem(){
       this.roomSer.setCheckOwnerID(true);
 
       //this.search.tag=true;
-      this.listowr.checkdet=true;
+      
       let qwer=0;
       for(let i=0;i<this.roomSer.getFacilityOwner()[this.id].photos.length;i++){
        // this.Image_Array.push('https://cf.bstatic.com/xdata/images/hotel/max1280x900/348233595.jpg?k=af53dfa9cd5aa0e1bb0771ed660b3bd197706e03e99f086c2a09ec3035af993c&o=&hp=1');
         //this.Image_Array.push('C:/Users/Ahm/Pictures/qwer.jpg');
-        this.Image_Array.push('http://192.168.43.55:8000/'+this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
+        this.Image_Array.push(this.staticPath+this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
         console.log(this.roomSer.getFacilityOwner()[this.id].photos[i].path_photo);
         console.log(qwer);
         qwer++;
@@ -124,15 +149,111 @@ removeItem(){
 
 
       //this.room=this.roomSer.getRoomId(this.id);
-      this.facilityowner=this.roomSer.getFacilityOwnerId(this.id);
+      //this.facilityowner=this.roomSer.getFacilityOwnerId(this.id);
       //if(this.roomSer.getEditItem())
      // this.router.navigate(['../'],{relativeTo:this.route});
      this.initForm();
     }
     );
+
+    
+    this.datastorage.getComments(this.user.id);
+    await new Promise(resolve => setTimeout(resolve, 7000));
+      this.comments=this.roomSer.getReviews();
+      await new Promise(resolve => setTimeout(resolve, 7000));
+
+
+      this.datastorage.getBookings(this.user.id);
+       await new Promise(resolve => setTimeout(resolve, 10000));
+    //  this.roomSer.getbookingList();
+      let start='';let endDate='';
+      let book=this.roomSer.getbookingList();
+      for (let i=0;i<book.length;i++){
+        let str=book[i].start_date;
+         start=<string>this.ProcessDate.transform(str , "MM-dd-yyyy");
+        console.log(start);
+       // 
+        let end=book[i].end_date;
+         endDate=<string>this.ProcessDate.transform(end , "MM-dd-yyyy");
+        console.log(endDate);
+       // this.myHolidayDates.push(new Date(endDate));
+        var startD=Date.parse(start);
+        var endD=Date.parse(endDate);
+        startD-=86400000;
+        endD-=86400000;
+        this.myHolidayDates.push(new Date(<string>this.ProcessDate.transform(new Date(startD) ,"MM-dd-yyyy")));
+        while(1){
+          startD+=86400000;
+          var numdate=new Date(startD);
+          var startDD=<string>this.ProcessDate.transform(numdate , "MM-dd-yyyy");
+          if(startDD==endDate)break;
+          this.myHolidayDates.push(new Date(startDD));
+          console.log(startDD);
+          if(startD>=endD)break;
+        }
+      }
     
   }
  
+  async LoadbokkListMore(){
+    this.datastorage.getBookings(this.user.id);
+    await new Promise(resolve => setTimeout(resolve, 10000));
+  //  this.roomSer.getbookingList();
+   let start='';let endDate='';
+   let book=this.roomSer.getbookingList();
+   for (let i=0;i<book.length;i++){
+     let str=book[i].start_date;
+      start=<string>this.ProcessDate.transform(str , "MM-dd-yyyy");
+     console.log(start);
+    // 
+     let end=book[i].end_date;
+      endDate=<string>this.ProcessDate.transform(end , "MM-dd-yyyy");
+     console.log(endDate);
+    // this.myHolidayDates.push(new Date(endDate));
+     var startD=Date.parse(start);
+     var endD=Date.parse(endDate);
+      startD-=86400000;
+      endD-=86400000;
+     this.myHolidayDates.push(new Date(<string>this.ProcessDate.transform(new Date(startD) ,"MM-dd-yyyy")));
+     while(1){
+       startD+=86400000;
+       var numdate=new Date(startD);
+       var startDD=<string>this.ProcessDate.transform(numdate , "MM-dd-yyyy");
+       this.myHolidayDates.push(new Date(startDD));
+       if(startDD==endDate)break;
+       console.log(startDD);
+       if(startD>=endD)break;
+     }
+   }
+  }
+  
+  
+myHolidayDates:Date[] = [
+  // new Date("12/1/2022"),
+  // new Date("12/20/2022"),
+  // new Date("12/17/2022"),
+  // new Date("12/25/2022"),
+  // new Date("12/4/2022"),
+  // new Date("12/7/2022"),
+  // new Date("12/12/2022"),
+  // new Date("12/11/2022"),
+  // new Date("12/26/2022"),
+  // new Date("12/25/2022")
+];
+
+
+myHolidayFilter = (d: Date | null): boolean =>
+{
+
+
+ const time=(d || new Date()).getTime();
+
+  
+
+  
+ return !this.myHolidayDates.find(x=>x.getTime()==time);
+
+    }
 getDateOut(){
   var nextDays = new Date(new Date().setDate(new Date().getDate() + 1)); 
    return  nextDays;//this.currentDate.setDate( this.currentDate.getDate() + 1 );
@@ -185,7 +306,7 @@ let dateToo="default";
        dateToo = <string>this.ProcessDate.transform(dateTo , "yyyy-MM-dd");
         if(!this.check2){
           console.log("qwer");
-          this.datastorage.bookNowOwner(dateFr,dateToo,this.roomSer.getFacilityOwner()[this.id].id);
+          this.datastorage.bookNowOwner(dateFr,dateToo,this.user.id);
       }
     }
     }
@@ -195,10 +316,10 @@ let dateToo="default";
         alert('please set a valid date');
       }
       else if(!this.check2){
-        console.log(this.id);
+        console.log(this.user.id);
         console.log(dateFr);
         console.log(dateToo);
-        this.datastorage.bookNowOwner(dateFr,dateToo,this.roomSer.getFacilityOwner()[this.id].id);
+        this.datastorage.bookNowOwner(dateFr,dateToo,this.user.id);
       }
       
     }
@@ -330,7 +451,8 @@ facilityLocation='';
     
     
      // console.log(this.roomService.getIdFacilityOwner());
-        const facility=this.roomSer.getFacilityOwnerId(this.id);
+     console.log(this.facilityowner);
+        const facility=this.facilityowner;//this.roomSer.getFacilityOwnerId(this.id);
         this.facilityName=facility.name;
        // facilityimagePath=facility.ImagePath;
        this.facilitydescription=facility.description;
@@ -339,11 +461,11 @@ facilityLocation='';
         this.facilityRoomNumber=facility.num_room;
         this.facilityAdultNumber=facility.num_guest;
         this.facilityPrice=facility.cost;
-        this.wifi=facility.wifi;
-        this.tv=facility.tv;
-        this.cond=facility.air_condition;
-        this.coffee=facility.coffee_machine;
-        this.fridge=facility.fridge;
+        // this.wifi=facility.wifi;
+        // this.tv=facility.tv;
+        // this.cond=facility.air_condition;
+        // this.coffee=facility.coffee_machine;
+        // this.fridge=facility.fridge;
     this.facilityForm=new FormGroup({
         'name':new FormControl(this.facilityName),
         'location':new FormControl(this.facilityLocation),
@@ -396,33 +518,34 @@ onDeleteIngredient(index:number)
       );
       console.log(this.check);
     }
-
+staticPath=`${DataStoragrService.API_Location}`;
 onSubmit(){
   
-  let wifi=0;
-  let coffe=0;
-  let tv=0;
-  let fridge=0;
-  let air_conditioning=0;
-  if(this.checkWIFI)wifi=1;
-  if(this.checkCoffee)coffe=1;
-  if(this.checkAir_cond)air_conditioning=1;
-  if(this.checkTV)tv=1;
-  if(this.checkFridge)fridge=1;
+  let wifi="0";
+  let coffe="0";
+  let tv="0";
+  let fridge="0";
+  let air_conditioning="0";
+  if(this.checkWIFI)wifi="1";
+  if(this.checkCoffee)coffe="1";
+  if(this.checkAir_cond)air_conditioning="1";
+  if(this.checkTV)tv="1";
+  if(this.checkFridge)fridge="1";
   // console.log(this.selectedFile);
   // const fd = new FormData();
   // fd.append('image',this.selectedFile,this.selectedFile.name);
   //console.log(fd);
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////
           const newfacility=new FacilityDetailsOwner(air_conditioning,
             this.facilityForm.value['name'],
             this.facilityForm.value['location'],
             this.facilityForm.value['description'],
-            this.facilityForm.value['imagepath'],
+            //this.facilityForm.value['imagepath'],
             this.facilityForm.value['cost'],
             this.facilityForm.value['type'],
             this.facilityForm.value['adults'],
             this.facilityForm.value['rooms'],wifi,coffe,fridge,tv);
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*const newItem=new FacilityDetailsOwner(this.facilityForm.value['air_condition']
     ,this.facilityForm.value['coffee_machine'],this.facilityForm.value['cost'],
 '22-12-2020',this.facilityForm.value['description'],this.facilityForm.value['fridge'],1,5,
@@ -440,7 +563,7 @@ this.facilityForm.value['rooms'],[
     this.datastorage.updateOwnerFacility(newfacility.name,newfacility.description
       ,newfacility.location,newfacility.type,newfacility.num_room,newfacility.num_guest,
      newfacility.cost,wifi,tv,air_conditioning
-     ,coffe,fridge,this.roomSer.getFacilityOwner()[this.id].id);
+     ,coffe,fridge,this.user.id);
 this.router.navigate(['../'],{relativeTo:this.route});
 
 

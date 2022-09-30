@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
@@ -5,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
+import { UserModel } from 'src/app/Data_Sharing/Model/user.model';
+import { AuthenticationService } from 'src/app/Windows_PopUp/Authentication/authentication.service';
 import { DataStoragrService, MyProfile, OtherProfile } from '../../DataStorageService';
 import { RoomServiceComponent } from '../../roomservice.component';
 import { User } from '../../user.model';
@@ -30,17 +33,31 @@ export class UserDetailsComponent implements OnInit {
    user!:OtherProfile;
   //@Input() user!: User;
   subscription!:Subscription;
-
   userr!:{id:number};
-
+  AccountUser : UserModel | null
+hide=true;
   @Input() index!:number;
-  constructor(private datastorage:DataStoragrService,
-    private roomService:RoomServiceComponent,private route:ActivatedRoute,private router:Router) { }
+  constructor(private auth:AuthenticationService,private http:HttpClient,private datastorage:DataStoragrService,
+    private roomService:RoomServiceComponent,private route:ActivatedRoute,private router:Router) {
+      this.AccountUser = null ;
+      auth.Account.subscribe((value)=>{
+        if(value!=null){
+        console.log('logging in');
+        console.log(value.GetToken());
+        this.accou=value.GetToken();
+       // console.log(this.Acount.GetToken());
+      }
+      })
+     }
+    
+   
   isLoadingspinner=false;
   async ngOnInit() {
     this.passForm=new FormGroup({
       'password':new FormControl('')
     });
+    
+   
     this.isLoadingspinner=true;
      // this.user.user.name='';
     this.userr={
@@ -49,12 +66,21 @@ export class UserDetailsComponent implements OnInit {
     };
     console.log(this.userr.id);
     
+    
     this.datastorage.showOtherProfile(this.userr.id);
-    await new Promise(resolve => setTimeout(resolve, 7000));
+    await new Promise(resolve => setTimeout(resolve, 15000));
     this.user=this.roomService.getOtherprofile();
     console.log(this.user.user.name);
     this.isLoadingspinner=false;
-
+ this.auth.Account.subscribe(Value => {
+      this.AccountUser = Value ;
+    });
+     if(this.AccountUser==null){
+      this.hide=true;
+    }
+    else if(this.AccountUser.ID==this.userr.id){
+      this.hide=false;
+    }
 //     this.subscription= this.roomService.userChanged.subscribe(
 //       (user:User[])=>{
 //           this.users=user;
@@ -62,6 +88,7 @@ export class UserDetailsComponent implements OnInit {
 // );
 //   this.users=this.roomService.getUsers();
   }
+  staticPath=`${DataStoragrService.API_Location}`;
 
  async onSubmit(ngform:NgForm){
       const value=ngform.value;
@@ -72,6 +99,7 @@ export class UserDetailsComponent implements OnInit {
       let age:number=value.age;
       this.isLoadingspinner=true;
       console.log(name+' '+phon+' '+email+' '+gender+' '+age);
+      
       this.datastorage.updateProfile(name,email,phon,gender,age);
       await new Promise(resolve => setTimeout(resolve, 7000));
       this.datastorage.showOtherProfile(this.userr.id);
@@ -100,5 +128,38 @@ export class UserDetailsComponent implements OnInit {
     this.personalInfo=false;
     this.settings=true;
   }
+  
+  selectedFile!:File;
+  async onFileSelected(event: any){
+   this.selectedFile=<File>event.target.files[0];
+   this.submitPhoto();
+   await new Promise(resolve => setTimeout(resolve, 7000));
+      this.datastorage.showOtherProfile(this.userr.id);
+      await new Promise(resolve => setTimeout(resolve, 7000));
+      this.user=this.roomService.getOtherprofile();
+ }
+ accou!:string;
+ submitPhoto(){
+   console.log(this.accou);
+  let options = {
+
+    headers:new HttpHeaders({"Authorization":this.accou})
+ };
+  //console.log(this.urll);
+  //console.log(this.myForm.value);
+ const fd = new FormData();
+ fd.append('path_photo',this.selectedFile,this.selectedFile.name);
+ console.log(fd);
+  return this.http
+      .post(`${DataStoragrService.API_Location}api/profile/update`,
+      fd,
+       options
+      )
+      .subscribe((res) => {
+        console.log(res);
+       // alert('your photo submitted successfully');
+      //  alert(res.message);
+      });
+ }
 
 }

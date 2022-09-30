@@ -7,6 +7,7 @@ import { Images } from "./ImagesOfroom.model";
 import { UserModel } from "../Data_Sharing/Model/user.model";
 import { AuthenticationService } from "../Windows_PopUp/Authentication/authentication.service";
 import { test } from "./test.model";
+import { FacilityDetailsOwner } from "./user-profile/FacilityOwner.model";
 
 
 
@@ -80,7 +81,6 @@ export interface FacilityDetailsowner {
 	coffee_machine : number;
 	cost : number ;
 	created_at : string ;
-  //updated_at:string;
 	description : string ;
 	fridge : number ;
 	id : number ;
@@ -212,7 +212,22 @@ export interface OtherProfile{
     }
   }
 }
+export interface owner {
+  mess:{data:string,message:string};
+}
+export interface bookings
+{
+  bookings:bookingList[],
+  current_page: number,
+total_items: number,
+total_pages:number,
+url_first_page:string,
+url_last_page:string,url_next_page:string
+}
 
+export interface bookingList{
+  id_booking:number,start_date:string,end_date:string
+}
 
 
 
@@ -240,7 +255,7 @@ export class DataStoragrService{
             this.room = new BehaviorSubject<Room | null>(null);
         }
 
-        static API_Location : string = "http://192.168.43.55:8000/" ;
+        static API_Location : string = "http://127.0.0.1:8000/" ;
         //location,dateFrom,dateTo,cost1,cost2,rate,type,wifi,coffe,tv,fridge,air_conditioning,op
     SearchingData(loc:string,dateF:string,dateT:string,cost1:number,cost2:number,rate:number,
       type:string[],wifi:number,coffe:number,tv:number
@@ -377,40 +392,40 @@ removeFromFavouriteList(id:number){
       });
 }
 private arr:string[] =[];
-storeFacilityOwner(aircond:number,name:string,loc:string,desc:string,img:string
-   | ArrayBuffer|null ,cost:number,
-  type:string,adult:number,rooms:number,wifi:number,coffee:number,fridge:number,tv:number){
-    console.log(aircond);console.log(name);console.log(loc);console.log(desc);console.log(img);
-    console.log(cost);console.log(type);console.log(adult);console.log(rooms);console.log(wifi);
-    console.log(coffee);console.log(fridge);console.log(tv);
+storeFacilityOwner(aircond:string,name:string,loc:string,desc:string,imgs:FormData,cost:number,
+  type:string,adult:number,rooms:number,wifi:string,coffee:string,fridge:string,tv:string){
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("air_condition",aircond);
+    queryParams = queryParams.append("name",name);
+    queryParams = queryParams.append("location",loc);
+    queryParams = queryParams.append("description",desc);
+    queryParams = queryParams.append("cost",cost);
+    queryParams = queryParams.append("type",type);
+    queryParams = queryParams.append("num_guest",adult);
+    queryParams = queryParams.append("num_room",rooms);
+    queryParams = queryParams.append("wifi",wifi);
+    queryParams = queryParams.append("fridge",fridge);
+    queryParams = queryParams.append("tv",tv);
+    queryParams = queryParams.append("coffee_machine",coffee);
+    
     let options = {
       headers:new HttpHeaders({"Authorization":this.accou})
     };
-   console.log(img);
-   this.arr.push('');
-      // Store form name as "file" with file data
-     // formData.append("file", img, img.name);
-      //console.log(formData);
-    return this.http
-    .post(`${DataStoragrService.API_Location}api/facility/store`,
-    {
-      air_condition:"1",
-      name:name,
-      location:loc,
-      description:desc,
-      photo_list:img,
-      cost:cost,
-      type:"chalet",
-      num_guest:adult,
-      num_room:rooms,
-      wifi:"1",
-      coffee_machine:"1",
-      fridge:"0",
-      tv:"1"
-    },
-     options
-    )
-    .subscribe((res) => console.log(res));
+  
+      this.http
+      .post<owner>(`${DataStoragrService.API_Location}api/facility/store`,
+       imgs,
+       {
+         headers:new HttpHeaders({"Authorization":this.accou})
+        ,params:queryParams
+       }
+      )
+      .subscribe((res) => {
+        console.log(res);
+       // alert(res.mess.message);
+      //  this.roomservice.onAddFacilityOwner()
+      });
+      this.getOwnerFacility();
 }
 
 removeOwnerFacility(index:number){
@@ -442,7 +457,7 @@ getOwnerFacility(){
    );
 }
 updateOwnerFacility(facName:string,desc:string,loc:string,type:string,roomNum:number,adultNum:number,
-  cost:number,wifi:number,tv:number,cond:number,cofee:number,fridge:number,id:number){
+  cost:number,wifi:string,tv:string,cond:string,cofee:string,fridge:string,id:number){
   let options = {
     headers:new HttpHeaders({"Authorization":this.accou})
   };
@@ -472,6 +487,7 @@ updateOwnerFacility(facName:string,desc:string,loc:string,type:string,roomNum:nu
   .subscribe((res) => console.log(res));
 }
 bookNow(startDate:string,endDate:string,id_F:number){
+  console.log(startDate+'\n'+endDate);
   let options = {
     headers:new HttpHeaders({"Authorization":this.accou})
   };
@@ -795,6 +811,30 @@ sendReport(id:number,report:string){
         //alert(res.Message);
       //  alert(res.message);
       });
+}
+checkID=false;
+getBookings(id_facility:number){
+  let queryParams = new HttpParams();
+   queryParams = queryParams.append("id_facility",id_facility);
+  let id=1;
+  if(this.checkID)id++;
+  this.checkID=true;
+  return this.http.get<bookings>
+  (`${DataStoragrService.API_Location}api/bookings/dates?page=`+id,
+  {
+    headers:new HttpHeaders({"Authorization":this.accou}),
+    params:queryParams
+  }
+  )
+  .subscribe(
+    data => {
+       console.log(data);
+       if(id==1)
+       this.roomservice.setbookingList(data.bookings);
+       else this.roomservice.AddbookingList(data.bookings);
+     //  alert(data.cost);
+    }
+   );
 }
 
 

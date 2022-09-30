@@ -14,12 +14,12 @@
 
 </head>
 
-<div class="Fix" style="width: 135%;">
-    <div class="Container_Image" style="width: 210%;height: 42%;">
-      <img [src]="this.Image_Array[this.Image_Number]" >
+<div class="Fix" style="width: 135%;display: inline-grid;">
+    <div class="Container_Image" style="width: 210%;height: 92%;margin-top: 0%">
+      <img src="https://www.bestwestern.com/content/dam/best-western/brand/glo.jpg" style="height: 98%;" >
       <div class="shadowRound"></div>
     </div>
-        <div class="options">
+        <div class="options" style="margin-bottom: 21%;margin-top: 25%;margin-left: -70%;width: 143%;">
 
            
         <div class="option active" *ngFor="let i of Image_Array let ii=index"
@@ -44,17 +44,17 @@
     <div class="layer"></div>
 
     
-    <h1 class="main_title_in">{{room.name}}</h1>
+    <h1 class="main_title_in">{{roomDet.name}}</h1>
     <div class="container add_bottom_60">
         
         <div class="row">
         	<div class="col-md-8" id="room_detail_desc">
             <div id="single_room_feat">
                 <ul>
-                	<li *ngIf="room.wifi"><i class="icon_set_1_icon-7"></i>Wifi</li>
-                    <li *ngIf="room.coffee_machine"><i class="icon_set_1_icon-59"></i>Coffee Machine</li>
-                    <li *ngIf="room.tv"><i class="icon_set_2_icon-116"></i>Plasma TV</li>
-                    <li *ngIf="room.fridge">
+                	<li *ngIf="roomDet.wifi"><i class="icon_set_1_icon-7"></i>Wifi</li>
+                    <li *ngIf="roomDet.coffee_machine"><i class="icon_set_1_icon-59"></i>Coffee Machine</li>
+                    <li *ngIf="roomDet.tv"><i class="icon_set_2_icon-116"></i>Plasma TV</li>
+                    <li *ngIf="roomDet.fridge">
                             <mat-icon>kitchen</mat-icon>
                   Fridge</li>
                     <li><i class="icon_set_2_icon-106"></i>Safe box</li>
@@ -67,11 +67,11 @@
                 </div>
                 <div class="col-md-9">
                     <p>
-                            {{room.description}}
+                            {{roomDet.description}}
                     </p>
                     <h4>facility type</h4>
                     <p>
-                            {{room.type}}
+                            {{roomDet.type}}
                     </p>
                    
                 </div><!-- End col-md-9  -->
@@ -92,12 +92,12 @@
                         	<ul>
                             	<li>Position
                                     <div class="rating">
-                                            {{room.location}}
+                                            {{roomDet.location}}
                                     </div>
                                 </li>
                                 <li>Max_Presons
                                 <div class="rating">
-                                        {{room.num_guest}}
+                                        {{roomDet.num_guest}}
                                 </div>
                                 </li>
                             </ul>
@@ -106,12 +106,12 @@
                         	<ul>
                             	<li>Price
                                 <div class="rating">
-                                            {{room.cost}}$
+                                            {{roomDet.cost}}$
                                     </div>
                                 </li>
                                 <li>Rating
                                 <div class="rating">
-                                    <ngb-rating [max]="5" [(rate)]=room.rate [readonly]="true" ></ngb-rating>
+                                    <ngb-rating [max]="5" [(rate)]=roomDet.rate [readonly]="true" ></ngb-rating>
                                 </div>
                                 </li>
                             </ul>
@@ -156,10 +156,10 @@
                         
                         <div class="review_strip_single" 
                         *ngFor="let comm of comments; let i=index" >
-                            <img src="https://www.insidehook.com/wp-content/uploads/2021/09/Novotel-Ahmedabad-Hotel.png?fit=1200%2C800" 
+                            <img src={{staticPath+comments[i].user.path_photo}}
                             alt="" class="img-circle" style="width: 18%; height: 32%;">
                             <small> - {{comments[i].created_at| date:'yyyy-MM-dd'}} -</small>
-                            <h4>{{comments[i].user.name}}</h4>
+                            <a (click)="GoToProfile(comments[i].id_user)"><h4>{{comments[i].user.name}}</h4></a>
                             <p>
                                 {{comments[i].comment}}
                             </p>
@@ -217,11 +217,16 @@
 
 
                     <input matInput [matDatepicker]="picker_Arrival"
+                    
                      class="form-control" style="border-radius: 12px"
+                     
                     placeholder="Arrival" ngModel formControlName="arrival"
-                           min="{{currentDate | date:'yyyy-MM-dd'}}" 
-                            required readonly >
-                    <mat-datepicker-toggle matSuffix [for]="picker_Arrival" 
+                    [matDatepickerFilter]="myHolidayFilter"
+                    
+                            required readonly 
+                           >
+                    <mat-datepicker-toggle (click)="LoadbokkListMore()" matSuffix [for]="picker_Arrival" 
+                    
                     style="position: absolute;bottom: 0px;
                     right: 0%;top:0%;margin-top: 16%;">
                     </mat-datepicker-toggle>
@@ -247,13 +252,15 @@
                                 	<label>Departure date</label>
                                     
                                     <input matInput [matDatepicker]="picker_Departure"
+                                    [matDatepickerFilter]="myHolidayFilter"
+                                   
                                      class="form-control"
                                      style="border-radius: 12px"
                                     placeholder="Departure" ngModel formControlName="departure"
-                                    min="{{getDateOut() | date:'yyyy-MM-dd'}}"
-                                    (ngModelChange)="this.ChangeArrival($event)"
+                                   
+                                   
                                      readonly required>
-                             <mat-datepicker-toggle matSuffix [for]="picker_Departure"
+                             <mat-datepicker-toggle  (click)="LoadbokkListMore()" matSuffix [for]="picker_Departure"
                              style="position: absolute;bottom: 0px;
                              right: 0%;top:0%;margin-top: 16%;">
                              </mat-datepicker-toggle>

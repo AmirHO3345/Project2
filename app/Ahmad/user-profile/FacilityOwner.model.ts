@@ -1,15 +1,15 @@
 import { Images } from "../ImagesOfroom.model";
 
 export class FacilityDetailsOwner {
-    air_condition !: number;name !: string ;location !: string ;description !: string ;
-    photos !: Images[];cost !: number ;type !: string;num_guest !: number;
+    air_condition !: string;name !: string ;location !: string ;description !: string ;
+    photo_list !: FormData[];cost !: number ;type !: string;num_guest !: number;
     num_room !: number ;
       
-      wifi !: number;coffee_machine !: number;fridge !: number ;
-tv !: number ;
-      constructor(air_condition:number,name:string,location:string,description:string,
-        photos:Images[],cost:number,type:string,num_guest:number,num_room:number, wifi:number,
-        coffee_machine:number,fridge:number,tv:number
+      wifi !: string;coffee_machine !: string;fridge !: string ;
+tv !: string ;
+      constructor(air_condition:string,name:string,location:string,description:string,
+            cost:number,type:string,num_guest:number,num_room:number, wifi:string,
+        coffee_machine:string,fridge:string,tv:string
        ){
 
             this.air_condition=air_condition;
@@ -24,7 +24,7 @@ tv !: number ;
             this.name=name;
             this.num_guest=num_guest;
             this.num_room=num_room;
-            this.photos=photos;
+          //  this.photo_list=photo_list;
            // this.rate=rate;
             this.tv=tv;
             this.type=type;

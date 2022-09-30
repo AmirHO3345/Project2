@@ -55,11 +55,11 @@
             	<div class="row"  style="height: 113%;">
 
                 	<div class="room_desc clearfix" style="width: 100%;"
-                     [routerLink]="[index]" routerLinkActive="active">
+                    (click)="giveMeIdFac()" routerLinkActive="active">
 
                 	<div class="col-md-7">
                     	<figure>
-                            <img src="{{staticPath+room.photos[0].path_photo}}"
+                            <img src={{staticPath+room.photos[0].path_photo}}
                              style="width: 70%;" alt="" class="img-responsive"></figure>
                     </div>
                     <div class="col-md-5 room_list_desc" style="margin-left: 56%;margin-top: -26%;">

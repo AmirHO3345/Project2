@@ -27,10 +27,11 @@ export class RoomItemComponent implements OnInit {
    @Output() roomSelected =new EventEmitter<void>();
    like=false;
    AccountUser:UserModel|null;
-    constructor(private AuthService:AuthenticationService,private datastorage:DataStoragrService,private roomSer:RoomServiceComponent,private router:Router){
+    constructor(private AuthService:AuthenticationService,private datastorage:DataStoragrService
+      ,private roomSer:RoomServiceComponent,private router:Router){
       this.AccountUser=null;
     }
-  staticPath='http://192.168.43.55:8000/';
+  staticPath=`${DataStoragrService.API_Location}`;
   check=true;
     likeSwitch(){
        let id=this.index;
@@ -95,5 +96,11 @@ ngOnInit(){
           this.AccountUser=Value;
         }
       );
+}
+
+giveMeIdFac(){
+  console.log(this.roomSer.getRooms()[this.index].id);
+  let id=this.roomSer.getRooms()[this.index].id;
+  this.router.navigate(['/roomdetails' , id]);
 }
 }
